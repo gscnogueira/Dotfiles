@@ -92,4 +92,4 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :NERDTreeToggle<cr>
 nnoremap <leader>s :w<cr>
 nnoremap <leader>q :q<cr>
-
+nnoremap <leader>sq :wq<cr>
