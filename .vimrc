@@ -55,6 +55,8 @@ set hlsearch            " highlight matches
 set tabstop=2       " number of visual spaces per TAB
 set tabstop=2       " number of visual spaces per TAB
 set expandtab       " tabs are spaces
+set splitbelow      "esse e o seguinte fazem com que a tela do split surja à direita ou abaixo"
+set splitright
 
 "------PLUGINSETTINGS------
 au FileType c,cpp,objc,objcpp call rainbow#load()
