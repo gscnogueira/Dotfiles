@@ -77,9 +77,9 @@ let mapleader="\<space>"
 inoremap jk <esc> 
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :NERDTreeToggle<cr>
-nnoremap <leader>s :w<cr>
-nnoremap <leader>q :q<cr>
-nnoremap <leader>w :wq<cr>
+nnoremap <leader>w :w<cr>
+nnoremap <leader>e :q<cr>
+nnoremap <leader>q :wq<cr>
 nnoremap <leader>l <c-w>l
 nnoremap <leader>h <c-w>h
 nnoremap <leader>j <c-w>j
