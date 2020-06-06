@@ -1,3 +1,4 @@
+"Arquivo de Configuração de Gabriel Nogueira
 "-----PLUGINS---------
 "
 "********VUNDLE***********
