@@ -3,7 +3,7 @@
 *.alpha: 0.8
 
 !! Set a default font and font size as below:
-!!*.font: monospace:size=10
+*.font:xft:Hack NF:size=12
 
 /* name		dark	light */
 /* black	0	8 */
@@ -34,7 +34,7 @@ urxvt.color14: #8ec07c
 urxvt.color15: #ebdbb2 
 urxvt.color256: #1d2021 
 urxvt.color257: #ebdbb2 
-
+*.background: #282828 
 /* !! gruvbox light: */
 /* *.color0: #fbf1c7 */
 /* *.color1: #cc241d */
