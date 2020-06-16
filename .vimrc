@@ -1,16 +1,5 @@
 "Arquivo de Configuração de Gabriel Nogueira
 "-----PLUGINS---------
-"
-"********VUNDLE***********
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'ycm-core/YouCompleteMe'
-call vundle#end()            " required
-filetype plugin indent on    " required
 "*******VIM-PLUG**********
 call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
