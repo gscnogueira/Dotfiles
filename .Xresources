@@ -1,9 +1,9 @@
  
 !! Transparency (0-1):
 *.depth: 32
-*.background: rgba:2800/2800/2800/f000
+!*.background: rgba:2800/2800/2800/f000
 !! Set a default font and font size as below:
-*.font:xft: DejaVuSansMono NF:size=12
+*.font:xft: Hack Nerd Font Mono:size=12
 
 /* name		dark	light */
 /* black	0	8 */
@@ -34,7 +34,7 @@
 *color15: #ebdbb2
 *color256: #1d2021
 *color257: #ebdbb2
-!!*.background: #282828 
+*.background: #282828
 *.foreground: #ebdbb2
 
 !! Apearence:
