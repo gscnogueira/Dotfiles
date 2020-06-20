@@ -31,7 +31,6 @@ call plug#end()
 
 colorscheme gruvbox 
 set background=dark
-
 "------SETTINGS------
 
 syntax on
@@ -76,3 +75,4 @@ nnoremap <leader>l <c-w>l
 nnoremap <leader>h <c-w>h
 nnoremap <leader>j <c-w>j
 noremap <leader>k <c-w>k
+hi Normal guibg=NONE ctermbg=NONE
