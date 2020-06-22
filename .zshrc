@@ -107,3 +107,5 @@ export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 #source /opt/ros/melodic/setup.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
