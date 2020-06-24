@@ -1,3 +1,9 @@
+"       _
+"__   _(_)_ __ ___  _ __ ___
+"\ \ / / | '_ ` _ \| '__/ __|
+" \ V /| | | | | | | | | (__
+"  \_/ |_|_| |_| |_|_|  \___|
+
 "Arquivo de Configuração de Gabriel Nogueira
 "-----PLUGINS---------
 "*******VIM-PLUG**********
@@ -20,6 +26,7 @@ Plug 'godlygeek/tabular'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'jeetsukumaran/vim-buffergator'
 Plug 'yggdroot/indentline'
+Plug 'ap/vim-css-color'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'ryanoasis/vim-devicons'
 
@@ -34,20 +41,22 @@ set background=dark
 "------SETTINGS------
 
 syntax on
-set hidden "permite editar outro arquivo sem ter salvado o atual
-set number
+set hidden          "  permite editar outro arquivo sem ter salvado o atual
 set relativenumber
+set autoindent
+set mouse=a
 set updatetime=1000
-set laststatus=2        " faz a barra de status aparecer
-set wildmenu	        " visual complete for command menu
-set showmatch           " highlight matching [{()}]
-set incsearch           " search as characters are entered
-set hlsearch            " highlight matches
-set tabstop=2       " number of visual spaces per TAB
-set tabstop=2       " number of visual spaces per TAB
-set expandtab       " tabs are spaces
-set splitbelow      "esse e o seguinte fazem com que a tela do split surja à direita ou abaixo"
+set laststatus=2    "  faz a barra de status aparecer
+set wildmenu        "  visual complete for command menu
+set showmatch       "  highlight matching [{()}]
+set incsearch       "  search as characters are entered
+set hlsearch        "  highlight matches
+set tabstop=2       "  number of visual spaces per TAB
+set tabstop=2       "  number of visual spaces per TAB
+set expandtab       "  tabs are spaces
+set splitbelow      "  esse e o seguinte fazem com que a tela do split surja à direita ou abaixo"
 set splitright
+set confirm         "  menu ao sair sem salvar
 
 "------PLUGINSETTINGS------
 au FileType c,cpp,objc,objcpp call rainbow#load()

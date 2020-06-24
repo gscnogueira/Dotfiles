@@ -3,7 +3,7 @@
 *.depth: 32
 !*.background: rgba:2800/2800/2800/f000
 !! Set a default font and font size as below:
-*.font:xft: Hack Nerd Font Mono:size=12
+!*.font:xft: Hack Nerd Font Mono:size=12
 
 /* name		dark	light */
 /* black	0	8 */
