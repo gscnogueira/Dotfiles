@@ -4,9 +4,8 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/home/gabrielnogueira/.oh-my-zsh"
 export TERM="xterm-256color"
-export TERMCMD="urxvt"
-export TERMINAL="urxvt -e"
-
+export VISUAL=vim
+export EDITOR=vim
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,

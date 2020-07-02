@@ -42,17 +42,19 @@ set background=dark
 
 syntax on
 set hidden          "  permite editar outro arquivo sem ter salvado o atual
+set number
 set relativenumber
 set autoindent
-set mouse=a
 set updatetime=1000
 set laststatus=2    "  faz a barra de status aparecer
 set wildmenu        "  visual complete for command menu
+set wildmode=full
 set showmatch       "  highlight matching [{()}]
 set incsearch       "  search as characters are entered
 set hlsearch        "  highlight matches
-set tabstop=2       "  number of visual spaces per TAB
-set tabstop=2       "  number of visual spaces per TAB
+set tabstop=4       "  number of visual spaces per TAB
+set softtabstop=4   " number of spaces in tab when editing
+set shiftwidth=4
 set expandtab       "  tabs are spaces
 set splitbelow      "  esse e o seguinte fazem com que a tela do split surja à direita ou abaixo"
 set splitright
@@ -79,11 +81,13 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :NERDTreeToggle<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>e :q<cr>
-nnoremap <leader>q :wq<cr>
+nnoremap <leader>q :bd<cr>
 nnoremap <leader>l <c-w>l
 nnoremap <leader>h <c-w>h
 nnoremap <leader>j <c-w>j
-noremap <leader>k <c-w>k
+nnoremap <leader>k <c-w>k
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 
 hi Normal guibg=NONE ctermbg=NONE  
 "faz com que o fundo fique transparente
