@@ -1,48 +1,40 @@
-"       _
+"author:Gabriel S. C. Nogueira
+"e-mail:gab.nog94@gmail.com
+"github:https://github.com/nosgueira_
+"
 "__   _(_)_ __ ___  _ __ ___
 "\ \ / / | '_ ` _ \| '__/ __|
 " \ V /| | | | | | | | | (__
 "  \_/ |_|_| |_| |_|_|  \___|
 
-"Arquivo de Configuração de Gabriel Nogueira
+
 "-----PLUGINS---------
-"*******VIM-PLUG**********
-call plug#begin('~/.vim/plugged')
-Plug 'morhetz/gruvbox'
-Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
-Plug 'terryma/vim-multiple-cursors'
-Plug 'w0rp/ale' "linting
-Plug 'kien/ctrlp.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'preservim/nerdtree'
-Plug 'frazrepo/vim-rainbow' 
-Plug 'airblade/vim-gitgutter'
-Plug 'preservim/nerdcommenter'
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'godlygeek/tabular'
-Plug 'yuttie/comfortable-motion.vim'
-Plug 'jeetsukumaran/vim-buffergator'
-Plug 'yggdroot/indentline'
-Plug 'ap/vim-css-color'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'ryanoasis/vim-devicons'
-
-call plug#end()
-
-
-
+packadd minpac
+call minpac#init()
+call minpac#add('k-takata/minpac', {'type': 'opt'})
+call minpac#add('tpope/vim-unimpaired')
+call minpac#add( 'morhetz/gruvbox')
+call minpac#add('w0rp/ale' )
+call minpac#add( 'vim-airline/vim-airline')
+call minpac#add( 'vim-airline/vim-airline-themes')
+call minpac#add( 'preservim/nerdtree')
+call minpac#add( 'preservim/nerdcommenter')
+call minpac#add( 'jiangmiao/auto-pairs') 
+call minpac#add( 'tpope/vim-surround')
+call minpac#add( 'godlygeek/tabular')
+call minpac#add('iamcco/markdown-preview.nvim', {'do': 'call mkdp#util#install()'})
+call minpac#add( 'ap/vim-css-color')
+call minpac#add( 'ryanoasis/vim-devicons')
 "------THEME------
-
 colorscheme gruvbox 
 set background=dark
 "------SETTINGS------
-
 syntax on
 set hidden          "  permite editar outro arquivo sem ter salvado o atual
+set spell
 set number
+set ignorecase
+set smartcase
 set relativenumber
 set autoindent
 set updatetime=1000
@@ -61,21 +53,18 @@ set splitright
 set confirm         "  menu ao sair sem salvar
 
 "------PLUGINSETTINGS------
-au FileType c,cpp,objc,objcpp call rainbow#load()
 "*****AIRLINE******
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default' 
 let g:airline_powerline_fonts = 1
-"*****CTRLP*******
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-"******************
 "------REMAPS------
 
+command! PackUpdate call minpac#update()
+command! PackClean call minpac#clean()
 let mapleader="\<space>"
-
+autocmd FileType markdown nnoremap <leader>m :MarkdownPreview<cr>
 inoremap jk <esc> 
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :NERDTreeToggle<cr>
