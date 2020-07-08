@@ -4,8 +4,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/home/gabrielnogueira/.oh-my-zsh"
 export TERM="xterm-256color"
-export VISUAL=vim
-export EDITOR=vim
+export EDITOR=nvim
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -109,3 +108,14 @@ export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey -v
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
+if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+    if [ -x "$(command -v nvr)" ]; then
+        alias nvim=nvr
+    else
+        alias nvim='echo "No nesting!"'
+    fi
+fi
