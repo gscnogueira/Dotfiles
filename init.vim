@@ -9,27 +9,26 @@
 
 
 "-----PLUGINS---------
-packadd minpac
-call minpac#init()
-call minpac#add('k-takata/minpac', {'type': 'opt'})
-call minpac#add('tpope/vim-unimpaired')
-call minpac#add('morhetz/gruvbox')
-call minpac#add('w0rp/ale' )
-call minpac#add('vim-airline/vim-airline')
-call minpac#add('vim-airline/vim-airline-themes')
-call minpac#add('preservim/nerdtree')
-call minpac#add('preservim/nerdcommenter')
-call minpac#add('jiangmiao/auto-pairs') 
-call minpac#add('tpope/vim-surround')
-call minpac#add('godlygeek/tabular')
-call minpac#add('iamcco/markdown-preview.nvim', {'do': 'call mkdp#util#install()'})
-call minpac#add('ap/vim-css-color')
-call minpac#add('ryanoasis/vim-devicons')
-call minpac#add('junegunn/fzf')
-call minpac#add('tpope/vim-projectionist')
-call minpac#add('tpope/vim-dispatch')
-call minpac#add('radenling/vim-dispatch-neovim')
-call minpac#add('mhinz/vim-grepper')
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-unimpaired'
+Plug 'morhetz/gruvbox'
+Plug 'w0rp/ale'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'preservim/nerdtree'
+Plug 'preservim/nerdcommenter'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
+Plug 'godlygeek/tabular'
+Plug 'ap/vim-css-color'
+Plug 'ryanoasis/vim-devicons'
+Plug 'junegunn/fzf'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-dispatch'
+Plug 'radenling/vim-dispatch-neovim'
+Plug 'mhinz/vim-grepper'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+call plug#end()
 
 
 if has('nvim') && executable('nvr')
