@@ -1,4 +1,4 @@
-"author:gabriel s. c. nogueira
+"author:Gabriel S. C. Nogueira
 "e-mail:gab.nog94@gmail.com
 "github:https://github.com/nosgueira_
 "
