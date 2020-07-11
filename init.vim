@@ -27,19 +27,28 @@ Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'mhinz/vim-grepper'
+Plug 'vim-scripts/restore_view.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 call plug#end()
 
+"------PLUGINSETTINGS------
+ 
+"*****AIRLINE******
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'default' 
+let g:airline_powerline_fonts = 1
 
-if has('nvim') && executable('nvr')
-  let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
-endif
+"********ALE*******
+let g:ale_linters={
+\    'javascript':['eslint'],
+\ }
 
-"------THEME------
-colorscheme gruvbox 
 "------SETTINGS------
 syntax on
 set background=dark
+colorscheme gruvbox 
 set hidden          "  permite editar outro arquivo sem ter salvado o atual
 set spell
 set number
@@ -61,22 +70,10 @@ set splitbelow      "  esse e o seguinte fazem com que a tela do split surja à 
 set splitright
 set confirm         "  menu ao sair sem salvar
 
-"------PLUGINSETTINGS------
- 
-"*****AIRLINE******
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'default' 
-let g:airline_powerline_fonts = 1
-
-"********ALE*******
-let g:ale_linters={
-\    'javascript':['eslint'],
-\ }
 "------COMMANDS-------
-command! PackUpdate call minpac#update()
-command! PackClean call minpac#clean()
+if has('nvim') && executable('nvr')
+  let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
+endif
 
 let mapleader="\<space>"
 
