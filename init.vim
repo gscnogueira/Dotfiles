@@ -8,9 +8,13 @@
 "  \_/ |_|_| |_| |_|_|  \___|
 
 
-"-----PLUGINS---------
+"*****PLUGINS*************
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'majutsushi/tagbar'
 Plug 'morhetz/gruvbox'
 Plug 'w0rp/ale'
 Plug 'vim-airline/vim-airline'
@@ -18,7 +22,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 Plug 'ap/vim-css-color'
 Plug 'ryanoasis/vim-devicons'
@@ -30,8 +33,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 call plug#end()
-
-"------PLUGINSETTINGS------
+"*****PLUGINSETTINGS******
  
 "*****AIRLINE******
 let g:airline#extensions#tabline#enabled = 1
@@ -44,8 +46,7 @@ let g:airline_powerline_fonts = 1
 let g:ale_linters={
 \    'javascript':['eslint'],
 \ }
-
-"------SETTINGS------
+"*****SETTINGS************
 syntax on
 set background=dark
 colorscheme gruvbox 
@@ -69,8 +70,8 @@ set expandtab       "  tabs are spaces
 set splitbelow      "  esse e o seguinte fazem com que a tela do split surja à direita ou abaixo"
 set splitright
 set confirm         "  menu ao sair sem salvar
-
-"------COMMANDS-------
+"*****COMMANDS************
+"
 if has('nvim') && executable('nvr')
   let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
 endif
@@ -79,9 +80,12 @@ let mapleader="\<space>"
 
 "faz com que o fundo fique transparente:
 hi Normal guibg=NONE ctermbg=NONE  
-
-"------REMAPS------
+"*****KEYMAPS*************
+"--------GENERAL----------------------------
+autocmd FileType rmd map <F5> : !echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>
+"--------INSERT-MODE------------------------
 inoremap jk <esc> 
+"------NORMAL-MODE------------------------
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :NERDTreeToggle<cr>
 nnoremap <leader>w :w<cr>
@@ -92,14 +96,16 @@ nnoremap <leader>h <c-w>h
 nnoremap <leader>j <c-w>j
 nnoremap <leader>k <c-w>k
 nnoremap <C-p> :<C-u>FZF<CR>
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-autocmd FileType markdown nnoremap <leader>m :MarkdownPreview<cr>
-autocmd FileType rmd map <F5> : !echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>
 nmap <silent> [W <Plug>(ale_first)
 nmap <silent> [w <Plug>(ale_previous)
 nmap <silent> ]w <Plug>(ale_next)
 nmap <silent> ]W <Plug>(ale_last)
+nmap <F8> :TagbarToggle<CR>
+autocmd FileType markdown nnoremap <leader>m :MarkdownPreview<cr>
+"--------COMMAND-LINE-MODE------------------
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+"--------TERMINAL-MODE----------------------
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
     tnoremap <C-v><Esc> <Esc>
