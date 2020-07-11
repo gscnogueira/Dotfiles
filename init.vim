@@ -39,19 +39,22 @@ Plug 'mhinz/vim-grepper'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 call plug#end()
+
 "*****PLUGINSETTINGS******
  
-"*****AIRLINE******
+"-----GRUVBOX------
+let g:gruvbox_contrast_dark = 'medium'
+"-----AIRLINE------
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default' 
 let g:airline_powerline_fonts = 1
-
-"********ALE*******
+"-----ALE----------
 let g:ale_linters={
 \    'javascript':['eslint'],
 \ }
+
 "*****SETTINGS************
 syntax on
 set background=dark
@@ -76,6 +79,7 @@ set expandtab       "  tabs are spaces
 set splitbelow      "  esse e o seguinte fazem com que a tela do split surja à direita ou abaixo"
 set splitright
 set confirm         "  menu ao sair sem salvar
+
 "*****COMMANDS************
 "
 if has('nvim') && executable('nvr')
@@ -86,6 +90,7 @@ let mapleader="\<space>"
 
 "faz com que o fundo fique transparente:
 hi Normal guibg=NONE ctermbg=NONE  
+
 "*****KEYMAPS*************
 "--------GENERAL----------------------------
 autocmd FileType rmd map <F5> : !echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>

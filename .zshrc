@@ -2,6 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
+export DOTFILES="/home/gabrielnogueira/Repos/dotfiles"
 export ZSH="/home/gabrielnogueira/.oh-my-zsh"
 export TERM="xterm-256color"
 export EDITOR=nvim
@@ -110,7 +111,6 @@ source $ZSH/oh-my-zsh.sh
 
 #-----------MY-STUFF------------------
 #source /opt/ros/melodic/setup.zsh
-
 #********KEYBINDINGS*********:
 autoload -U edit-command-line
 zle -N edit-command-line
