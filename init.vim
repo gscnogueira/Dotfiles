@@ -2,11 +2,12 @@
 "e-mail:gab.nog94@gmail.com
 "github:https://github.com/nosgueira_
 "
-"__   _(_)_ __ ___  _ __ ___
-"\ \ / / | '_ ` _ \| '__/ __|
-" \ V /| | | | | | | | | (__
-"  \_/ |_|_| |_| |_|_|  \___|
-
+"                          _         
+"   ____  ___  ____ _   __(_)___ ___ 
+"  / __ \/ _ \/ __ \ | / / / __ `__ \
+" / / / /  __/ /_/ / |/ / / / / / / /
+"/_/ /_/\___/\____/|___/_/_/ /_/ /_/ 
+                                    
 
 "*****PLUGINS*************
 call plug#begin('~/.vim/plugged')
@@ -17,7 +18,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar'
 Plug 'morhetz/gruvbox'
 Plug 'w0rp/ale'
+Plug 'valloric/youcompleteme'
 Plug 'vim-airline/vim-airline'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
