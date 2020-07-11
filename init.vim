@@ -13,6 +13,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
+Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'yggdroot/indentline'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
