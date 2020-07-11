@@ -8,6 +8,7 @@ export EDITOR=nvim
 export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -111,11 +112,9 @@ source $ZSH/oh-my-zsh.sh
 #source /opt/ros/melodic/setup.zsh
 
 #********KEYBINDINGS*********:
-bindkey -v
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
-
 #********SCRIPTS*********:
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -98,6 +98,7 @@ nnoremap <C-p> :<C-u>FZF<CR>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 autocmd FileType markdown nnoremap <leader>m :MarkdownPreview<cr>
+autocmd FileType rmd map <F5> : !echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>
 nmap <silent> [W <Plug>(ale_first)
 nmap <silent> [w <Plug>(ale_previous)
 nmap <silent> ]w <Plug>(ale_next)
