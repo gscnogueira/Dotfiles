@@ -13,43 +13,44 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
-Plug 'xuyuanp/nerdtree-git-plugin'
-Plug 'yggdroot/indentline'
+Plug 'lervag/vimtex'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
+Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'majutsushi/tagbar'
 Plug 'morhetz/gruvbox'
 Plug 'w0rp/ale'
-Plug 'valloric/youcompleteme'
-Plug 'vim-airline/vim-airline'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
 Plug 'ap/vim-css-color'
 Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/fzf'
-Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-dispatch'
-Plug 'radenling/vim-dispatch-neovim'
-Plug 'mhinz/vim-grepper'
-Plug 'vim-scripts/restore_view.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 call plug#end()
 
 "*****PLUGINSETTINGS******
  
-"-----GRUVBOX------
-let g:gruvbox_contrast_dark = 'medium'
-"-----AIRLINE------
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'default' 
-let g:airline_powerline_fonts = 1
+"-----LIGHT-LINE---
+let g:lightline = {
+    \ 'colorscheme': 'gruvbox',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+    \   'right': [ [ 'lineinfo' ],
+    \              [ 'percent' ],
+    \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ] ]
+    \ },
+    \'component': {
+    \   'charvaluehex': '0x%B'
+    \ },
+    \ 'component_function': {
+    \   'gitbranch': 'FugitiveHead'
+    \ },
+    \ }
+"-----VIM-POLYGLOT-
+let g:vim_markdown_conceal_code_blocks = 0
 "-----ALE----------
 let g:ale_linters={
 \    'javascript':['eslint'],
@@ -57,7 +58,7 @@ let g:ale_linters={
 
 "*****SETTINGS************
 syntax on
-set background=dark
+"set background=dark
 colorscheme gruvbox 
 set hidden          "  permite editar outro arquivo sem ter salvado o atual
 set spell
@@ -71,7 +72,6 @@ set wildmenu        "  visual complete for command menu
 set wildmode=full
 set showmatch       "  highlight matching [{()}]
 set incsearch       "  search as characters are entered
-set hlsearch        "  highlight matches
 set tabstop=4       "  number of visual spaces per TAB
 set softtabstop=4   " number of spaces in tab when editing
 set shiftwidth=4
@@ -91,13 +91,15 @@ let mapleader="\<space>"
 "faz com que o fundo fique transparente:
 hi Normal guibg=NONE ctermbg=NONE  
 
+
 "*****KEYMAPS*************
 "--------GENERAL----------------------------
 autocmd FileType rmd map <F5> : !echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>
+autocmd FileType tex map <F5> :!pdflatex<space>%<cr>
 "--------INSERT-MODE------------------------
 inoremap jk <esc> 
-"------NORMAL-MODE------------------------
-nnoremap <leader>sv :source $MYVIMRC<cr>
+"--------NORMAL-MODE------------------------
+nnoremap <leader>sv :source %<cr>
 nnoremap <leader>f :NERDTreeToggle<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>e :q<cr>
