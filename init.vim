@@ -13,28 +13,28 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
-Plug 'lervag/vimtex'
-Plug 'sheerun/vim-polyglot'
-Plug 'tpope/vim-fugitive'
+Plug 'lervag/vimtex' , { 'for' : 'tex'  }
+Plug 'tpope/vim-fugitive' , { 'on' : 'Git' }
 Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
+Plug 'dracula/vim',
 Plug 'w0rp/ale'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'preservim/nerdcommenter'
 Plug 'jiangmiao/auto-pairs'
-Plug 'godlygeek/tabular'
+Plug 'godlygeek/tabular' , { 'on' : 'Tabularize' }
 Plug 'ap/vim-css-color'
-Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/fzf'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown'}
 call plug#end()
 
 "*****PLUGINSETTINGS******
  
 "-----LIGHT-LINE---
 let g:lightline = {
-    \ 'colorscheme': 'gruvbox',
+    \ 'colorscheme': 'dracula',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
@@ -58,8 +58,8 @@ let g:ale_linters={
 
 "*****SETTINGS************
 syntax on
-"set background=dark
-colorscheme gruvbox 
+set background=dark
+colorscheme dracula 
 set hidden          "  permite editar outro arquivo sem ter salvado o atual
 set spell
 set number
@@ -88,10 +88,8 @@ endif
 
 let mapleader="\<space>"
 
-"faz com que o fundo fique transparente:
-hi Normal guibg=NONE ctermbg=NONE  
-
-
+"transparent background:
+hi Normal guibg=NONE ctermbg=NONE
 "*****KEYMAPS*************
 "--------GENERAL----------------------------
 autocmd FileType rmd map <F5> : !echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>
