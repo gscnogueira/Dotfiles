@@ -2,12 +2,12 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export DOTFILES="/home/gabrielnogueira/Repos/dotfiles"
-export ZSH="/home/gabrielnogueira/.oh-my-zsh"
+export DOTFILES="/home/gabriel/repos/dotfiles"
+export ZSH="/home/gabriel/.oh-my-zsh"
 export TERM="xterm-256color"
 export EDITOR=nvim
 export GOPATH=$HOME/go
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin:/home/gabriel/.local/bin
 
 
 # Set name of the theme to load --- if set to "random", it will
@@ -76,7 +76,15 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting copyfile copydir extract themes)
+plugins=( 
+	git
+	zsh-syntax-highlighting
+	zsh-autosuggestions
+	copyfile
+	copydir
+	extract
+	themes
+)
 
 source $ZSH/oh-my-zsh.sh
 
