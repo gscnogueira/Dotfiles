@@ -27,7 +27,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular' , { 'on' : 'Tabularize' }
 Plug 'ap/vim-css-color'
 Plug 'junegunn/fzf'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown'}
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 call plug#end()
 
 "*****PLUGINSETTINGS******
@@ -57,13 +57,12 @@ let g:ale_linters={
 \ }
 
 "-----LATEX-PREVIEW-
-let g:livepreview_previewer = 'zathura'
+let g:mkdp_browser = 'firefox'
 "*****SETTINGS************
 syntax on
 set background=dark
 colorscheme dracula 
 set hidden          "  permite editar outro arquivo sem ter salvado o atual
-set spell
 set number
 set ignorecase
 set smartcase
