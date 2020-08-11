@@ -56,6 +56,8 @@ let g:ale_linters={
 \    'javascript':['eslint'],
 \ }
 
+"-----LATEX-PREVIEW-
+let g:livepreview_previewer = 'zathura'
 "*****SETTINGS************
 syntax on
 set background=dark
