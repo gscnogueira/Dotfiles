@@ -5,7 +5,7 @@
 export DOTFILES="/home/gabriel/repos/dotfiles"
 export ZSH="/home/gabriel/.oh-my-zsh"
 export TERM="xterm-256color"
-export EDITOR=nvim
+export EDITOR="nvim"
 export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin:/home/gabriel/.local/bin
 

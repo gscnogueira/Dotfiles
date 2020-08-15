@@ -9,25 +9,25 @@
 "/_/ /_/\___/\____/|___/_/_/ /_/ /_/ 
                                     
 
-"*****PLUGINS*************
+" *****PLUGINS*************
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
 Plug 'lervag/vimtex' , { 'for' : 'tex'  }
 Plug 'tpope/vim-fugitive' , { 'on' : 'Git' }
 Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'morhetz/gruvbox'
-Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
 Plug 'dracula/vim',
 Plug 'w0rp/ale'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'preservim/nerdcommenter'
-Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular' , { 'on' : 'Tabularize' }
 Plug 'ap/vim-css-color'
 Plug 'junegunn/fzf'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vimwiki/vimwiki'
+
 call plug#end()
 
 "*****PLUGINSETTINGS******
@@ -56,7 +56,7 @@ let g:ale_linters={
 \    'javascript':['eslint'],
 \ }
 
-"-----LATEX-PREVIEW-
+"-----MARKDOWN-PREVIEW
 let g:mkdp_browser = 'firefox'
 "*****SETTINGS************
 syntax on
@@ -71,8 +71,6 @@ set autoindent
 set laststatus=2    "  faz a barra de status aparecer
 set wildmenu        "  visual complete for command menu
 set wildmode=full
-set showmatch       "  highlight matching [{()}]
-set incsearch       "  search as characters are entered
 set tabstop=4       "  number of visual spaces per TAB
 set softtabstop=4   " number of spaces in tab when editing
 set shiftwidth=4
