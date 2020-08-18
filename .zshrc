@@ -8,7 +8,7 @@ export TERM="xterm-256color"
 export EDITOR="nvim"
 export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin:/home/gabriel/.local/bin
-
+alias wk='nvim -c VimwikiIndex'
 export LF_ICONS="\
 tw=:\
 st=:\

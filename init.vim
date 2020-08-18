@@ -58,6 +58,9 @@ let g:ale_linters={
 
 "-----MARKDOWN-PREVIEW
 let g:mkdp_browser = 'firefox'
+"-----VIMWIKI-------
+let g:vimwiki_list = [{'path': '~/Documents/Notes/',
+                      \ 'path_html': '~/mywiki_html'}]
 "*****SETTINGS************
 syntax on
 set background=dark
