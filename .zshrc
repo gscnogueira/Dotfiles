@@ -1,7 +1,6 @@
-# author:Gabriel S. C. Nogueira
-# e-mail:gab.nog94@gmail.com
-# blsu   
-# github:https://github.com/nosgueira
+# author: Gabriel S. C. Nogueira
+# e-mail: gab.nog94@gmail.com
+# github: https://github.com/nosgueira
 
 
 #---------------------------------------------------------
@@ -15,19 +14,20 @@ export EDITOR="nvim"
 source ~/.config/zsh/ls-colors
 export LS_COLORS
 source /home/gabriel/.config/lf/icons
+
 #---------------------------------------------------------
 #------------------------ALIASES--------------------------
 #---------------------------------------------------------
-
+alias grep='grep --color=auto'
+alias ls='exa --color=always'
 alias vim='nvim'
 alias wk='nvim -c VimwikiIndex'
-alias ls='exa --color=always'
 
 #---------------------------------------------------------
 #-----------------------SETTINGS------------------------
 #---------------------------------------------------------
 
-# Set autocompletion
+# Set auto completion
 autoload -Uz compinit 
 compinit
 
@@ -72,10 +72,27 @@ typeset -g -A key
 POWERLEVEL9K_MODE='nerdfont-complete'
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)
-#**************************SCRIPTS************************
 
-#this one is to avoid nesting inseide nvim terminal:
+#---------------------------------------------------------
+#-------------------------PLUGINS-------------------------
+#---------------------------------------------------------
 
+# POWERLEVEL9K Theme
+source  ~/Repos/zsh-plugins/powerlevel9k/powerlevel9k.zsh-theme
+# Syntax Highlighting
+source /home/gabriel/Repos/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Auto-Suggestions 
+source /home/gabriel/Repos/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# FZF
+[ -f /home/gabriel/Repos/zsh-plugins/fzf/fzf.zsh ] && source /home/gabriel/Repos/zsh-plugins/fzf/fzf.zsh
+
+#---------------------------------------------------------
+#------------------------SCRIPTS--------------------------
+#---------------------------------------------------------
+
+# this one is to avoid nesting inside nvim terminal:
 if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
     if [ -x "$(command -v nvr)" ]; then
         alias nvim=nvr
@@ -83,10 +100,4 @@ if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
         alias nvim='echo "No nesting!"'
     fi
 fi
-
-# Plugins
-source  ~/Repos/zsh-plugins/powerlevel9k/powerlevel9k.zsh-theme
-source /home/gabriel/Repos/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /home/gabriel/Repos/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-[ -f /home/gabriel/Repos/zsh-plugins/fzf/fzf.zsh ] && source /home/gabriel/Repos/zsh-plugins/fzf/fzf.zsh
 
