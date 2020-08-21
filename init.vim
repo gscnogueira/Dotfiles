@@ -14,6 +14,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
 Plug 'lervag/vimtex' , { 'for' : 'tex'  }
 Plug 'tpope/vim-fugitive' , { 'on' : 'Git' }
 Plug 'itchyny/lightline.vim'
