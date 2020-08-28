@@ -98,7 +98,6 @@ hi Normal guibg=NONE ctermbg=NONE
 autocmd FileType rmd map <F5> : !echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>
 autocmd FileType tex map <F5> :!pdflatex<space>%<cr>
 "--------INSERT-MODE------------------------
-inoremap jk <esc> 
 "--------NORMAL-MODE------------------------
 nnoremap <leader>sv :source %<cr>
 nnoremap <leader>f :NERDTreeToggle<cr>
