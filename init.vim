@@ -24,9 +24,11 @@ Plug 'w0rp/ale'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'godlygeek/tabular' , { 'on' : 'Tabularize' }
 Plug 'ap/vim-css-color'
+Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'sheerun/vim-polyglot'
 Plug 'vimwiki/vimwiki'
 
 call plug#end()
@@ -56,12 +58,10 @@ let g:vim_markdown_conceal_code_blocks = 0
 let g:ale_linters={
 \    'javascript':['eslint'],
 \ }
-
+"-----VIM-WIKI-----
+let g:vimwiki_list = [{'auto_diary_index': 1}]
 "-----MARKDOWN-PREVIEW
 let g:mkdp_browser = 'firefox'
-"-----VIMWIKI-------
-let g:vimwiki_list = [{'path': '~/Documents/Notes/',
-                      \ 'path_html': '~/mywiki_html'}]
 "*****SETTINGS************
 syntax on
 set background=dark
