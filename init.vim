@@ -9,7 +9,10 @@
 "/_/ /_/\___/\____/|___/_/_/ /_/ /_/ 
                                     
 
-" *****PLUGINS*************
+"--------------------------------------------------
+"-------------------PLUGINS------------------------
+"--------------------------------------------------
+
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
@@ -33,9 +36,11 @@ Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
-"*****PLUGINSETTINGS******
+"--------------------------------------------------
+"-----------------PLUGINSETTINGS-------------------
+"--------------------------------------------------
  
-"-----LIGHT-LINE---
+"-------------------LIGHT-LINE---------------------
 let g:lightline = {
     \ 'colorscheme': 'dracula',
     \ 'active': {
@@ -52,73 +57,87 @@ let g:lightline = {
     \   'gitbranch': 'FugitiveHead'
     \ },
     \ }
-"-----VIM-POLYGLOT-
+"-------------------VIM-POLYGLOT-------------------
 let g:vim_markdown_conceal_code_blocks = 0
-"-----ALE----------
+"-----------------------ALE------------------------
 let g:ale_linters={
 \    'javascript':['eslint'],
 \ }
-"-----VIM-WIKI-----
+"--------------------VIM-WIKI----------------------
 let g:vimwiki_list = [{'auto_diary_index': 1}]
-"-----MARKDOWN-PREVIEW
+"-----------------MARKDOWN-PREVIEW-----------------
 let g:mkdp_browser = 'firefox'
-"*****SETTINGS************
-syntax on
-set background=dark
+
+"--------------------------------------------------
+"-------------------SETTINGS-----------------------
+"--------------------------------------------------
 colorscheme dracula 
-set hidden          "  permite editar outro arquivo sem ter salvado o atual
-set number
-set ignorecase
-set smartcase
-set relativenumber
 set autoindent
-set laststatus=2    "  faz a barra de status aparecer
-set wildmenu        "  visual complete for command menu
-set wildmode=full
-set tabstop=4       "  number of visual spaces per TAB
-set softtabstop=4   " number of spaces in tab when editing
-set shiftwidth=4
+set background=dark
+set confirm         "  menu ao sair sem salvar
 set expandtab       "  tabs are spaces
+set hidden          "  permite editar outro arquivo sem ter salvado o atual
+set ignorecase
+set laststatus=2    "  faz a barra de status aparecer
+set number
+set relativenumber
+set undodir=$HOME/.undodir
+set undofile
+set shiftwidth=4
+set smartcase
+set softtabstop=4   " number of spaces in tab when editing
 set splitbelow      "  esse e o seguinte fazem com que a tela do split surja à direita ou abaixo"
 set splitright
-set confirm         "  menu ao sair sem salvar
+set tabstop=4       "  number of visual spaces per TAB
+set wildmenu        "  visual complete for command menu
+set wildmode=full
+syntax on
 
-"*****COMMANDS************
+"--------------------------------------------------
+"-------------------SCRIPTS------------------------
+"--------------------------------------------------
 "
 if has('nvim') && executable('nvr')
   let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
 endif
 
-let mapleader="\<space>"
 
 "transparent background:
 hi Normal guibg=NONE ctermbg=NONE
-"*****KEYMAPS*************
-"--------GENERAL----------------------------
-autocmd FileType rmd map <F5> : !echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>
+
+"--------------------------------------------------
+"--------------------KEYMAPS-----------------------
+"--------------------------------------------------
+
+let mapleader="\<space>"
+
+"--------------------GENERAL-----------------------
 autocmd FileType tex map <F5> :!pdflatex<space>%<cr>
-"--------INSERT-MODE------------------------
-"--------NORMAL-MODE------------------------
-nnoremap <leader>sv :source %<cr>
-nnoremap <leader>f :NERDTreeToggle<cr>
-nnoremap <leader>w :w<cr>
-nnoremap <leader>e :q<cr>
-nnoremap <leader>q :bd<cr>
-nnoremap <leader>l <c-w>l
-nnoremap <leader>h <c-w>h
-nnoremap <leader>j <c-w>j
-nnoremap <leader>k <c-w>k
-nnoremap <C-p> :<C-u>FZF<CR>
+"------------------INSERT-MODE---------------------
+inoremap jk <esc>
+"------------------NORMAL-MODE---------------------
+autocmd FileType markdown nnoremap <leader>p :MarkdownPreview<cr>
+nmap <F8> :TagbarToggle<CR>
 nmap <silent> [W <Plug>(ale_first)
 nmap <silent> [w <Plug>(ale_previous)
-nmap <silent> ]w <Plug>(ale_next)
 nmap <silent> ]W <Plug>(ale_last)
-nmap <F8> :TagbarToggle<CR>
-autocmd FileType markdown nnoremap <leader>m :MarkdownPreview<cr>
-"--------COMMAND-LINE-MODE------------------
+nmap <silent> ]w <Plug>(ale_next)
+nnoremap <C-p> :<C-u>FZF<CR>
+nnoremap <leader>e :q<cr>
+nnoremap <leader>f :NERDTreeToggle<cr>
+nnoremap <leader>h <c-w>h
+nnoremap <leader>wv :vsp ~/vimwiki/index.wiki<cr>
+nnoremap <leader>m :set mouse=a<cr>
+nnoremap <leader>j <c-w>j
+nnoremap <leader>k <c-w>k
+nnoremap <leader>l <c-w>l
+nnoremap <leader>q :bd<cr>
+nnoremap <leader>sv :source %<cr>
+nnoremap <leader>w :w<cr>
+"---------------COMMAND-LINE-MODE------------------
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-"--------TERMINAL-MODE----------------------
+"-----------------TERMINAL-MODE--------------------
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
     tnoremap <C-v><Esc> <Esc>

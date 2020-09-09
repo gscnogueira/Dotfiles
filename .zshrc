@@ -23,6 +23,9 @@ alias ls='exa --color=always'
 alias vim='nvim'
 alias wk='nvim -c VimwikiIndex'
 alias td='nvim -c VimwikiMakeDiaryNote'
+alias tp1='cd ~/Codespace/UnB/TP1'
+alias pc='cd ~/Codespace/ProgCmp/'
+alias xclip='xclip -sel clip <'
 
 #---------------------------------------------------------
 #-----------------------SETTINGS------------------------
