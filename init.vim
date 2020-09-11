@@ -79,6 +79,7 @@ set expandtab       "  tabs are spaces
 set hidden          "  permite editar outro arquivo sem ter salvado o atual
 set ignorecase
 set laststatus=2    "  faz a barra de status aparecer
+set mouse=a
 set number
 set relativenumber
 set undodir=$HOME/.undodir
