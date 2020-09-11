@@ -26,6 +26,7 @@ alias td='nvim -c VimwikiMakeDiaryNote'
 alias tp1='cd ~/Codespace/UnB/TP1'
 alias pc='cd ~/Codespace/ProgCmp/'
 alias xclip='xclip -sel clip <'
+alias gg='g++ -std=c++11 -O2 -Wall test.cpp -o test -lm -g'
 
 #---------------------------------------------------------
 #-----------------------SETTINGS------------------------
