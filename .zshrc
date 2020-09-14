@@ -48,10 +48,10 @@ setopt COMPLETE_ALIASES
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 
 
 #Emacs mode
-bindkey -e 
+# bindkey -e 
 
 # Vi mode
-# bindkey -v 
+bindkey -v 
 
 # History Search:
 SAVEHIST=1000000
