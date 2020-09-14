@@ -93,6 +93,7 @@ set tabstop=4       "  number of visual spaces per TAB
 set wildmenu        "  visual complete for command menu
 set wildmode=full
 syntax on
+set clipboard+=unnamedplus " makes nvim use systems clipboard
 
 "--------------------------------------------------
 "-------------------SCRIPTS------------------------
