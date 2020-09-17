@@ -33,10 +33,13 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sheerun/vim-polyglot'
 Plug 'vimwiki/vimwiki'
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 
 call plug#end()
 
-"--------------------------------------------------
+" --------------------------------------------------
 "-----------------PLUGINSETTINGS-------------------
 "--------------------------------------------------
  
@@ -106,6 +109,24 @@ endif
 
 "transparent background:
 hi Normal guibg=NONE ctermbg=NONE
+function! s:init_fern() abort
+    nmap <buffer> H <Plug>(fern-action-open:split)
+    nmap <buffer> V <Plug>(fern-action-open:vsplit)
+    nmap <buffer> R <Plug>(fern-action-rename)
+    nmap <buffer> M <Plug>(fern-action-move)
+    nmap <buffer> C <Plug>(fern-action-new-copy)
+    nmap <buffer> N <Plug>(fern-action-new-path)
+    nmap <buffer> T <Plug>(fern-action-new-file)
+    nmap <buffer> D <Plug>(fern-action-new-dir)
+    nmap <buffer> S <Plug>(fern-action-hidden-toggle)
+    nmap <buffer> J <Plug>(fern-action-mark)
+endfunction
+
+augroup fern-custom
+    autocmd! *
+    autocmd FileType fern  call s:init_fern()
+augroup END
+let g:fern#renderer = "nerdfont"
 
 "--------------------------------------------------
 "--------------------KEYMAPS-----------------------
@@ -119,17 +140,15 @@ autocmd FileType tex map <F5> :!pdflatex<space>%<cr>
 inoremap jk <esc>
 "------------------NORMAL-MODE---------------------
 autocmd FileType markdown nnoremap <leader>p :MarkdownPreview<cr>
-nmap <F8> :TagbarToggle<CR>
 nmap <silent> [W <Plug>(ale_first)
 nmap <silent> [w <Plug>(ale_previous)
 nmap <silent> ]W <Plug>(ale_last)
 nmap <silent> ]w <Plug>(ale_next)
 nnoremap <C-p> :<C-u>FZF<CR>
 nnoremap <leader>e :q<cr>
-nnoremap <leader>f :NERDTreeToggle<cr>
+nnoremap <leader>f :Fern . -drawer -toggle<cr>
 nnoremap <leader>h <c-w>h
 nnoremap <leader>wv :vsp ~/vimwiki/index.wiki<cr>
-nnoremap <leader>m :set mouse=a<cr>
 nnoremap <leader>j <c-w>j
 nnoremap <leader>k <c-w>k
 nnoremap <leader>l <c-w>l

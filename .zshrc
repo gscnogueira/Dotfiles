@@ -52,6 +52,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # Vi mode
 bindkey -v 
+bindkey -M viins 'jk' vi-cmd-mode
 
 # History Search:
 SAVEHIST=1000000
