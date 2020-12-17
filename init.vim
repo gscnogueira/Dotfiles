@@ -33,13 +33,12 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sheerun/vim-polyglot'
 Plug 'vimwiki/vimwiki'
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'ryanoasis/vim-devicons'
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 call plug#end()
 
-" --------------------------------------------------
+ "--------------------------------------------------
 "-----------------PLUGINSETTINGS-------------------
 "--------------------------------------------------
  
@@ -78,13 +77,12 @@ colorscheme dracula
 set autoindent
 set background=dark
 set confirm         "  menu ao sair sem salvar
-set expandtab       "  tabs are spaces
+" set expandtab       "  tabs are spaces
 set hidden          "  permite editar outro arquivo sem ter salvado o atual
 set ignorecase
 set laststatus=2    "  faz a barra de status aparecer
 set mouse=a
 set number
-set relativenumber
 set undodir=$HOME/.undodir
 set undofile
 set shiftwidth=4
@@ -95,12 +93,32 @@ set splitright
 set tabstop=4       "  number of visual spaces per TAB
 set wildmenu        "  visual complete for command menu
 set wildmode=full
+set autoread
+autocmd FocusGained * silent! checktime
 syntax on
 set clipboard+=unnamedplus " makes nvim use systems clipboard
 
 "--------------------------------------------------
 "-------------------SCRIPTS------------------------
 "--------------------------------------------------
+\usepackage{graphicx}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{todonotes}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{todonotes}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{hyperref}
 "
 if has('nvim') && executable('nvr')
   let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
@@ -109,25 +127,9 @@ endif
 
 "transparent background:
 hi Normal guibg=NONE ctermbg=NONE
-function! s:init_fern() abort
-    nmap <buffer> H <Plug>(fern-action-open:split)
-    nmap <buffer> V <Plug>(fern-action-open:vsplit)
-    nmap <buffer> R <Plug>(fern-action-rename)
-    nmap <buffer> M <Plug>(fern-action-move)
-    nmap <buffer> C <Plug>(fern-action-new-copy)
-    nmap <buffer> N <Plug>(fern-action-new-path)
-    nmap <buffer> T <Plug>(fern-action-new-file)
-    nmap <buffer> D <Plug>(fern-action-new-dir)
-    nmap <buffer> S <Plug>(fern-action-hidden-toggle)
-    nmap <buffer> J <Plug>(fern-action-mark)
-endfunction
-
-augroup fern-custom
-    autocmd! *
-    autocmd FileType fern  call s:init_fern()
-augroup END
-let g:fern#renderer = "nerdfont"
-
+if (has("termguicolors"))
+  set termguicolors
+endif
 "--------------------------------------------------
 "--------------------KEYMAPS-----------------------
 "--------------------------------------------------
@@ -135,18 +137,29 @@ let g:fern#renderer = "nerdfont"
 let mapleader="\<space>"
 
 "--------------------GENERAL-----------------------
-autocmd FileType tex map <F5> :!pdflatex<space>%<cr>
+autocmd FileType tex map <F5> :w \| !pdflatex<space>%<cr>
 "------------------INSERT-MODE---------------------
 inoremap jk <esc>
+inoremap <C-l> <C-o>zz
 "------------------NORMAL-MODE---------------------
 autocmd FileType markdown nnoremap <leader>p :MarkdownPreview<cr>
+nmap <Tab> gt
+nmap <S-Tab> gT
 nmap <silent> [W <Plug>(ale_first)
 nmap <silent> [w <Plug>(ale_previous)
 nmap <silent> ]W <Plug>(ale_last)
 nmap <silent> ]w <Plug>(ale_next)
+nmap <leader>f :CocCommand explorer<CR>
+nmap <leader>1 1gt
+nmap <leader>2 2gt
+nmap <leader>3 3gt
+nmap <leader>4 4gt
+nmap <leader>5 5gt
+nmap <leader>6 6gt
+nmap <leader>7 7gt
+nmap <leader>8 8gt
+nmap <leader>9 9gt
 nnoremap <C-p> :<C-u>FZF<CR>
-nnoremap <leader>e :q<cr>
-nnoremap <leader>f :Fern . -drawer -toggle<cr>
 nnoremap <leader>h <c-w>h
 nnoremap <leader>wv :vsp ~/vimwiki/index.wiki<cr>
 nnoremap <leader>j <c-w>j
@@ -154,7 +167,7 @@ nnoremap <leader>k <c-w>k
 nnoremap <leader>l <c-w>l
 nnoremap <leader>q :bd<cr>
 nnoremap <leader>sv :source %<cr>
-nnoremap <leader>w :w<cr>
+nnoremap <leader>w :wa<cr>
 "---------------COMMAND-LINE-MODE------------------
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>

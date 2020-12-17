@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # author: Gabriel S. C. Nogueira
 # e-mail: gab.nog94@gmail.com
 # github: https://github.com/nosgueira
@@ -8,6 +15,7 @@
 #---------------------------------------------------------
 typeset -U PATH path
 path=("$HOME/.local/bin" "$path[@]")
+export QT_QPA_PLATAFORMTHEME="qt5ct"
 export PATH
 export TERM="xterm-256color"
 export EDITOR="nvim"
@@ -18,15 +26,19 @@ source /home/gabriel/.config/lf/icons
 #---------------------------------------------------------
 #------------------------ALIASES--------------------------
 #---------------------------------------------------------
+alias gg='g++ -std=c++11 -O2 -Wall test.cpp -o test -lm -g'
 alias grep='grep --color=auto'
 alias ls='exa --color=always'
-alias vim='nvim'
-alias wk='nvim -c VimwikiIndex'
+alias org='cd ~/Documents/Notes'
+alias pc='cd ~/Codespace/ProgCmp/'
 alias td='nvim -c VimwikiMakeDiaryNote'
 alias tp1='cd ~/Codespace/UnB/TP1'
-alias pc='cd ~/Codespace/ProgCmp/'
+alias wk='nvim -c VimwikiIndex'
 alias xclip='xclip -sel clip <'
-alias gg='g++ -std=c++11 -O2 -Wall test.cpp -o test -lm -g'
+alias please='echo "ciro é gay"'
+alias gs='git status'
+alias gc='git commit -av'
+alias bat='bat --theme="Dracula"'
 
 #---------------------------------------------------------
 #-----------------------SETTINGS------------------------
@@ -75,16 +87,19 @@ typeset -g -A key
 #---------------------------------------------------------
 
 #**************************THEME**************************
-POWERLEVEL9K_MODE='nerdfont-complete'
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)
+# POWERLEVEL9K_MODE='nerdfont-complete'
+# POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
+# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)
 
 #---------------------------------------------------------
 #-------------------------PLUGINS-------------------------
 #---------------------------------------------------------
 
+# POWERLEVEL10K Theme
+source ~/Repos/zsh-plugins/powerlevel10k/powerlevel10k.zsh-theme
+
 # POWERLEVEL9K Theme
-source  ~/Repos/zsh-plugins/powerlevel9k/powerlevel9k.zsh-theme
+# source  ~/Repos/zsh-plugins/powerlevel9k/powerlevel9k.zsh-theme
 # Syntax Highlighting
 source /home/gabriel/Repos/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -107,3 +122,5 @@ if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
     fi
 fi
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

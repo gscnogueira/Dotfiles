@@ -1,4 +1,4 @@
-set color256 true
+set previewer ~/.config/lf/preview
 set drawbox true
 set icons true
 
@@ -19,7 +19,8 @@ cmd mkdir %{{
 #MAPPINGS 
 map DD delete
 map N mkdir
-map br $vimv $fx
+map <bs2> updir
 map <enter> open
+map br $vimv $fx
 
 

@@ -1,4 +1,4 @@
-browser          brave
+browser          firefox
 auto-reload yes
 
 # unbind keys
