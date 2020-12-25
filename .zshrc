@@ -1,3 +1,7 @@
+# author: Gabriel S. C. Nogueira
+# e-mail: gab.nog94@gmail.com
+# github: https://github.com/nosgueira
+#
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -5,9 +9,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# author: Gabriel S. C. Nogueira
-# e-mail: gab.nog94@gmail.com
-# github: https://github.com/nosgueira
 
 
 #---------------------------------------------------------
@@ -44,6 +45,9 @@ alias bat='bat --theme="Dracula"'
 #-----------------------SETTINGS------------------------
 #---------------------------------------------------------
 
+
+# Set dir_colors theme
+test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 # Set auto completion
 autoload -Uz compinit 
 compinit

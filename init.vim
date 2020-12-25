@@ -1,6 +1,6 @@
-"author:Gabriel S. C. Nogueira
-"e-mail:gab.nog94@gmail.com
-"github:https://github.com/nosgueira_
+" author:Gabriel S. C. Nogueira
+" e-mail:gab.nog94@gmail.com
+" github:https://github.com/nosgueira
 "
 "                          _         
 "   ____  ___  ____ _   __(_)___ ___ 
@@ -34,17 +34,18 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sheerun/vim-polyglot'
 Plug 'vimwiki/vimwiki'
 Plug 'ryanoasis/vim-devicons'
+Plug 'arcticicestudio/nord-vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 call plug#end()
 
- "--------------------------------------------------
+"--------------------------------------------------
 "-----------------PLUGINSETTINGS-------------------
 "--------------------------------------------------
  
 "-------------------LIGHT-LINE---------------------
 let g:lightline = {
-    \ 'colorscheme': 'dracula',
+    \ 'colorscheme': 'nord',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
@@ -73,9 +74,8 @@ let g:mkdp_browser = 'firefox'
 "--------------------------------------------------
 "-------------------SETTINGS-----------------------
 "--------------------------------------------------
-colorscheme dracula 
+colorscheme nord 
 set autoindent
-set background=dark
 set confirm         "  menu ao sair sem salvar
 " set expandtab       "  tabs are spaces
 set hidden          "  permite editar outro arquivo sem ter salvado o atual
@@ -97,28 +97,18 @@ set autoread
 autocmd FocusGained * silent! checktime
 syntax on
 set clipboard+=unnamedplus " makes nvim use systems clipboard
+" italic comments:
+highlight Comment cterm=italic gui=italic 
+if (has("nvim"))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+if (has("termguicolors"))
+  set termguicolors
+endif
 
 "--------------------------------------------------
 "-------------------SCRIPTS------------------------
 "--------------------------------------------------
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage{float}
-\usepackage{listings}
-\usepackage{color}
-\usepackage{todonotes}
-\usepackage{algorithmic}
-\usepackage{algorithm}
-\usepackage{hyperref}
-\usepackage{url}
-\usepackage{float}
-\usepackage{listings}
-\usepackage{color}
-\usepackage{todonotes}
-\usepackage{algorithmic}
-\usepackage{algorithm}
-\usepackage{hyperref}
 "
 if has('nvim') && executable('nvr')
   let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
@@ -176,3 +166,4 @@ if has('nvim')
     tnoremap <Esc> <C-\><C-n>
     tnoremap <C-v><Esc> <Esc>
 endif
+
