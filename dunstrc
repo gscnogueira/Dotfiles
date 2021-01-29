@@ -64,7 +64,7 @@
     frame_width = 2
 
     # Defines color of the frame around the notification window.
-    frame_color = "#6272a4"
+    frame_color = "#4C566A"
 
     # Define a color for the separator.
     # possible values are:
@@ -213,7 +213,7 @@
     # corners.
     # The radius will be automatically lowered if it exceeds half of the
     # notification height to avoid clipping text and/or icons.
-    corner_radius = 10
+    corner_radius = 0
 
     ### Legacy
 
@@ -277,14 +277,14 @@
     # Otherwise the "#" and following would be interpreted as a comment.
     background = "#282a36"
     foreground = "#f8f8f2"
-    timeout = 3
+    timeout = 2
     # Icon for notifications with low urgency, uncomment to enable
     icon = /home/gabriel/.config/dunst/low.svg
 
 [urgency_normal]
-    background = "#282a36" 
-    foreground = "#f8f8f2"
-    timeout = 3
+    background = "#2E3440" 
+    foreground = "#81A1C1"
+    timeout = 2
     # Icon for notifications with normal urgency, uncomment to enable
 
 [urgency_critical]

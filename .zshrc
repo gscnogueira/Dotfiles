@@ -113,6 +113,7 @@ source /home/gabriel/Repos/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.z
 # FZF
 [ -f /home/gabriel/Repos/zsh-plugins/fzf/fzf.zsh ] && source /home/gabriel/Repos/zsh-plugins/fzf/fzf.zsh
 
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 #---------------------------------------------------------
 #------------------------SCRIPTS--------------------------
 #---------------------------------------------------------

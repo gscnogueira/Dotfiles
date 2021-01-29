@@ -1,4 +1,4 @@
-" author:Gabriel S. C. Nogueira
+"set relativenumber author:Gabriel S. C. Nogueira
 " e-mail:gab.nog94@gmail.com
 " github:https://github.com/nosgueira
 "
@@ -77,7 +77,7 @@ let g:mkdp_browser = 'firefox'
 colorscheme nord 
 set autoindent
 set confirm         "  menu ao sair sem salvar
-" set expandtab       "  tabs are spaces
+set expandtab       "  tabs are spaces
 set hidden          "  permite editar outro arquivo sem ter salvado o atual
 set ignorecase
 set laststatus=2    "  faz a barra de status aparecer

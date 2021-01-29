@@ -1,4 +1,4 @@
-browser          firefox
+browser          brave
 auto-reload yes
 
 # unbind keys
@@ -13,3 +13,14 @@ bind-key j down
 bind-key k up
 bind-key l open
 bind-key h quit
+bind-key P prev
+bind-key N next
+
+# Colors 
+color background          default   default
+color listnormal          default   default
+color listfocus           color7  color4   bold
+color listnormal_unread   yellow default
+color listfocus_unread    yellow blue   bold
+color info                color7  color8   bold
+color article             default   default
