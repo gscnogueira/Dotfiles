@@ -82,7 +82,7 @@
     # Set to 0 to disable.
     # A client can set the 'transient' hint to bypass this. See the rules
     # section for how to disable this if necessary
-    idle_threshold = 120
+    idle_threshold = 0
 
     ### Text ###
 
@@ -172,7 +172,7 @@
 
     # Should a notification popped up from history be sticky or timeout
     # as if it would normally do.
-    sticky_history = yes
+    sticky_history = no
 
     # Maximum amount of notifications kept in history
     history_length = 20
@@ -277,14 +277,14 @@
     # Otherwise the "#" and following would be interpreted as a comment.
     background = "#282a36"
     foreground = "#f8f8f2"
-    timeout = 2
+    timeout = 2s
     # Icon for notifications with low urgency, uncomment to enable
     icon = /home/gabriel/.config/dunst/low.svg
 
 [urgency_normal]
     background = "#2E3440" 
     foreground = "#81A1C1"
-    timeout = 2
+    timeout = 2s
     # Icon for notifications with normal urgency, uncomment to enable
 
 [urgency_critical]

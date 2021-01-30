@@ -27,19 +27,21 @@ source /home/gabriel/.config/lf/icons
 #---------------------------------------------------------
 #------------------------ALIASES--------------------------
 #---------------------------------------------------------
+alias bat='bat --theme="Dracula"'
+alias gc='git commit -av'
+alias gd='git diff'
 alias gg='g++ -std=c++11 -O2 -Wall test.cpp -o test -lm -g'
 alias grep='grep --color=auto'
+alias gs='git status'
 alias ls='exa --color=always'
 alias org='cd ~/Documents/Notes'
 alias pc='cd ~/Codespace/ProgCmp/'
+alias please='echo "ciro é gay"'
 alias td='nvim -c VimwikiMakeDiaryNote'
 alias tp1='cd ~/Codespace/UnB/TP1'
 alias wk='nvim -c VimwikiIndex'
 alias xclip='xclip -sel clip <'
-alias please='echo "ciro é gay"'
-alias gs='git status'
-alias gc='git commit -av'
-alias bat='bat --theme="Dracula"'
+alias xmo='cd ~/.xmonad'
 
 #---------------------------------------------------------
 #-----------------------SETTINGS------------------------
