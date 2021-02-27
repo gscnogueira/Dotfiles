@@ -14,28 +14,28 @@
 "--------------------------------------------------
 
 call plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-repeat'
-Plug 'lervag/vimtex' , { 'for' : 'tex'  }
-Plug 'tpope/vim-fugitive' , { 'on' : 'Git' }
-Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'dracula/vim',
-Plug 'w0rp/ale'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'godlygeek/tabular' , { 'on' : 'Tabularize' }
 Plug 'ap/vim-css-color'
+Plug 'arcticicestudio/nord-vim'
+Plug 'dracula/vim',
+Plug 'godlygeek/tabular' , { 'on' : 'Tabularize' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'lervag/vimtex' , { 'for' : 'tex'  }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sheerun/vim-polyglot'
-Plug 'vimwiki/vimwiki'
+Plug 'pangloss/vim-javascript'
 Plug 'ryanoasis/vim-devicons'
-Plug 'arcticicestudio/nord-vim'
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'sheerun/vim-polyglot'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive' , { 'on' : 'Git' }
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -70,7 +70,30 @@ let g:ale_linters={
 let g:vimwiki_list = [{'auto_diary_index': 1}]
 "-----------------MARKDOWN-PREVIEW-----------------
 let g:mkdp_browser = 'firefox'
-
+"-----------------RAINBOW-PARENTHESES--------------
+"#B48EAD"
+let g:rbpt_colorpairs = [
+    \ ['brown',       '#88C0D0'],
+    \ ['Darkblue',    '#BF616A'],
+    \ ['darkgray',    '#b48EAD'],
+    \ ['darkgreen',   '#A3BE8C'],
+    \ ['darkcyan',    '#EBCB8B'],
+    \ ['darkred',     '#D08770'],
+    \ ['darkmagenta', '#81A1C1'],
+    \ ['brown',       '#5E81AC'],
+    \ ['gray',        '#81A1C1'],
+    \ ['black',       '#88C0D0'],
+    \ ['darkmagenta', '#BF616A'],
+    \ ['Darkblue',    '#b48EAD'],
+    \ ['darkgreen',   '#A3BE8C'],
+    \ ['darkcyan',    '#EBCB8B'],
+    \ ['darkred',     '#D08770'],
+    \ ['red',         '#81A1C1'],
+    \ ]
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 "--------------------------------------------------
 "-------------------SETTINGS-----------------------
 "--------------------------------------------------
@@ -128,8 +151,10 @@ let mapleader="\<space>"
 
 "--------------------GENERAL-----------------------
 autocmd FileType tex map <F5> :w \| !pdflatex<space>%<cr>
+autocmd FileType javascript map <F5> :w  \| !node<space>%<cr>
+autocmd FileType python map <F5> :w  \| !python3<space>%<cr>
 "------------------INSERT-MODE---------------------
-inoremap jk <esc>
+" inoremap jk <esc>
 inoremap <C-l> <C-o>zz
 "------------------NORMAL-MODE---------------------
 autocmd FileType markdown nnoremap <leader>p :MarkdownPreview<cr>

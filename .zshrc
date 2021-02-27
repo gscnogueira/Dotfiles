@@ -18,6 +18,8 @@ typeset -U PATH path
 path=("$HOME/.local/bin" "$path[@]")
 export QT_QPA_PLATAFORMTHEME="qt5ct"
 export PATH
+export BAT_THEME="Nord"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export TERM="xterm-256color"
 export EDITOR="nvim"
 source ~/.config/zsh/ls-colors
@@ -27,13 +29,12 @@ source /home/gabriel/.config/lf/icons
 #---------------------------------------------------------
 #------------------------ALIASES--------------------------
 #---------------------------------------------------------
-alias bat='bat --theme="Dracula"'
 alias gc='git commit -av'
 alias gd='git diff'
 alias gg='g++ -std=c++11 -O2 -Wall test.cpp -o test -lm -g'
 alias grep='grep --color=auto'
 alias gs='git status'
-alias ls='exa --color=always'
+alias ls='ls --color=always'
 alias org='cd ~/Documents/Notes'
 alias pc='cd ~/Codespace/ProgCmp/'
 alias please='echo "ciro é gay"'
@@ -131,3 +132,4 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[ -f "/home/gabriel/.ghcup/env" ] && source "/home/gabriel/.ghcup/env" # ghcup-env
