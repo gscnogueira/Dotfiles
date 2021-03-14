@@ -180,7 +180,6 @@ nnoremap <leader>wv :vsp ~/vimwiki/index.wiki<cr>
 nnoremap <leader>j <c-w>j
 nnoremap <leader>k <c-w>k
 nnoremap <leader>l <c-w>l
-nnoremap <leader>q :bd<cr>
 nnoremap <leader>sv :source %<cr>
 nnoremap <leader>w :wa<cr>
 "---------------COMMAND-LINE-MODE------------------
