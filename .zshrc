@@ -99,7 +99,7 @@ typeset -g -A key
 
 
 # Syntax Highlighting
-source /home/gabriel/Repos/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/gabriel/.config/zsh/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Auto-Suggestions 
 # source /home/gabriel/Repos/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
