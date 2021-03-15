@@ -1,6 +1,6 @@
-"set relativenumber author:Gabriel S. C. Nogueira
-" e-mail:gab.nog94@gmail.com
-" github:https://github.com/nosgueira
+" author: Gabriel S. C. Nogueira
+" e-mail: gab.nog94@gmail.com
+" github: https://github.com/nosgueira
 "
 "                          _         
 "   ____  ___  ____ _   __(_)___ ___ 
@@ -191,3 +191,5 @@ if has('nvim')
     tnoremap <C-v><Esc> <Esc>
 endif
 
+"-----------------MACROS---------------------------
+let @h = 'ggOauthor:€kb€kb€kb€kb€kb€kb€kbauthor: Gabr S. C;€kb. Nogueiraoe-mail: gab.nog94@gmail.comogithub: https://github.conm€kb€kbm/nosgueirao'
