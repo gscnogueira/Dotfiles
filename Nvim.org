@@ -1,18 +1,10 @@
-" author: Gabriel S. C. Nogueira
-" e-mail: gab.nog94@gmail.com
-" github: https://github.com/nosgueira
-"
-"                          _         
-"   ____  ___  ____ _   __(_)___ ___ 
-"  / __ \/ _ \/ __ \ | / / / __ `__ \
-" / / / /  __/ /_/ / |/ / / / / / / /
-"/_/ /_/\___/\____/|___/_/_/ /_/ /_/ 
-                                    
+#+title:Neovim Configuration
+#+PROPERTY: header-args:vimrc :tangle ~/.dotfiles/.files/init.vim
 
-"--------------------------------------------------
-"-------------------PLUGINS------------------------
-"--------------------------------------------------
+* Plugins
+** Imports
 
+#+begin_src vimrc
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-css-color'
@@ -36,14 +28,13 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'w0rp/ale'
-
 call plug#end()
 
-"--------------------------------------------------
-"-----------------PLUGINSETTINGS-------------------
-"--------------------------------------------------
- 
-"-------------------LIGHT-LINE---------------------
+#+end_src
+
+** Light Line
+
+#+begin_src vimrc
 let g:lightline = {
     \ 'colorscheme': 'nord',
     \ 'active': {
@@ -60,18 +51,31 @@ let g:lightline = {
     \   'gitbranch': 'FugitiveHead'
     \ },
     \ }
-"-------------------VIM-POLYGLOT-------------------
+#+end_src
+
+** Vim Polyglot
+
+#+begin_src vimrc
 let g:vim_markdown_conceal_code_blocks = 0
-"-----------------------ALE------------------------
+#+end_src
+
+** ALE
+
+#+begin_src vimrc
 let g:ale_linters={
 \    'javascript':['eslint'],
 \ }
-"--------------------VIM-WIKI----------------------
-let g:vimwiki_list = [{'auto_diary_index': 1}]
-"-----------------MARKDOWN-PREVIEW-----------------
+#+end_src
+
+** Markdown Preview
+
+#+begin_src vimrc
 let g:mkdp_browser = 'firefox'
-"-----------------RAINBOW-PARENTHESES--------------
-"#B48EAD"
+#+end_src
+
+** Rainbow Parentheses
+
+#+begin_src vimrc
 let g:rbpt_colorpairs = [
     \ ['brown',       '#88C0D0'],
     \ ['Darkblue',    '#BF616A'],
@@ -94,69 +98,106 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
-"--------------------------------------------------
-"-------------------SETTINGS-----------------------
-"--------------------------------------------------
-colorscheme nord 
-set autoindent
+#+end_src
+
+* Settings
+** User Interface
+
+#+begin_src vimrc
 set confirm         "  menu ao sair sem salvar
-set expandtab       "  tabs are spaces
-set hidden          "  permite editar outro arquivo sem ter salvado o atual
-set ignorecase
-set laststatus=2    "  faz a barra de status aparecer
 set mouse=a
+set laststatus=2    "  faz a barra de status aparecer
 set number
-set undodir=$HOME/.undodir
-set undofile
-set shiftwidth=4
-set smartcase
-set softtabstop=4   " number of spaces in tab when editing
-set splitbelow      "  esse e o seguinte fazem com que a tela do split surja Ã  direita ou abaixo"
-set splitright
-set tabstop=4       "  number of visual spaces per TAB
+set splitbelow      "  tela do split surge abaixo
+set splitright      "  tela do split surge a direita
 set wildmenu        "  visual complete for command menu
 set wildmode=full
-set autoread
-autocmd FocusGained * silent! checktime
 syntax on
+highlight Comment cterm=italic gui=italic " italic comments
+#+end_src
+
+** Text
+
+#+begin_src vimrc
+set autoindent
+set expandtab       "  tabs are spaces
+set shiftwidth=4
+set softtabstop=4   " number of spaces in tab when editing
+set tabstop=4       "  number of visual spaces per TAB
+set ignorecase
+set smartcase
+#+end_src
+
+** Clipboard
+
+#+begin_src vimrc
 set clipboard+=unnamedplus " makes nvim use systems clipboard
-" italic comments:
-highlight Comment cterm=italic gui=italic 
+#+end_src
+
+** True color terminal support
+
+#+begin_src vimrc
 if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
 if (has("termguicolors"))
   set termguicolors
 endif
+#+end_src
 
-"--------------------------------------------------
-"-------------------SCRIPTS------------------------
-"--------------------------------------------------
-"
-if has('nvim') && executable('nvr')
-  let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
-endif
+** Autoread
 
+#+begin_src vimrc
+set autoread
+autocmd FocusGained * silent! checktime
+#+end_src
 
+** Theme
+
+#+begin_src vimrc
+colorscheme nord 
 "transparent background:
 hi Normal guibg=NONE ctermbg=NONE
 if (has("termguicolors"))
   set termguicolors
 endif
-"--------------------------------------------------
-"--------------------KEYMAPS-----------------------
-"--------------------------------------------------
+#+end_src
 
+** Don't execute Neovim inside Neovim!
+
+Avoids to invoke the neovim command inside a buffer in terminal mode
+
+#+begin_src vimrc
+if has('nvim') && executable('nvr')
+  let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
+endif
+#+end_src
+
+* Keymaps
+
+Defining the leader key:
+
+#+begin_src vimrc
 let mapleader="\<space>"
+#+end_src
 
-"--------------------GENERAL-----------------------
+** General
+
+#+begin_src vimrc
 autocmd FileType tex map <F5> :w \| !pdflatex<space>%<cr>
 autocmd FileType javascript map <F5> :w  \| !node<space>%<cr>
 autocmd FileType python map <F5> :w  \| !python3<space>%<cr>
-"------------------INSERT-MODE---------------------
-" inoremap jk <esc>
+#+end_src
+
+** Insert Mode
+
+#+begin_src vimrc
 inoremap <C-l> <C-o>zz
-"------------------NORMAL-MODE---------------------
+#+end_src
+
+** Normal Mode
+
+#+begin_src vimrc
 autocmd FileType markdown nnoremap <leader>p :MarkdownPreview<cr>
 nmap <Tab> gt
 nmap <S-Tab> gT
@@ -182,14 +223,26 @@ nnoremap <leader>k <c-w>k
 nnoremap <leader>l <c-w>l
 nnoremap <leader>sv :source %<cr>
 nnoremap <leader>w :wa<cr>
-"---------------COMMAND-LINE-MODE------------------
+#+end_src
+
+** Command-line Mode
+
+#+begin_src vimrc
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-"-----------------TERMINAL-MODE--------------------
+#+end_src
+
+** Terminal Mode
+
+#+begin_src vimrc
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
     tnoremap <C-v><Esc> <Esc>
 endif
+#+end_src
 
-"-----------------MACROS---------------------------
-let @h = 'ggOauthor:€kb€kb€kb€kb€kb€kb€kbauthor: Gabr S. C;€kb. Nogueiraoe-mail: gab.nog94@gmail.comogithub: https://github.conm€kb€kbm/nosgueirao'
+* Macros
+
+#+begin_src vimrc
+let @h = 'ggOauthor:â‚¬kbâ‚¬kbâ‚¬kbâ‚¬kbâ‚¬kbâ‚¬kbâ‚¬kbauthor: Gabr S. C;â‚¬kb. Nogueiraoe-mail: gab.nog94@gmail.comogithub: https://github.conmâ‚¬kbâ‚¬kbm/nosgueirao'
+#+end_src
