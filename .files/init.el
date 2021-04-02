@@ -53,6 +53,18 @@
 (use-package doom-themes
   :init (load-theme 'doom-nord t))
 
+(defun gscn/set-font-faces()
+  (message "Setting faces!")
+  (set-face-attribute 'default nil :font "JetBrains Mono" :height 105 :weight 'regular))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+	      (lambda(frame)
+		(setq doom-modeline-icon t)
+		(with-selected-frame frame
+		  (gscn/set-font-faces))))
+ (gscn/set-font-faces))
+
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (use-package which-key
@@ -125,6 +137,8 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
+
+(use-package vimrc-mode)
 
 (use-package projectile
   :config (projectile-mode)
@@ -206,16 +220,3 @@
                         ("https://www.archlinux.org/feeds/news/")
                         ("https://suckless.org/atom.xml")
                        )))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(vimrc-mode which-key visual-fill-column visual-fill use-package rainbow-delimiters org-bullets magit ivy-rich helpful general evil-collection elfeed doom-themes doom-modeline counsel-projectile)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

@@ -88,6 +88,22 @@ Install =use-package=.
   :init (load-theme 'doom-nord t))
 #+end_src
 
+* Emacs Daemon
+
+#+begin_src elisp
+(defun gscn/set-font-faces()
+  (message "Setting faces!")
+  (set-face-attribute 'default nil :font "JetBrains Mono" :height 105 :weight 'regular))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+	      (lambda(frame)
+		(setq doom-modeline-icon t)
+		(with-selected-frame frame
+		  (gscn/set-font-faces))))
+ (gscn/set-font-faces)) 
+#+end_src
+
 * Keyboard Bindings
 ** ESC quit prompts
 
