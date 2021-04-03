@@ -52,6 +52,12 @@ Install =use-package=.
       (add-hook mode (lambda() (display-line-numbers-mode 0))))
 #+end_src
 
+** Auto-revert mode
+
+#+begin_src elisp
+(global-auto-revert-mode 1)
+#+end_src
+
 ** Fonts
 
 #+begin_src elisp
@@ -230,8 +236,8 @@ Install =use-package=.
     :bind-keymap
     ("C-c p" . projectile-command-map)
     :init
-    (when (file-directory-p "~/Code/Projects")
-      (setq projectile-project-search-path '("~/Code/Projects"))))
+    (when (and (file-directory-p "~/Code/Projects") (file-directory-p "~/.dotfiles"))
+      (setq projectile-project-search-path '("~/Code/Projects" "~/.dotfiles"))))
     (setq projectile-switch-project-action #'projectile-dired)
 
   (use-package counsel-projectile
@@ -243,10 +249,8 @@ Install =use-package=.
 
 #+begin_src elisp
   (use-package magit
-    ;; won't load the package until you load one of this commands
-    ;; (it's done automatically by magit in this case):
-    ;;:commands (magit-status magit-get-current-branch) 
-    )
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src
 
 ** TODO Forge
@@ -305,11 +309,53 @@ Package for integration between github and Magit
     ;;:hook (org-mode . gscn/org-mode-visual-fill))
 #+end_src
  
-* RSS
+** Org Babel
+
+#+begin_src elisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages '(
+                               (emacs-lisp . t)
+                               (C . t)
+                               (python . t)))
+
+  (setq org-confirm-babel-evaluate nil) ;; não pergunta se vc quer validar
+#+end_src
+
+** Structure Templates
+
+#+begin_src elisp
+  (require 'org-tempo)
+
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src elisp"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
+#+end_src
+
+** Auto-tangle Configuration Files
+
+#+begin_src elisp
+
+  (setq my-dotfiles '((expand-file-name 
+  (defun gscn/org-babel-tangle-config ()
+    (when (string-match
+           (expand-file-name "~/.dotfiles/.*\.org$")
+           (buffer-file-name))
+      (let ((org-confirm-babel-evaluate nil))
+        (org-babel-tangle))))
+
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'gscn/org-babel-tangle-config)))
+
+#+end_src
+
+* Elfeed
+
+An RSS feed reader for Emacs.
 
 #+begin_src elisp
   (use-package elfeed
-    :hook ((elfeed-search-mode . elfeed-update))
+    :bind (:map global-map
+            ("C-c e " . elfeed))
     :config
     (setq elfeed-feeds '(
                           ("https://feeds.feedburner.com/TheHackersNews?format=xml")
@@ -331,6 +377,7 @@ Package for integration between github and Magit
                           ("https://github.com/UnBalloon/aulas-avancadas/commits/main.atom")
                           ("https://www.archlinux.org/feeds/news/")
                           ("https://suckless.org/atom.xml")
-                         )))
+                          ))
+    (advice-add 'elfeed :after 'elfeed-update))
 #+end_src
 

@@ -29,6 +29,8 @@
                 eshell-mode-hook))
     (add-hook mode (lambda() (display-line-numbers-mode 0))))
 
+(global-auto-revert-mode 1)
+
 (set-face-attribute 'default nil
                     :font "JetBrains Mono"
                     :height 105
@@ -145,18 +147,16 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  (when (file-directory-p "~/Code/Projects")
-    (setq projectile-project-search-path '("~/Code/Projects"))))
+  (when (and (file-directory-p "~/Code/Projects") (file-directory-p "~/.dotfiles"))
+    (setq projectile-project-search-path '("~/Code/Projects" "~/.dotfiles"))))
   (setq projectile-switch-project-action #'projectile-dired)
 
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
 
 (use-package magit
-  ;; won't load the package until you load one of this commands
-  ;; (it's done automatically by magit in this case):
-  ;;:commands (magit-status magit-get-current-branch) 
-  )
+:custom
+(magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
 (defun gscn/org-mode-setup()
   (org-indent-mode)
@@ -196,8 +196,34 @@
   ;;(use-package visual-fill-column
     ;;:hook (org-mode . gscn/org-mode-visual-fill))
 
+(org-babel-do-load-languages
+ 'org-babel-load-languages '(
+                             (emacs-lisp . t)
+                             (C . t)
+                             (python . t)))
+
+(setq org-confirm-babel-evaluate nil) ;; não pergunta se vc quer validar
+
+(require 'org-tempo)
+
+(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+(add-to-list 'org-structure-template-alist '("el" . "src elisp"))
+(add-to-list 'org-structure-template-alist '("py" . "src python"))
+(add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
+
+(setq my-dotfiles '((expand-file-name 
+(defun gscn/org-babel-tangle-config ()
+  (when (string-match
+         (expand-file-name "~/.dotfiles/.*\.org$")
+         (buffer-file-name))
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
+
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'gscn/org-babel-tangle-config)))
+
 (use-package elfeed
-  :hook ((elfeed-search-mode . elfeed-update))
+  :bind (:map global-map
+          ("C-c e " . elfeed))
   :config
   (setq elfeed-feeds '(
                         ("https://feeds.feedburner.com/TheHackersNews?format=xml")
@@ -219,4 +245,5 @@
                         ("https://github.com/UnBalloon/aulas-avancadas/commits/main.atom")
                         ("https://www.archlinux.org/feeds/news/")
                         ("https://suckless.org/atom.xml")
-                       )))
+                        ))
+  (advice-add 'elfeed :after 'elfeed-update))

@@ -104,3 +104,4 @@ source /home/gabriel/.config/zsh/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-
 #+begin_src sh
 eval "$(starship init zsh)"
 #+end_src
+
