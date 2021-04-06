@@ -42,10 +42,10 @@
                     :height 105)
 
 ;; Set variable pitch face
-(set-face-attribute 'variable-pitch nil
-                    :font "Cantarell"
-                    :height 135
-                    :weight 'regular)
+;;(set-face-attribute 'variable-pitch nil
+                    ;;:font "Cantarell"
+                    ;;:height 135
+                    ;;:weight 'regular)
 
 (use-package all-the-icons)
 
@@ -127,8 +127,22 @@
   :init
   (ivy-rich-mode 1))
 
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'botom))
+
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
+
+(add-hook 'c++-mode-hook 'lsp-deferred)
 
 (use-package helpful
   :custom
@@ -141,6 +155,24 @@
   ([remap describe-key] . helpful-key))
 
 (use-package vimrc-mode)
+
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+
+(use-package csv-mode)
+
+(use-package company
+  :after lsp-mode
+  :hook (prog-mode . company-mode)
+  :custom
+  (company-minimun-prefix-lenght 1)
+  (company-idle-delay 0.0))
+
+(use-package company-box
+:hook (company-mode . company-box-mode))
 
 (use-package projectile
   :config (projectile-mode)
@@ -165,8 +197,6 @@
 (use-package org
   :hook ((org-mode . gscn/org-mode-setup)
          (org-mode . org-toggle-pretty-entities))
-  :bind (:map org-mode-map
-         ("C-c e " . org-edit-src-code))
   :config
   (setq org-ellipsis " ▾"
         org-hide-emphasis-markers t
@@ -211,13 +241,14 @@
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 (add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
 
-(setq my-dotfiles '((expand-file-name 
 (defun gscn/org-babel-tangle-config ()
   (when (string-match
+
          (expand-file-name "~/.dotfiles/.*\.org$")
          (buffer-file-name))
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
+
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'gscn/org-babel-tangle-config)))
 
