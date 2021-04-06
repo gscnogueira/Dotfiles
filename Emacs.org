@@ -215,7 +215,7 @@ Install =use-package=.
   (use-package lsp-ui
     :hook (lsp-mode . lsp-ui-mode)
     :custom
-    (lsp-ui-doc-position 'botom))
+    (lsp-ui-doc-position 'at-point))
 #+end_src
 
 ** General

@@ -139,7 +139,7 @@
 (use-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode)
   :custom
-  (lsp-ui-doc-position 'botom))
+  (lsp-ui-doc-position 'at-point))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
