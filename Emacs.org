@@ -47,6 +47,8 @@ Install =use-package=.
 
   (dolist (mode '(org-mode-hook
                   shell-mode-hook
+                  term-mode-hook
+                  vterm-mode-hook
                   elfeed-mode
                   eshell-mode-hook))
       (add-hook mode (lambda() (display-line-numbers-mode 0))))
@@ -401,6 +403,93 @@ Package for integration between github and Magit
 
 #+end_src
 
+* Terminals
+** term-mode
+
+#+begin_src elisp
+  (use-package term
+    :config
+    (setq explicit-shell-file-name "zsh")
+    (setq term-prompt-regexp "^[^#$%>\\n]*[#$%>] *"))
+
+#+end_src
+
+- ~C-c C-p~ / ~C-c C-n~ - go back and forward in the buffer's prompts (also =[[= and =]]= with wvil mode)
+- You can use ~C-c C-k~ to enable =char-mode=, and ~C-c C-j~ to get back to =line-mode=
+- If you have =evil-collection= installed, =term-mode= will enter char mode when you use Evil's Insert mode
+- Caveat - editing the input line with Evil motions doesn't work
+
+*** For better color support
+
+Make sure the =tic= program is available on your machine (could be part of =ncurses= package).
+
+#+begin_src elisp
+  (use-package eterm-256color
+    :hook (term-mode . eterm-256color-mode))
+#+end_src
+
+*** ans-term
+
+=ansi-term= is a specialization of =term-mode=
+
+Minor differences:
+- Buffers are managed slightly differently
+** vterm (emacs-libvterm)
+
+NOTE: This one needs to compile a native library, make sure to install its dependencies.
+
+Diferences to =term=:
+
+- Written in native code, much faster and better emulation
+- There is no =line-mode= / =char-mode= split
+
+#+begin_src elisp
+  (use-package vterm
+    :commands vterm
+    :config
+    (setq vterm-max-scrollback 10000))
+#+end_src  
+
+- Read docs on =vterm-use-vterm-prompt-detection-method= for prompt detection
+
+** shell-mode
+
+Runs a shell program on your computer in a more controlled buffer. Does not operate as a terminal emulator.
+
+- ~C-c C-p~ / ~C-c C-n~ - go back and forward in the buffer's prompts
+- ~M-p~ / ~M-n~ - go back and forward in the input history
+- ~C-c C-u~ - delete the current input string backwards up to the cursor
+- =counsel-shell-history= - A searchable history of commands typed into the shell
+
+** Eshell
+
+#+begin_src elisp
+
+  (defun gscn/configure-eshell ()
+    ;; Save command history when commands are entered
+    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+
+    ;; Truncate buffer for performance
+    (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+
+    ;;Bind some useful keys for evil-mode
+    (evil-define-key '(normal insert visual) ehsell-mode-map (kbd "C-r") 'counsel-esh-history)
+    (evil-define-key '(normal insert visual) ehsell-mode-map (kbd "<home>") 'eshell-bol)
+    (evil-normalize-keymaps)
+
+    (setq eshell-history-size         10000
+          ehsell-buffer-maximum-lines 10000
+          eshell-hist-ignoredups      t
+          ehsell-scroll-to-bottom-on-input t))
+
+  (use-package eshell-git-prompt)
+
+  (use-package eshell
+    :hook (eshell-first-time-mode . gscn/configure-eshell)
+    :config
+    (eshell-git-prompt-use-theme 'powerline))
+#+end_src
+
 * Elfeed
 
 An RSS feed reader for Emacs.
@@ -434,3 +523,5 @@ An RSS feed reader for Emacs.
     (advice-add 'elfeed :after 'elfeed-update))
 #+end_src
 
+Wrong type argument: integer-or-marker-p, nil
+kill-buffer
