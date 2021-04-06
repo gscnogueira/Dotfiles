@@ -490,6 +490,96 @@ Runs a shell program on your computer in a more controlled buffer. Does not oper
     (eshell-git-prompt-use-theme 'powerline))
 #+end_src
 
+* Dired
+** Configuration 
+
+- =dired-listing-switches=: Try =-agho --group-directories-first=
+- ~g~ / ~g r~ Refresh the buffer with =revert-buffer= after changing configuration (and after filesystem changes)
+  
+#+begin_src elisp
+  (use-package dired-single)
+  (use-package dired
+    :ensure nil
+    :commands (dired dired-jump)
+    :bind (("C-x C-j" . dired-jump))
+    :custom
+    ((dired-listing-switches "-agho --group-directories-first"))
+    :config
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "h" 'dired-single-up-directory
+      "l" 'dired-single-buffer))
+
+  (use-package all-the-icons-dired
+    :hook (dired-mode .  all-the-icons-dired-mode))
+#+end_src
+
+** File Operations
+*** Marking files
+
+- =m= - Marks a file
+- =u= - Unmarks a file
+- =U= - Unmarks all files in buffer
+- =* t= / =t= - Inverts marked files in the buffer
+- =% m= - Mark files in the buffer using regular expression
+- =*= - Lots of other auto-marking functions
+- =k= / =K= - "Kill" marked items (refresh buffer with =g= / =g r= to get back)
+- Many operations can be done on a single file if there are no active marks
+
+*** Copying and Renaming Files
+
+- =C= - Copy marked files (or if no files are marked, the current file)
+- Copying single and multiple files
+- =U= - Unmarks all files in buffer
+- =R= - Rename marked files, renaming multiple is a move!
+- =% R= - Rename based on regular expression: =^test=, =old\&=
+
+*** Deleting files
+
+- =D= - Delete marked file
+- =d= - Mark file for deletion
+- =x= - Execute deletion for marks
+- =delete-by-moving-to-trash= - Move to trash instead of deleting permanently
+
+*** Creating and extracting archives
+
+- =Z= - Compress or uncompress a file or folder to (=.tar.gz=)
+- =c= - Compress selection to an specific file
+- =dired-compress-files-alist= - Bind compression commands to file extension
+
+*** Other commom operations
+
+- =T= - Touch (change timestamp)
+- =M= - Change file mode
+- =O= - Change file owner
+- =G= - Change file group
+- =S= - Create a symbolic link to thid file
+- =L= - Load an Emacs Lisp file into Emacs
+
+** Single Dired buffer
+
+Closed Dired buffers are just burried! They need to be refreshed if you go back to them/
+
+Use =dired-single= to help with this
+
+** Open external files
+
+#+begin_src elisp
+  (use-package dired-open
+    :config
+    (setq dired-open-extensions '(("png" . "sxiv")
+                                  ("mkv" . "mpv"))))
+#+end_src
+
+** Hide/Show dotfiles
+
+#+begin_src elisp
+  (use-package dired-hide-dotfiles
+    :hook (dired-mode . dired-hide-dotfiles-mode)
+    :config
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "H" 'dired-hide-dotfiles-mode))
+#+end_src
+
 * Elfeed
 
 An RSS feed reader for Emacs.
