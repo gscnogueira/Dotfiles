@@ -154,6 +154,10 @@
   :config
   (evilnc-default-hotkeys))
 
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode 1))
+
 (add-hook 'c++-mode-hook 'lsp-deferred)
 
 (use-package csv-mode)

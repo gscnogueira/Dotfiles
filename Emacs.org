@@ -245,6 +245,14 @@ Install =use-package=.
     (evilnc-default-hotkeys))
 #+end_src
 
+*** Evil Surround
+
+#+begin_src elisp
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode 1))
+ #+end_src
+
 ** C++
 
 #+begin_src elisp
