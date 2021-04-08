@@ -17,6 +17,7 @@
 (tooltip-mode -1)	               ;; Disable tooltips
 (set-fringe-mode 10)	       ;; Give some breathing room
 (menu-bar-mode -1)	       ;; Disable the menu bar
+(setq mouse-autoselect-window t)
 
 ;;(setq visible-bell t)          ;; Set up the visual bell
 
@@ -27,7 +28,8 @@
                 shell-mode-hook
                 term-mode-hook
                 vterm-mode-hook
-                elfeed-mode
+                elfeed-search-mode-hook
+                elfeed-show-mode-hook
                 eshell-mode-hook))
     (add-hook mode (lambda() (display-line-numbers-mode 0))))
 
@@ -78,7 +80,7 @@
   (setq which-key-idle-delay 0.3))
 
 (defun gscn/evil-hook ()
-  (dolist (mode '(shell-mode eshell-mode))
+  (dolist (mode '(shell-mode eshell-mode vterm-mode))
           (add-to-list 'evil-emacs-state-modes mode)))
 
 (use-package evil
@@ -144,7 +146,13 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+(use-package smartparens
+  :hook ((prog-mode . smartparens-mode)
+         (prog-mode . show-smartparens-mode)))
+
 (add-hook 'c++-mode-hook 'lsp-deferred)
+
+(use-package csv-mode)
 
 (use-package helpful
   :custom
@@ -156,7 +164,7 @@
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
 
-(use-package vimrc-mode)
+(use-package haskell-mode)
 
 (use-package typescript-mode
   :mode "\\.ts\\'"
@@ -164,7 +172,7 @@
   :config
   (setq typescript-indent-level 2))
 
-(use-package csv-mode)
+(use-package vimrc-mode)
 
 (use-package company
   :after lsp-mode
@@ -232,9 +240,11 @@
  'org-babel-load-languages '(
                              (emacs-lisp . t)
                              (C . t)
-                             (python . t)))
+                             (python . t)
+                                 (js     . t)))
 
 (setq org-confirm-babel-evaluate nil) ;; não pergunta se vc quer validar
+(setq org-src-window-setup 'current-window)
 
 (require 'org-tempo)
 
@@ -242,6 +252,7 @@
 (add-to-list 'org-structure-template-alist '("el" . "src elisp"))
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 (add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
+(add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
 
 (defun gscn/org-babel-tangle-config ()
   (when (string-match

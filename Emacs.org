@@ -35,6 +35,7 @@ Install =use-package=.
   (tooltip-mode -1)	               ;; Disable tooltips
   (set-fringe-mode 10)	       ;; Give some breathing room
   (menu-bar-mode -1)	       ;; Disable the menu bar
+  (setq mouse-autoselect-window t)
 
   ;;(setq visible-bell t)          ;; Set up the visual bell
 #+end_src
@@ -49,7 +50,8 @@ Install =use-package=.
                   shell-mode-hook
                   term-mode-hook
                   vterm-mode-hook
-                  elfeed-mode
+                  elfeed-search-mode-hook
+                  elfeed-show-mode-hook
                   eshell-mode-hook))
       (add-hook mode (lambda() (display-line-numbers-mode 0))))
 #+end_src
@@ -78,6 +80,7 @@ Install =use-package=.
                       ;;:font "Cantarell"
                       ;;:height 135
                       ;;:weight 'regular)
+
 #+end_src
 
 ** Mode-Line
@@ -133,7 +136,7 @@ Install =use-package=.
 
 #+begin_src elisp
 (defun gscn/evil-hook ()
-  (dolist (mode '(shell-mode eshell-mode))
+  (dolist (mode '(shell-mode eshell-mode vterm-mode))
           (add-to-list 'evil-emacs-state-modes mode)))
 
 (use-package evil
@@ -226,10 +229,24 @@ Install =use-package=.
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
+*** Smartparens
+
+#+begin_src elisp
+  (use-package smartparens
+    :hook ((prog-mode . smartparens-mode)
+           (prog-mode . show-smartparens-mode)))
+#+end_src
+
 ** C++
 
 #+begin_src elisp
   (add-hook 'c++-mode-hook 'lsp-deferred)
+#+end_src
+
+** CSV
+
+#+begin_src elisp
+  (use-package csv-mode)
 #+end_src
 
 ** Emacs Lisp
@@ -246,10 +263,10 @@ Install =use-package=.
   ([remap describe-key] . helpful-key))
 #+end_src
 
-** Vim Script
+** Haskell
 
 #+begin_src elisp
-  (use-package vimrc-mode)
+  (use-package haskell-mode)
 #+end_src
 
 ** TypeScript
@@ -262,10 +279,10 @@ Install =use-package=.
     (setq typescript-indent-level 2))
 #+end_src
 
-** CSV
+** Vim Script
 
 #+begin_src elisp
-  (use-package csv-mode)
+  (use-package vimrc-mode)
 #+end_src
 
 * Company Mode
@@ -370,9 +387,11 @@ Package for integration between github and Magit
    'org-babel-load-languages '(
                                (emacs-lisp . t)
                                (C . t)
-                               (python . t)))
+                               (python . t)
+                                   (js     . t)))
 
   (setq org-confirm-babel-evaluate nil) ;; não pergunta se vc quer validar
+  (setq org-src-window-setup 'current-window)
 #+end_src
 
 ** Structure Templates
@@ -384,6 +403,7 @@ Package for integration between github and Magit
   (add-to-list 'org-structure-template-alist '("el" . "src elisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
+  (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
 #+end_src
 
 ** Auto-tangle Configuration Files
