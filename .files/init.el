@@ -150,6 +150,10 @@
   :hook ((prog-mode . smartparens-mode)
          (prog-mode . show-smartparens-mode)))
 
+(use-package evil-nerd-commenter
+  :config
+  (evilnc-default-hotkeys))
+
 (add-hook 'c++-mode-hook 'lsp-deferred)
 
 (use-package csv-mode)

@@ -237,6 +237,14 @@ Install =use-package=.
            (prog-mode . show-smartparens-mode)))
 #+end_src
 
+*** Evil Nerd Commenter
+
+#+begin_src elisp
+  (use-package evil-nerd-commenter
+    :config
+    (evilnc-default-hotkeys))
+#+end_src
+
 ** C++
 
 #+begin_src elisp
