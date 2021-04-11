@@ -11,12 +11,15 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(setq auto-save-default nil)
+
 (setq inhibit-splash-screen t)   ;; Don't show startup message
 (scroll-bar-mode -1)	       ;; Disable visible scrollbar
 (tool-bar-mode -1)	       ;; Disable the toolbar
 (tooltip-mode -1)	               ;; Disable tooltips
 (set-fringe-mode 10)	       ;; Give some breathing room
 (menu-bar-mode -1)	       ;; Disable the menu bar
+(blink-cursor-mode 1)	       ;; Blink cursor
 (setq mouse-autoselect-window t)
 
 ;;(setq visible-bell t)          ;; Set up the visual bell
@@ -32,6 +35,16 @@
                 elfeed-show-mode-hook
                 eshell-mode-hook))
     (add-hook mode (lambda() (display-line-numbers-mode 0))))
+
+(use-package winner-mode
+  :ensure nil
+  :bind(:map evil-window-map
+             ("u" . winner-undo)
+             ("U" . winner-redo))
+  :config
+  (winner-mode))
+
+(global-set-key (kbd "C-x p") 'previous-window-any-frame)
 
 (global-auto-revert-mode 1)
 
@@ -55,6 +68,8 @@
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
+
+(setq doom-modeline-height 40)
 
 (use-package doom-themes
   :init (load-theme 'doom-nord t))
@@ -98,6 +113,8 @@
   :after evil
   :config
   (evil-collection-init))
+
+(evil-set-initial-state 'vterm-mode 'emacs)
 
 (use-package ivy
   :diminish ;; dont show minor mode in the bar
@@ -173,6 +190,8 @@
   ([remap describe-key] . helpful-key))
 
 (use-package haskell-mode)
+
+(use-package ess)
 
 (use-package typescript-mode
   :mode "\\.ts\\'"
@@ -336,29 +355,33 @@
   (evil-collection-define-key 'normal 'dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
 
-(use-package elfeed
-  :bind (:map global-map
-          ("C-c e " . elfeed))
-  :config
-  (setq elfeed-feeds '(
-                        ("https://feeds.feedburner.com/TheHackersNews?format=xml")
-                        ("https://feeds.feedburner.com/diolinux ")
-                        ("https://itsfoss.com/feed/")
-                        ("https://lukesmith.xyz/rss.xml")
-                        ("https://noticias.unb.br/?format=feed&type=rss")
-                        ("https://cic.unb.br/feed/")
-                        ("https://www.adm.unb.br/index.php?format=feed&type=rss")
-                        ("https://decrepitos.com/podcast/feed.xml")
-                        ("https://notrelated.libsyn.com/rss")
-                        ("https://anchor.fm/s/14298150/podcast/rss")
-                        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCld68syR8Wi-GY_n4CaoJGA")
-                        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCEf5U1dB5a2e2S-XUlnhxSA")
-                        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg")
-                        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA")
-                        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCsnGwSIHyoYN0kiINAGUKxg")
-                        ("https://github.com/dracula/dracula-theme/commits/master.atom")
-                        ("https://github.com/UnBalloon/aulas-avancadas/commits/main.atom")
-                        ("https://www.archlinux.org/feeds/news/")
-                        ("https://suckless.org/atom.xml")
-                        ))
-  (advice-add 'elfeed :after 'elfeed-update))
+(defun gscn/elfeed-setup ()
+    (( elfed-search-set-filter "@6-months-ago")
+     ))
+  (use-package elfeed
+    :bind (:map global-map
+            ("C-c e " . elfeed))
+    :config
+    (setq elfeed-feeds '(
+                          ("https://feeds.feedburner.com/TheHackersNews?format=xml")
+                          ("https://feeds.feedburner.com/diolinux ")
+                          ("https://itsfoss.com/feed/")
+                          ("https://lukesmith.xyz/rss.xml")
+                          ("https://noticias.unb.br/?format=feed&type=rss")
+                          ("https://cic.unb.br/feed/")
+                          ("https://www.adm.unb.br/index.php?format=feed&type=rss")
+                          ("https://decrepitos.com/podcast/feed.xml")
+                          ("https://notrelated.libsyn.com/rss")
+                          ("https://anchor.fm/s/14298150/podcast/rss")
+                          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCld68syR8Wi-GY_n4CaoJGA")
+                          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCEf5U1dB5a2e2S-XUlnhxSA")
+                          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg")
+                          ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA")
+                          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCsnGwSIHyoYN0kiINAGUKxg")
+                          ("https://github.com/dracula/dracula-theme/commits/master.atom")
+                          ("https://github.com/UnBalloon/aulas-avancadas/commits/main.atom")
+                          ("https://www.archlinux.org/feeds/news/")
+                          ("https://suckless.org/atom.xml")
+                          ))
+    (advice-add 'elfeed :after 'elfeed-update)
+)

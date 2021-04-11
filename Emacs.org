@@ -25,6 +25,12 @@ Install =use-package=.
 #+end_src
 
 * General Configuration
+** Auto-saving
+
+#+begin_src elisp
+(setq auto-save-default nil)
+#+end_src
+
 ** User Interface
 
 #+begin_src elisp 
@@ -35,6 +41,7 @@ Install =use-package=.
   (tooltip-mode -1)	               ;; Disable tooltips
   (set-fringe-mode 10)	       ;; Give some breathing room
   (menu-bar-mode -1)	       ;; Disable the menu bar
+  (blink-cursor-mode 1)	       ;; Blink cursor
   (setq mouse-autoselect-window t)
 
   ;;(setq visible-bell t)          ;; Set up the visual bell
@@ -54,6 +61,25 @@ Install =use-package=.
                   elfeed-show-mode-hook
                   eshell-mode-hook))
       (add-hook mode (lambda() (display-line-numbers-mode 0))))
+#+end_src
+
+** Windows configuration
+*** winner-mode
+
+#+begin_src elisp
+  (use-package winner-mode
+    :ensure nil
+    :bind(:map evil-window-map
+               ("u" . winner-undo)
+               ("U" . winner-redo))
+    :config
+    (winner-mode))
+#+end_src
+
+*** Key-bindings
+
+#+begin_src elisp
+  (global-set-key (kbd "C-x p") 'previous-window-any-frame)
 #+end_src
 
 ** Auto-revert mode
@@ -90,6 +116,8 @@ Install =use-package=.
 
   (use-package doom-modeline
     :init (doom-modeline-mode 1))
+
+  (setq doom-modeline-height 40)
 #+end_src
 
 ** Theme
@@ -135,25 +163,27 @@ Install =use-package=.
 ** Evil
 
 #+begin_src elisp
-(defun gscn/evil-hook ()
-  (dolist (mode '(shell-mode eshell-mode vterm-mode))
-          (add-to-list 'evil-emacs-state-modes mode)))
+  (defun gscn/evil-hook ()
+    (dolist (mode '(shell-mode eshell-mode vterm-mode))
+            (add-to-list 'evil-emacs-state-modes mode)))
 
-(use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil) ;; necessary to use evil collection
-  (setq evil-want-C-u-scroll t)
-  (evil-mode 1)
-  :hook (evil-mode . gscn/evil-hook)
-  :config
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (evil-set-initial-state 'messages-buffer-mode 'normal)) 
+  (use-package evil
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil) ;; necessary to use evil collection
+    (setq evil-want-C-u-scroll t)
+    (evil-mode 1)
+    :hook (evil-mode . gscn/evil-hook)
+    :config
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+    (evil-set-initial-state 'messages-buffer-mode 'normal)) 
 
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
+
+  (evil-set-initial-state 'vterm-mode 'emacs)
 #+end_src
 
 *NOTE*: You can use ~C-z~ to alternate between evil mode and emacs mode.
@@ -283,6 +313,12 @@ Install =use-package=.
 
 #+begin_src elisp
   (use-package haskell-mode)
+#+end_src
+
+** R
+
+#+begin_src elisp
+  (use-package ess)
 #+end_src
 
 ** TypeScript
@@ -621,32 +657,36 @@ Use =dired-single= to help with this
 An RSS feed reader for Emacs.
 
 #+begin_src elisp
-  (use-package elfeed
-    :bind (:map global-map
-            ("C-c e " . elfeed))
-    :config
-    (setq elfeed-feeds '(
-                          ("https://feeds.feedburner.com/TheHackersNews?format=xml")
-                          ("https://feeds.feedburner.com/diolinux ")
-                          ("https://itsfoss.com/feed/")
-                          ("https://lukesmith.xyz/rss.xml")
-                          ("https://noticias.unb.br/?format=feed&type=rss")
-                          ("https://cic.unb.br/feed/")
-                          ("https://www.adm.unb.br/index.php?format=feed&type=rss")
-                          ("https://decrepitos.com/podcast/feed.xml")
-                          ("https://notrelated.libsyn.com/rss")
-                          ("https://anchor.fm/s/14298150/podcast/rss")
-                          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCld68syR8Wi-GY_n4CaoJGA")
-                          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCEf5U1dB5a2e2S-XUlnhxSA")
-                          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg")
-                          ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA")
-                          ("https://www.youtube.com/feeds/videos.xml?channel_id=UCsnGwSIHyoYN0kiINAGUKxg")
-                          ("https://github.com/dracula/dracula-theme/commits/master.atom")
-                          ("https://github.com/UnBalloon/aulas-avancadas/commits/main.atom")
-                          ("https://www.archlinux.org/feeds/news/")
-                          ("https://suckless.org/atom.xml")
-                          ))
-    (advice-add 'elfeed :after 'elfeed-update))
+    (defun gscn/elfeed-setup ()
+      (( elfed-search-set-filter "@6-months-ago")
+       ))
+    (use-package elfeed
+      :bind (:map global-map
+              ("C-c e " . elfeed))
+      :config
+      (setq elfeed-feeds '(
+                            ("https://feeds.feedburner.com/TheHackersNews?format=xml")
+                            ("https://feeds.feedburner.com/diolinux ")
+                            ("https://itsfoss.com/feed/")
+                            ("https://lukesmith.xyz/rss.xml")
+                            ("https://noticias.unb.br/?format=feed&type=rss")
+                            ("https://cic.unb.br/feed/")
+                            ("https://www.adm.unb.br/index.php?format=feed&type=rss")
+                            ("https://decrepitos.com/podcast/feed.xml")
+                            ("https://notrelated.libsyn.com/rss")
+                            ("https://anchor.fm/s/14298150/podcast/rss")
+                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UCld68syR8Wi-GY_n4CaoJGA")
+                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UCEf5U1dB5a2e2S-XUlnhxSA")
+                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg")
+                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA")
+                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UCsnGwSIHyoYN0kiINAGUKxg")
+                            ("https://github.com/dracula/dracula-theme/commits/master.atom")
+                            ("https://github.com/UnBalloon/aulas-avancadas/commits/main.atom")
+                            ("https://www.archlinux.org/feeds/news/")
+                            ("https://suckless.org/atom.xml")
+                            ))
+      (advice-add 'elfeed :after 'elfeed-update)
+  )
 #+end_src
 
 Wrong type argument: integer-or-marker-p, nil
