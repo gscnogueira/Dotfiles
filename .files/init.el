@@ -30,6 +30,7 @@
 (dolist (mode '(org-mode-hook
                 shell-mode-hook
                 term-mode-hook
+                mu4e-main-mode-hook
                 vterm-mode-hook
                 elfeed-search-mode-hook
                 elfeed-show-mode-hook
@@ -63,6 +64,9 @@
                     ;;:font "Cantarell"
                     ;;:height 135
                     ;;:weight 'regular)
+
+(use-package emojify
+  :hook (after-init . global-emojify-mode))
 
 (use-package all-the-icons)
 
@@ -113,8 +117,6 @@
   :after evil
   :config
   (evil-collection-init))
-
-(evil-set-initial-state 'vterm-mode 'emacs)
 
 (use-package ivy
   :diminish ;; dont show minor mode in the bar
@@ -216,9 +218,8 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  (when (and (file-directory-p "~/Code/Projects") (file-directory-p "~/.dotfiles"))
-    (setq projectile-project-search-path '("~/Code/Projects" "~/.dotfiles"))))
-  (setq projectile-switch-project-action #'projectile-dired)
+  (setq projectile-project-search-path '("~/Code/UnB/" "~/.dotfiles/"))
+  (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
@@ -301,9 +302,11 @@
   :hook (term-mode . eterm-256color-mode))
 
 (use-package vterm
-  :commands vterm
-  :config
-  (setq vterm-max-scrollback 10000))
+    :commands vterm
+    :config
+    (setq vterm-max-scrollback 10000)
+    (evil-set-initial-state 'vterm-mode 'emacs)
+)
 
 (defun gscn/configure-eshell ()
   ;; Save command history when commands are entered
@@ -347,6 +350,7 @@
 (use-package dired-open
   :config
   (setq dired-open-extensions '(("png" . "sxiv")
+                                ("mp4" . "mpv")
                                 ("mkv" . "mpv"))))
 
 (use-package dired-hide-dotfiles
@@ -354,6 +358,58 @@
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
+
+(defun gscn/lookup-password(&rest keys)
+  (let ((result (apply #'auth-source-search keys)))
+    (if result
+      (funcall (plist-get (car result) :secret))
+      nil)))
+
+(use-package mu4e
+  :ensure nil
+  :defer 20 ;; Wait until 20 seconds after startup
+  :load-path "/usr/share/emacs/site-lisp/mu4e/"
+
+  :bind (:map global-map
+              ("C-c m " . mu4e-headers-search-bookmark))
+  :config
+
+  ;; This is set to 't' to avoid mail syncing isses when using mbsync
+  (setq mu4e-change-filenames-when-moving t)
+
+  ;; Refresh mail using isync every 10 minutes
+  (setq mu4e-update-interval (* 10 60))
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-maildir "~/Documents/Mail")
+  (setq mu4e-compose-format-flowed t) ;; Text will be adapted to screen size 
+  (setq mu4e-compose-signature "Att.\nGabriel S. C. Nogueira") ;; Text will be adapted to screen size 
+
+  (setq user-mail-address "gab.nog94@gmail.com")
+  (setq user-full-name "Gabriel da Silva Corvino Nogueira")
+  (setq mu4e-drafts-folder "/[Gmail]/Rascunhos")
+  (setq mu4e-sent-folder "/[Gmail]/E-mails enviados")
+  (setq mu4e-refile-folder "/[Gmail]/Todos os e-mails")
+  (setq mu4e-trash-folder "/[Gmail]/Lixeira")
+  (setq smtpmail-smtp-server "smtp.gmail.com")
+  (setq smtpmail-smtp-service 465)
+  (setq smtpmail-stream-type 'ssl)
+  (setq message-send-mail-function 'smtpmail-send-it)
+
+  (setq mu4e-maildir-shortcuts
+        '(("/Inbox"                    . ?i)
+          ("/[Gmail]/E-mails enviados" . ?e)
+          ("/[Gmail]/Lixeira"          . ?l)
+          ("/[Gmail]/Rascunhos"        . ?r)
+          ("/[Gmail]/Todos os e-mails" . ?t)))
+
+  ( setq mu4e-bookmarks 
+   '((:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key 117)
+     (:name "Inbox" :query "maildir:/Inbox" :key ?i)
+     (:name "Today's messages" :query "date:today..now" :key 116)
+     (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key 119)
+     (:name "Messages with images" :query "mime:image/*" :key 112))
+   )
+  (mu4e t))
 
 (defun gscn/elfeed-setup ()
     (( elfed-search-set-filter "@6-months-ago")
