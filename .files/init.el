@@ -371,7 +371,7 @@
   :load-path "/usr/share/emacs/site-lisp/mu4e/"
 
   :bind (:map global-map
-              ("C-c m " . mu4e-headers-search-bookmark))
+              ("C-c m " . mu4e))
   :config
 
   ;; This is set to 't' to avoid mail syncing isses when using mbsync
