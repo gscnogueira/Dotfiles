@@ -11,8 +11,6 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(setq auto-save-default nil)
-
 (setq inhibit-splash-screen t)   ;; Don't show startup message
 (scroll-bar-mode -1)	       ;; Disable visible scrollbar
 (tool-bar-mode -1)	       ;; Disable the toolbar
@@ -42,10 +40,16 @@
   :bind(:map evil-window-map
              ("u" . winner-undo)
              ("U" . winner-redo))
-  :config
+  :init
   (winner-mode))
 
 (global-set-key (kbd "C-x p") 'previous-window-any-frame)
+
+(global-unset-key (kbd "C-x ["))
+(global-unset-key (kbd "C-x ]"))
+
+(global-set-key (kbd "C-x [") 'previous-buffer)
+(global-set-key (kbd "C-x ]") 'next-buffer)
 
 (global-auto-revert-mode 1)
 
@@ -106,7 +110,6 @@
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil) ;; necessary to use evil collection
-  (setq evil-want-C-u-scroll t)
   (evil-mode 1)
   :hook (evil-mode . gscn/evil-hook)
   :config
@@ -140,11 +143,13 @@
   :bind (("M-x" . counsel-M-x)
 	 ("C-x b" . counsel-ibuffer)
 	 ("C-x C-f" . counsel-find-file)
+	 ("C-c r" . counsel-recentf)
 	 ("C-M-j" . counsel-switch-buffer)
 	 :map minibuffer-local-map
 	 ("C-r" . counsel-minibuffer-history))
   :config
-  (setq ivy-initial-inputs-alist nil)) ;; Don't start searches with ^
+  (setq ivy-initial-inputs-alist nil) ;; Don't start searches with ^
+  (recentf-mode 1)) ;; Don't start searches with ^
 
 (use-package ivy-rich
   :init
@@ -303,6 +308,7 @@
 
 (use-package vterm
     :commands vterm
+    :bind ("C-c t" . vterm-other-window)
     :config
     (setq vterm-max-scrollback 10000)
     (evil-set-initial-state 'vterm-mode 'emacs)
@@ -322,15 +328,33 @@
 
   (setq eshell-history-size         10000
         ehsell-buffer-maximum-lines 10000
-        eshell-hist-ignoredups      t
-        ehsell-scroll-to-bottom-on-input t))
+        eshell-hist-ignoredups      t))
 
 (use-package eshell-git-prompt)
 
 (use-package eshell
   :hook (eshell-first-time-mode . gscn/configure-eshell)
   :config
-  (eshell-git-prompt-use-theme 'powerline))
+  (setq eshell-mode-map (make-sparse-keymap))
+  (eshell-git-prompt-use-theme 'git-radar))
+
+(defun eshell/ff (&rest args)
+  (apply #'find-file args))
+
+(defun eshell/cl ()
+  (eshell/clear 1))
+
+(defun eshell/gg (&rest args)
+  (shell-command-to-string "ls"))
+
+(use-package eshell-syntax-highlighting
+  :after esh-mode
+  :config
+  ;; Enable in all Eshell buffers.
+  (eshell-syntax-highlighting-global-mode +1))
+
+(use-package eshell-toggle
+  :bind ("C-;" . eshell-toggle))
 
 (use-package dired-single)
 (use-package dired

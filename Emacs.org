@@ -25,12 +25,6 @@ Install =use-package=.
 #+end_src
 
 * General Configuration
-** Auto-saving
-
-#+begin_src elisp
-(setq auto-save-default nil)
-#+end_src
-
 ** User Interface
 
 #+begin_src elisp 
@@ -64,7 +58,7 @@ Install =use-package=.
       (add-hook mode (lambda() (display-line-numbers-mode 0))))
 #+end_src
 
-** Windows configuration
+** Windows Mannagement
 *** winner-mode
 
 #+begin_src elisp
@@ -73,7 +67,7 @@ Install =use-package=.
     :bind(:map evil-window-map
                ("u" . winner-undo)
                ("U" . winner-redo))
-    :config
+    :init
     (winner-mode))
 #+end_src
 
@@ -81,6 +75,17 @@ Install =use-package=.
 
 #+begin_src elisp
   (global-set-key (kbd "C-x p") 'previous-window-any-frame)
+#+end_src
+
+** Buffer Mannagement
+*** Key bindings
+
+#+begin_src elisp
+  (global-unset-key (kbd "C-x ["))
+  (global-unset-key (kbd "C-x ]"))
+
+  (global-set-key (kbd "C-x [") 'previous-buffer)
+  (global-set-key (kbd "C-x ]") 'next-buffer)
 #+end_src
 
 ** Auto-revert mode
@@ -179,7 +184,6 @@ Install =use-package=.
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil) ;; necessary to use evil collection
-    (setq evil-want-C-u-scroll t)
     (evil-mode 1)
     :hook (evil-mode . gscn/evil-hook)
     :config
@@ -225,11 +229,13 @@ Install =use-package=.
   :bind (("M-x" . counsel-M-x)
 	 ("C-x b" . counsel-ibuffer)
 	 ("C-x C-f" . counsel-find-file)
+	 ("C-c r" . counsel-recentf)
 	 ("C-M-j" . counsel-switch-buffer)
 	 :map minibuffer-local-map
 	 ("C-r" . counsel-minibuffer-history))
   :config
-  (setq ivy-initial-inputs-alist nil)) ;; Don't start searches with ^
+  (setq ivy-initial-inputs-alist nil) ;; Don't start searches with ^
+  (recentf-mode 1)) ;; Don't start searches with ^
 #+end_src
 
 *NOTE*: ~M-o~ shows prompt options
@@ -520,10 +526,12 @@ Diferences to =term=:
 
 - Written in native code, much faster and better emulation
 - There is no =line-mode= / =char-mode= split
+*** General Configuration
 
 #+begin_src elisp
     (use-package vterm
       :commands vterm
+      :bind ("C-c t" . vterm-other-window)
       :config
       (setq vterm-max-scrollback 10000)
       (evil-set-initial-state 'vterm-mode 'emacs)
@@ -542,6 +550,7 @@ Runs a shell program on your computer in a more controlled buffer. Does not oper
 - =counsel-shell-history= - A searchable history of commands typed into the shell
 
 ** Eshell
+*** General Configuration
 
 #+begin_src elisp
 
@@ -559,15 +568,45 @@ Runs a shell program on your computer in a more controlled buffer. Does not oper
 
     (setq eshell-history-size         10000
           ehsell-buffer-maximum-lines 10000
-          eshell-hist-ignoredups      t
-          ehsell-scroll-to-bottom-on-input t))
+          eshell-hist-ignoredups      t))
 
   (use-package eshell-git-prompt)
 
   (use-package eshell
     :hook (eshell-first-time-mode . gscn/configure-eshell)
     :config
-    (eshell-git-prompt-use-theme 'powerline))
+    (setq eshell-mode-map (make-sparse-keymap))
+    (eshell-git-prompt-use-theme 'git-radar))
+#+end_src
+
+*** Aliases
+
+#+begin_src elisp
+  (defun eshell/ff (&rest args)
+    (apply #'find-file args))
+
+  (defun eshell/cl ()
+    (eshell/clear 1))
+
+  (defun eshell/gg (&rest args)
+    (shell-command-to-string "ls"))
+#+end_src
+
+*** Syntax Highlighting
+
+#+begin_src elisp
+  (use-package eshell-syntax-highlighting
+    :after esh-mode
+    :config
+    ;; Enable in all Eshell buffers.
+    (eshell-syntax-highlighting-global-mode +1))
+#+end_src
+
+*** Toggle eshell
+
+#+begin_src elisp
+  (use-package eshell-toggle
+    :bind ("C-;" . eshell-toggle))
 #+end_src
 
 * Dired
