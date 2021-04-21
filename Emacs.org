@@ -122,6 +122,9 @@ Install =use-package=.
   :hook (after-init . global-emojify-mode))
 #+end_src
 
+** Text
+
+
 ** Mode-Line
 
 #+begin_src elisp
@@ -229,7 +232,7 @@ Install =use-package=.
   :bind (("M-x" . counsel-M-x)
 	 ("C-x b" . counsel-ibuffer)
 	 ("C-x C-f" . counsel-find-file)
-	 ("C-c r" . counsel-recentf)
+	 ("C-x C-r" . counsel-buffer-or-recentf)
 	 ("C-M-j" . counsel-switch-buffer)
 	 :map minibuffer-local-map
 	 ("C-r" . counsel-minibuffer-history))
@@ -296,6 +299,13 @@ Install =use-package=.
   (global-evil-surround-mode 1))
  #+end_src
 
+*** Tab
+
+#+begin_src elisp
+  (setq-default tab-width 4)
+  (setq-default evil-shift-width 4)
+#+end_src
+
 ** C++
 
 #+begin_src elisp
@@ -320,6 +330,12 @@ Install =use-package=.
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
+#+end_src
+
+** Go
+
+#+begin_src elisp
+(use-package go-mode)
 #+end_src
 
 ** Haskell
@@ -358,11 +374,8 @@ Install =use-package=.
     :hook (prog-mode . company-mode)
     :custom
     (company-minimun-prefix-lenght 1)
-    (company-idle-delay 0.0))
-
-  (use-package company-box
-  :hook (company-mode . company-box-mode))
-
+    (company-idle-delay 0.0)
+    (company-format-margin-function 'company-vscode-dark-icons-margin))
 
 #+end_src
 
@@ -398,28 +411,30 @@ Package for integration between github and Magit
 ** Org Configurations
 
 #+begin_src elisp
-    (defun gscn/org-mode-setup()
-      (org-indent-mode)
-      (visual-line-mode 1)) 
+  (defun gscn/org-mode-setup()
+    (org-indent-mode)
+    (visual-line-mode 1)) 
 
-    (use-package org
-      :hook ((org-mode . gscn/org-mode-setup)
-             (org-mode . org-toggle-pretty-entities))
-      :config
-      (setq org-ellipsis " ▾"
-            org-hide-emphasis-markers t
-            org-startup-folded t))
-    (require 'org-faces)
+  (use-package org
+    :hook ((org-mode . gscn/org-mode-setup)
+           (org-mode . org-toggle-pretty-entities))
+    :config
+    (setq org-ellipsis " ▾"
+          org-hide-emphasis-markers t
+          org-startup-folded t))
+  (require 'org-faces)
 
-    (dolist (face '((org-level-1 . 1.2)
-                    (org-level-2 . 1.1)
-                    (org-level-3 . 1.0)
-                    (org-level-4 . 1.0)
-                    (org-level-5 . 1.0)
-                    (org-level-6 . 1.0)
-                    (org-level-7 . 1.0)))
-      (set-face-attribute (car face) nil :height (cdr face)))
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.0)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.0)
+                  (org-level-6 . 1.0)
+                  (org-level-7 . 1.0)))
+    (set-face-attribute (car face) nil :height (cdr face)))
 
+
+  (set-face-attribute 'org-document-title nil :height 1.5 :foreground "#D08770")
 #+end_src
 
 ** Bullets
@@ -539,6 +554,24 @@ Diferences to =term=:
 #+end_src  
 
 - Read docs on =vterm-use-vterm-prompt-detection-method= for prompt detection
+*** Toggle
+
+#+begin_src elisp
+  (use-package vterm-toggle
+    :bind (
+           ("C-;" . vterm-toggle))
+    :config
+    (setq vterm-toggle-fullscreen-p nil)
+    (add-to-list 'display-buffer-alist
+                 '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
+                   (display-buffer-reuse-window display-buffer-at-bottom)
+                   ;;(display-buffer-reuse-window display-buffer-in-direction)
+                   ;;display-buffer-in-direction/direction/dedicated is added in emacs27
+                   ;;(direction . bottom)
+                   ;;(dedicated . t) ;dedicated is supported in emacs27
+                   (reusable-frames . visible)
+                   (window-height . 0.3))))
+#+end_src
 
 ** shell-mode
 
@@ -606,7 +639,7 @@ Runs a shell program on your computer in a more controlled buffer. Does not oper
 
 #+begin_src elisp
   (use-package eshell-toggle
-    :bind ("C-;" . eshell-toggle))
+    :bind ("C-:" . eshell-toggle))
 #+end_src
 
 * Dired
@@ -800,3 +833,4 @@ An RSS feed reader for Emacs.
 
 Wrong type argument: integer-or-marker-p, nil
 kill-buffer
+

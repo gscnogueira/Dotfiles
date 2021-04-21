@@ -143,7 +143,7 @@
   :bind (("M-x" . counsel-M-x)
 	 ("C-x b" . counsel-ibuffer)
 	 ("C-x C-f" . counsel-find-file)
-	 ("C-c r" . counsel-recentf)
+	 ("C-x C-r" . counsel-buffer-or-recentf)
 	 ("C-M-j" . counsel-switch-buffer)
 	 :map minibuffer-local-map
 	 ("C-r" . counsel-minibuffer-history))
@@ -182,6 +182,9 @@
   :config
   (global-evil-surround-mode 1))
 
+(setq-default tab-width 4)
+(setq-default evil-shift-width 4)
+
 (add-hook 'c++-mode-hook 'lsp-deferred)
 
 (use-package csv-mode)
@@ -195,6 +198,8 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
+
+(use-package go-mode)
 
 (use-package haskell-mode)
 
@@ -213,10 +218,8 @@
   :hook (prog-mode . company-mode)
   :custom
   (company-minimun-prefix-lenght 1)
-  (company-idle-delay 0.0))
-
-(use-package company-box
-:hook (company-mode . company-box-mode))
+  (company-idle-delay 0.0)
+  (company-format-margin-function 'company-vscode-dark-icons-margin))
 
 (use-package projectile
   :config (projectile-mode)
@@ -254,6 +257,9 @@
                 (org-level-6 . 1.0)
                 (org-level-7 . 1.0)))
   (set-face-attribute (car face) nil :height (cdr face)))
+
+
+(set-face-attribute 'org-document-title nil :height 1.5 :foreground "#D08770")
 
 (use-package org-bullets
   :after org
@@ -314,6 +320,21 @@
     (evil-set-initial-state 'vterm-mode 'emacs)
 )
 
+(use-package vterm-toggle
+  :bind (
+         ("C-;" . vterm-toggle))
+  :config
+  (setq vterm-toggle-fullscreen-p nil)
+  (add-to-list 'display-buffer-alist
+               '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
+                 (display-buffer-reuse-window display-buffer-at-bottom)
+                 ;;(display-buffer-reuse-window display-buffer-in-direction)
+                 ;;display-buffer-in-direction/direction/dedicated is added in emacs27
+                 ;;(direction . bottom)
+                 ;;(dedicated . t) ;dedicated is supported in emacs27
+                 (reusable-frames . visible)
+                 (window-height . 0.3))))
+
 (defun gscn/configure-eshell ()
   ;; Save command history when commands are entered
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
@@ -354,7 +375,7 @@
   (eshell-syntax-highlighting-global-mode +1))
 
 (use-package eshell-toggle
-  :bind ("C-;" . eshell-toggle))
+  :bind ("C-:" . eshell-toggle))
 
 (use-package dired-single)
 (use-package dired
