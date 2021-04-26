@@ -26,9 +26,11 @@
 (global-display-line-numbers-mode t) ;; enable line numbers
 
 (dolist (mode '(org-mode-hook
+                dired-mode-hook
                 shell-mode-hook
                 term-mode-hook
                 mu4e-main-mode-hook
+                doc-view-mode-hook
                 vterm-mode-hook
                 elfeed-search-mode-hook
                 elfeed-show-mode-hook
@@ -37,19 +39,21 @@
 
 (use-package winner-mode
   :ensure nil
+  :init
+  (winner-mode)
   :bind(:map evil-window-map
              ("u" . winner-undo)
-             ("U" . winner-redo))
-  :init
-  (winner-mode))
+             ("U" . winner-redo)))
 
 (global-set-key (kbd "C-x p") 'previous-window-any-frame)
 
 (global-unset-key (kbd "C-x ["))
 (global-unset-key (kbd "C-x ]"))
+(global-unset-key (kbd "C-x C-b"))
 
 (global-set-key (kbd "C-x [") 'previous-buffer)
 (global-set-key (kbd "C-x ]") 'next-buffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 (global-auto-revert-mode 1)
 
@@ -81,18 +85,6 @@
 
 (use-package doom-themes
   :init (load-theme 'doom-nord t))
-
-(defun gscn/set-font-faces()
-  (message "Setting faces!")
-  (set-face-attribute 'default nil :font "JetBrains Mono" :height 105 :weight 'regular))
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-	      (lambda(frame)
-		(setq doom-modeline-icon t)
-		(with-selected-frame frame
-		  (gscn/set-font-faces))))
- (gscn/set-font-faces))
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
@@ -217,7 +209,7 @@
   :after lsp-mode
   :hook (prog-mode . company-mode)
   :custom
-  (company-minimun-prefix-lenght 1)
+  (company-minimum-prefix-length 1)
   (company-idle-delay 0.0)
   (company-format-margin-function 'company-vscode-dark-icons-margin))
 
@@ -324,16 +316,16 @@
   :bind (
          ("C-;" . vterm-toggle))
   :config
-  (setq vterm-toggle-fullscreen-p nil)
-  (add-to-list 'display-buffer-alist
-               '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
-                 (display-buffer-reuse-window display-buffer-at-bottom)
-                 ;;(display-buffer-reuse-window display-buffer-in-direction)
-                 ;;display-buffer-in-direction/direction/dedicated is added in emacs27
-                 ;;(direction . bottom)
-                 ;;(dedicated . t) ;dedicated is supported in emacs27
-                 (reusable-frames . visible)
-                 (window-height . 0.3))))
+  (setq vterm-toggle-fullscreen-p nil))
+  ;; (add-to-list 'display-buffer-alist
+  ;;              '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
+  ;;                (display-buffer-reuse-window display-buffer-at-bottom)
+  ;;                ;;(display-buffer-reuse-window display-buffer-in-direction)
+  ;;                ;;display-buffer-in-direction/direction/dedicated is added in emacs27
+  ;;                ;;(direction . bottom)
+  ;;                ;;(dedicated . t) ;dedicated is supported in emacs27
+  ;;                (reusable-frames . visible)
+  ;;                (window-height . 0.3))))
 
 (defun gscn/configure-eshell ()
   ;; Save command history when commands are entered
@@ -486,3 +478,15 @@
                           ))
     (advice-add 'elfeed :after 'elfeed-update)
 )
+
+(defun gscn/set-font-faces()
+  (message "Setting faces!")
+  (set-face-attribute 'default nil :font "JetBrains Mono" :height 105 :weight 'regular))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+	      (lambda(frame)
+		(setq doom-modeline-icon t)
+		(with-selected-frame frame
+		  (gscn/set-font-faces))))
+ (gscn/set-font-faces))
