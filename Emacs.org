@@ -51,8 +51,13 @@ Install =use-package=.
                   dired-mode-hook
                   shell-mode-hook
                   term-mode-hook
+                  tetris-mode-hook
+                  Man-mode-hook
+                  helpful-mode-hook
                   mu4e-main-mode-hook
                   doc-view-mode-hook
+                  calendar-mode-hook
+                  inferior-octave-mode-hook
                   vterm-mode-hook
                   elfeed-search-mode-hook
                   elfeed-show-mode-hook
@@ -129,12 +134,13 @@ Install =use-package=.
 ** Mode-Line
 
 #+begin_src elisp
-  (use-package all-the-icons)
+   (use-package all-the-icons)
 
-  (use-package doom-modeline
-    :init (doom-modeline-mode 1))
-
-  (setq doom-modeline-height 40)
+   (use-package doom-modeline
+     :after all-the-icons
+     :init
+     (doom-modeline-mode 1))
+   (setq doom-modeline-height 40)
 #+end_src
 
 ** Theme
@@ -142,6 +148,14 @@ Install =use-package=.
 #+begin_src elisp
 (use-package doom-themes
   :init (load-theme 'doom-nord t))
+#+end_src
+
+* Undo-tree
+
+#+begin_src elisp
+  (use-package undo-tree
+    :config
+    (global-undo-tree-mode 1))
 #+end_src
 
 * Keyboard Bindings
@@ -176,7 +190,8 @@ Install =use-package=.
     :hook (evil-mode . gscn/evil-hook)
     :config
     (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-    (evil-set-initial-state 'messages-buffer-mode 'normal)) 
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-undo-system 'undo-tree)) 
 
   (use-package evil-collection
     :after evil
@@ -294,6 +309,7 @@ Install =use-package=.
 ** C++
 
 #+begin_src elisp
+  (setq lsp-clients-clangd-args '("--header-insertion-decorators=0" "--header-insertion=never"))
   (add-hook 'c++-mode-hook 'lsp-deferred)
 #+end_src
 
@@ -351,6 +367,35 @@ Install =use-package=.
   (use-package vimrc-mode)
 #+end_src
 
+** Octave
+
+#+begin_src elisp
+
+
+  (setq auto-mode-alist
+		  (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
+  (add-hook 'octave-mode-hook
+			(lambda ()
+			  (abbrev-mode 1)
+			  (auto-fill-mode 1)
+			  (if (eq window-system 'x)
+				  (font-lock-mode 1))))
+
+  ;; (use-package octave-mode
+  ;;   :ensure nil
+  ;;   :bind(
+  ;; 		:map octave-mode-map
+  ;; 			 ("<C-return>" . octave-send-line)
+  ;; 			 ))
+
+  (require 'octave)
+  (define-key octave-mode-map (kbd "<C-return>") 'octave-send-line)
+
+
+
+#+end_src
+
 * Company Mode
 
 #+begin_src elisp
@@ -368,15 +413,20 @@ Install =use-package=.
 
 #+begin_src elisp
   (use-package projectile
-    :config (projectile-mode)
+    :config
+    (projectile-mode)
+    (setq projectile-switch-project-action 'projectile-dired)
     :bind-keymap
     ("C-c p" . projectile-command-map)
     :init
-    (setq projectile-project-search-path '("~/Code/UnB/" "~/.dotfiles/"))
-    (setq projectile-switch-project-action #'projectile-dired))
+    (setq projectile-project-search-path '("~/Code/UnB/" "~/.dotfiles/")))
 
-  (use-package counsel-projectile
-    :config (counsel-projectile-mode))
+#+end_src
+
+* Hydra
+
+#+begin_src elisp
+(use-package hydra)
 #+end_src
 
 * Git
@@ -391,6 +441,19 @@ Install =use-package=.
 ** TODO Forge
 
 Package for integration between github and Magit
+
+* Productivity
+** Calendar
+
+#+begin_src elisp
+(setq calendar-date-style 'european)
+#+end_src
+
+* Unix
+** Man
+#+begin_src elisp
+(setq Man-notify-method 'aggressive)
+#+end_src
 
 * Org Mode
 ** Org Configurations
@@ -542,20 +605,17 @@ Diferences to =term=:
 *** Toggle
 
 #+begin_src elisp
-  (use-package vterm-toggle
-    :bind (
-           ("C-;" . vterm-toggle))
-    :config
-    (setq vterm-toggle-fullscreen-p nil)
-    (add-to-list 'display-buffer-alist
-                 '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
-                   (display-buffer-reuse-window display-buffer-at-bottom)
-                   (display-buffer-reuse-window display-buffer-in-direction)
-                   ;;display-buffer-in-direction/direction/dedicated is added in emacs27
-                   (direction . bottom)
-                   (dedicated . t) ;dedicated is supported in emacs27
-                   (reusable-frames . visible)
-                   (window-height . 0.3))))
+      (use-package vterm-toggle
+        :bind (
+               ("C-;" . vterm-toggle))
+        :config
+        (setq vterm-toggle-hide-method 'reset-window-configration)
+        (setq vterm-toggle-reset-window-configration-after-exit t)
+        (setq vterm-toggle-fullscreen-p nil)
+  (add-to-list 'display-buffer-alist
+        '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
+           (display-buffer-reuse-window display-buffer-same-window)))
+  )
 #+end_src
 
 ** shell-mode
@@ -634,6 +694,9 @@ Runs a shell program on your computer in a more controlled buffer. Does not oper
 - ~g~ / ~g r~ Refresh the buffer with =revert-buffer= after changing configuration (and after filesystem changes)
   
 #+begin_src elisp
+  (defun dired-videos ()
+    (interactive)
+    (dired-single-buffer "~/Videos/"))
   (use-package dired-single)
   (use-package dired
     :ensure nil
@@ -644,7 +707,9 @@ Runs a shell program on your computer in a more controlled buffer. Does not oper
     :config
     (evil-collection-define-key 'normal 'dired-mode-map
       "h" 'dired-single-up-directory
-      "l" 'dired-single-buffer))
+      "l" 'dired-single-buffer
+      "b" 'dired-videos
+      ))
 
   (use-package all-the-icons-dired
     :hook (dired-mode .  all-the-icons-dired-mode))
@@ -792,13 +857,11 @@ An RSS feed reader for Emacs.
               ("C-c e " . elfeed))
       :config
       (setq elfeed-feeds '(
-                            ("https://feeds.feedburner.com/TheHackersNews?format=xml")
                             ("https://feeds.feedburner.com/diolinux ")
                             ("https://itsfoss.com/feed/")
                             ("https://lukesmith.xyz/rss.xml")
                             ("https://noticias.unb.br/?format=feed&type=rss")
                             ("https://cic.unb.br/feed/")
-                            ("https://www.adm.unb.br/index.php?format=feed&type=rss")
                             ("https://decrepitos.com/podcast/feed.xml")
                             ("https://notrelated.libsyn.com/rss")
                             ("https://anchor.fm/s/14298150/podcast/rss")
@@ -811,6 +874,7 @@ An RSS feed reader for Emacs.
                             ("https://github.com/UnBalloon/aulas-avancadas/commits/main.atom")
                             ("https://www.archlinux.org/feeds/news/")
                             ("https://suckless.org/atom.xml")
+                            ("https://emacsredux.com/atom.xml")
                             ))
       (advice-add 'elfeed :after 'elfeed-update)
   )
@@ -834,4 +898,5 @@ kill-buffer
 		  (gscn/set-font-faces))))
  (gscn/set-font-faces)) 
 #+end_src
+
 

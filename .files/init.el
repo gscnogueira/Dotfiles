@@ -29,8 +29,13 @@
                 dired-mode-hook
                 shell-mode-hook
                 term-mode-hook
+                tetris-mode-hook
+                Man-mode-hook
+                helpful-mode-hook
                 mu4e-main-mode-hook
                 doc-view-mode-hook
+                calendar-mode-hook
+                inferior-octave-mode-hook
                 vterm-mode-hook
                 elfeed-search-mode-hook
                 elfeed-show-mode-hook
@@ -79,12 +84,17 @@
 (use-package all-the-icons)
 
 (use-package doom-modeline
-  :init (doom-modeline-mode 1))
-
+  :after all-the-icons
+  :init
+  (doom-modeline-mode 1))
 (setq doom-modeline-height 40)
 
 (use-package doom-themes
   :init (load-theme 'doom-nord t))
+
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode 1))
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
@@ -106,7 +116,8 @@
   :hook (evil-mode . gscn/evil-hook)
   :config
   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (evil-set-initial-state 'messages-buffer-mode 'normal)) 
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-undo-system 'undo-tree)) 
 
 (use-package evil-collection
   :after evil
@@ -177,6 +188,7 @@
 (setq-default tab-width 4)
 (setq-default evil-shift-width 4)
 
+(setq lsp-clients-clangd-args '("--header-insertion-decorators=0" "--header-insertion=never"))
 (add-hook 'c++-mode-hook 'lsp-deferred)
 
 (use-package csv-mode)
@@ -205,6 +217,26 @@
 
 (use-package vimrc-mode)
 
+(setq auto-mode-alist
+		(cons '("\\.m$" . octave-mode) auto-mode-alist))
+
+(add-hook 'octave-mode-hook
+		  (lambda ()
+			(abbrev-mode 1)
+			(auto-fill-mode 1)
+			(if (eq window-system 'x)
+				(font-lock-mode 1))))
+
+;; (use-package octave-mode
+;;   :ensure nil
+;;   :bind(
+;; 		:map octave-mode-map
+;; 			 ("<C-return>" . octave-send-line)
+;; 			 ))
+
+(require 'octave)
+(define-key octave-mode-map (kbd "<C-return>") 'octave-send-line)
+
 (use-package company
   :after lsp-mode
   :hook (prog-mode . company-mode)
@@ -214,19 +246,23 @@
   (company-format-margin-function 'company-vscode-dark-icons-margin))
 
 (use-package projectile
-  :config (projectile-mode)
+  :config
+  (projectile-mode)
+  (setq projectile-switch-project-action 'projectile-dired)
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  (setq projectile-project-search-path '("~/Code/UnB/" "~/.dotfiles/"))
-  (setq projectile-switch-project-action #'projectile-dired))
+  (setq projectile-project-search-path '("~/Code/UnB/" "~/.dotfiles/")))
 
-(use-package counsel-projectile
-  :config (counsel-projectile-mode))
+(use-package hydra)
 
 (use-package magit
 :custom
 (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+(setq calendar-date-style 'european)
+
+(setq Man-notify-method 'aggressive)
 
 (defun gscn/org-mode-setup()
   (org-indent-mode)
@@ -313,19 +349,16 @@
 )
 
 (use-package vterm-toggle
-  :bind (
-         ("C-;" . vterm-toggle))
-  :config
-  (setq vterm-toggle-fullscreen-p nil)
-  (add-to-list 'display-buffer-alist
-               '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
-                 (display-buffer-reuse-window display-buffer-at-bottom)
-                 (display-buffer-reuse-window display-buffer-in-direction)
-                 ;;display-buffer-in-direction/direction/dedicated is added in emacs27
-                 (direction . bottom)
-                 (dedicated . t) ;dedicated is supported in emacs27
-                 (reusable-frames . visible)
-                 (window-height . 0.3))))
+      :bind (
+             ("C-;" . vterm-toggle))
+      :config
+      (setq vterm-toggle-hide-method 'reset-window-configration)
+      (setq vterm-toggle-reset-window-configration-after-exit t)
+      (setq vterm-toggle-fullscreen-p nil)
+(add-to-list 'display-buffer-alist
+      '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
+         (display-buffer-reuse-window display-buffer-same-window)))
+)
 
 (defun gscn/configure-eshell ()
   ;; Save command history when commands are entered
@@ -369,6 +402,9 @@
 (use-package eshell-toggle
   :bind ("C-:" . eshell-toggle))
 
+(defun dired-videos ()
+  (interactive)
+  (dired-single-buffer "~/Videos/"))
 (use-package dired-single)
 (use-package dired
   :ensure nil
@@ -379,7 +415,9 @@
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
     "h" 'dired-single-up-directory
-    "l" 'dired-single-buffer))
+    "l" 'dired-single-buffer
+    "b" 'dired-videos
+    ))
 
 (use-package all-the-icons-dired
   :hook (dired-mode .  all-the-icons-dired-mode))
@@ -456,13 +494,11 @@
             ("C-c e " . elfeed))
     :config
     (setq elfeed-feeds '(
-                          ("https://feeds.feedburner.com/TheHackersNews?format=xml")
                           ("https://feeds.feedburner.com/diolinux ")
                           ("https://itsfoss.com/feed/")
                           ("https://lukesmith.xyz/rss.xml")
                           ("https://noticias.unb.br/?format=feed&type=rss")
                           ("https://cic.unb.br/feed/")
-                          ("https://www.adm.unb.br/index.php?format=feed&type=rss")
                           ("https://decrepitos.com/podcast/feed.xml")
                           ("https://notrelated.libsyn.com/rss")
                           ("https://anchor.fm/s/14298150/podcast/rss")
@@ -475,6 +511,7 @@
                           ("https://github.com/UnBalloon/aulas-avancadas/commits/main.atom")
                           ("https://www.archlinux.org/feeds/news/")
                           ("https://suckless.org/atom.xml")
+                          ("https://emacsredux.com/atom.xml")
                           ))
     (advice-add 'elfeed :after 'elfeed-update)
 )
