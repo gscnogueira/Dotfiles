@@ -31,6 +31,8 @@
                 term-mode-hook
                 tetris-mode-hook
                 Man-mode-hook
+                Man-mode-hook
+                inferior-haskell-mode
                 helpful-mode-hook
                 mu4e-main-mode-hook
                 doc-view-mode-hook
@@ -78,8 +80,7 @@
                     ;;:height 135
                     ;;:weight 'regular)
 
-(use-package emojify
-  :hook (after-init . global-emojify-mode))
+(use-package emojify)
 
 (use-package all-the-icons)
 
@@ -90,7 +91,14 @@
 (setq doom-modeline-height 40)
 
 (use-package doom-themes
-  :init (load-theme 'doom-nord t))
+  :init (load-theme 'doom-tomorrow-night t))
+
+(setq code-directory "/home/gabriel/Code/")
+(setq config-directory "/home/gabriel/.dotfiles/")
+
+(set-register ?p (cons 'file (concat code-directory "PC/test.cpp")))
+(set-register ?c (cons 'file code-directory))
+(set-register ?d (cons 'file config-directory))
 
 (use-package undo-tree
   :config
@@ -264,8 +272,21 @@
 
 (setq Man-notify-method 'aggressive)
 
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
+
+(defun org-icons ()
+   "Beautify org mode keywords."
+   (interactive)
+   (setq prettify-symbols-alist '(("[ ]" . "")
+                                  ("[X]" . "")
+                                  ))
+   (prettify-symbols-mode))
+
 (defun gscn/org-mode-setup()
   (org-indent-mode)
+  (org-icons)
   (visual-line-mode 1)) 
 
 (use-package org
@@ -308,7 +329,9 @@
                              (emacs-lisp . t)
                              (C . t)
                              (python . t)
-                                 (js     . t)))
+                             (shell . t)
+                             (js     . t)
+                             (haskell . t)))
 
 (setq org-confirm-babel-evaluate nil) ;; não pergunta se vc quer validar
 (setq org-src-window-setup 'current-window)
@@ -319,6 +342,7 @@
 (add-to-list 'org-structure-template-alist '("el" . "src elisp"))
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 (add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
+(add-to-list 'org-structure-template-alist '("hs" . "src haskell"))
 (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
 
 (defun gscn/org-babel-tangle-config ()
@@ -405,6 +429,7 @@
 (defun dired-videos ()
   (interactive)
   (dired-single-buffer "~/Videos/"))
+
 (use-package dired-single)
 (use-package dired
   :ensure nil

@@ -12,7 +12,7 @@ source /home/gabriel/.config/lf/icons
 
 alias gc='git commit -av'
 alias gd='git diff'
-alias gg='g++ -std=c++11 -O2 -Wall test.cpp -o test -lm -g'
+alias gg='g++ -std=c++17 -O2 -Wall test.cpp -o test -lm -g'
 alias gs='git status'
 alias grep='grep --color=auto'
 alias ls='ls --color=always'

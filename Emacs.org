@@ -2,7 +2,6 @@
 #+PROPERTY: header-args:elisp :tangle ~/.dotfiles/.files/init.el
 
 * Package System Setup
-
 Set up package archives.
 
 #+begin_src elisp
@@ -53,6 +52,8 @@ Install =use-package=.
                   term-mode-hook
                   tetris-mode-hook
                   Man-mode-hook
+                  Man-mode-hook
+                  inferior-haskell-mode
                   helpful-mode-hook
                   mu4e-main-mode-hook
                   doc-view-mode-hook
@@ -127,8 +128,7 @@ Install =use-package=.
 *** Emoji
 
 #+begin_src elisp
-(use-package emojify
-  :hook (after-init . global-emojify-mode))
+(use-package emojify)
 #+end_src
 
 ** Mode-Line
@@ -147,7 +147,23 @@ Install =use-package=.
 
 #+begin_src elisp
 (use-package doom-themes
-  :init (load-theme 'doom-nord t))
+  :init (load-theme 'doom-tomorrow-night t))
+#+end_src
+
+* Registers
+** Directories
+
+#+begin_src elisp
+  (setq code-directory "/home/gabriel/Code/")
+  (setq config-directory "/home/gabriel/.dotfiles/")
+#+end_src
+
+** Keys
+
+#+begin_src elisp
+  (set-register ?p (cons 'file (concat code-directory "PC/test.cpp")))
+  (set-register ?c (cons 'file code-directory))
+  (set-register ?d (cons 'file config-directory))
 #+end_src
 
 * Undo-tree
@@ -455,12 +471,34 @@ Package for integration between github and Magit
 (setq Man-notify-method 'aggressive)
 #+end_src
 
+* YASnippet
+
+#+begin_src elisp
+  (use-package yasnippet
+    :config
+    (yas-global-mode 1))
+
+#+end_src
+
 * Org Mode
+** Icons
+
+#+begin_src elisp
+  (defun org-icons ()
+     "Beautify org mode keywords."
+     (interactive)
+     (setq prettify-symbols-alist '(("[ ]" . "")
+                                    ("[X]" . "")
+                                    ))
+     (prettify-symbols-mode))
+#+end_src
+
 ** Org Configurations
 
 #+begin_src elisp
   (defun gscn/org-mode-setup()
     (org-indent-mode)
+    (org-icons)
     (visual-line-mode 1)) 
 
   (use-package org
@@ -515,7 +553,9 @@ Package for integration between github and Magit
                                (emacs-lisp . t)
                                (C . t)
                                (python . t)
-                                   (js     . t)))
+                               (shell . t)
+                               (js     . t)
+                               (haskell . t)))
 
   (setq org-confirm-babel-evaluate nil) ;; não pergunta se vc quer validar
   (setq org-src-window-setup 'current-window)
@@ -530,6 +570,7 @@ Package for integration between github and Magit
   (add-to-list 'org-structure-template-alist '("el" . "src elisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
+  (add-to-list 'org-structure-template-alist '("hs" . "src haskell"))
   (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
 #+end_src
 
@@ -697,6 +738,7 @@ Runs a shell program on your computer in a more controlled buffer. Does not oper
   (defun dired-videos ()
     (interactive)
     (dired-single-buffer "~/Videos/"))
+
   (use-package dired-single)
   (use-package dired
     :ensure nil

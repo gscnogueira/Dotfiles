@@ -5,52 +5,52 @@
 ** Imports
 
 #+begin_src vimrc
-call plug#begin('~/.vim/plugged')
-Plug 'airblade/vim-gitgutter'
-Plug 'ap/vim-css-color'
-Plug 'arcticicestudio/nord-vim'
-Plug 'dracula/vim',
-Plug 'godlygeek/tabular' , { 'on' : 'Tabularize' }
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
-Plug 'itchyny/lightline.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/fzf'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'lervag/vimtex' , { 'for' : 'tex'  }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'pangloss/vim-javascript'
-Plug 'ryanoasis/vim-devicons'
-Plug 'sheerun/vim-polyglot'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive' , { 'on' : 'Git' }
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'w0rp/ale'
-call plug#end()
+  call plug#begin('~/.vim/plugged')
+  Plug 'airblade/vim-gitgutter'
+  Plug 'ap/vim-css-color'
+  Plug 'dracula/vim',
+  Plug 'chriskempson/base16-vim'
+  Plug 'godlygeek/tabular' , { 'on' : 'Tabularize' }
+  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+  Plug 'itchyny/lightline.vim'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'junegunn/fzf'
+  Plug 'kien/rainbow_parentheses.vim'
+  Plug 'lervag/vimtex' , { 'for' : 'tex'  }
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'pangloss/vim-javascript'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'sheerun/vim-polyglot'
+  Plug 'terryma/vim-multiple-cursors'
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-fugitive' , { 'on' : 'Git' }
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-unimpaired'
+  Plug 'w0rp/ale'
+  call plug#end()
 
 #+end_src
 
 ** Light Line
 
 #+begin_src vimrc
-let g:lightline = {
-    \ 'colorscheme': 'nord',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
-    \   'right': [ [ 'lineinfo' ],
-    \              [ 'percent' ],
-    \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ] ]
-    \ },
-    \'component': {
-    \   'charvaluehex': '0x%B'
-    \ },
-    \ 'component_function': {
-    \   'gitbranch': 'FugitiveHead'
-    \ },
-    \ }
+  let g:lightline = {
+      \ 'colorscheme': 'Tomorrow_Night',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ] ]
+      \ },
+      \'component': {
+      \   'charvaluehex': '0x%B'
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
 #+end_src
 
 ** Vim Polyglot
@@ -155,7 +155,7 @@ autocmd FocusGained * silent! checktime
 ** Theme
 
 #+begin_src vimrc
-colorscheme nord 
+colorscheme base16-tomorrow-night 
 "transparent background:
 hi Normal guibg=NONE ctermbg=NONE
 if (has("termguicolors"))

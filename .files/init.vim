@@ -1,8 +1,8 @@
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-css-color'
-Plug 'arcticicestudio/nord-vim'
 Plug 'dracula/vim',
+Plug 'chriskempson/base16-vim'
 Plug 'godlygeek/tabular' , { 'on' : 'Tabularize' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'itchyny/lightline.vim'
@@ -24,7 +24,7 @@ Plug 'w0rp/ale'
 call plug#end()
 
 let g:lightline = {
-    \ 'colorscheme': 'nord',
+    \ 'colorscheme': 'Tomorrow_Night',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
@@ -102,7 +102,7 @@ endif
 set autoread
 autocmd FocusGained * silent! checktime
 
-colorscheme nord 
+colorscheme base16-tomorrow-night 
 "transparent background:
 hi Normal guibg=NONE ctermbg=NONE
 if (has("termguicolors"))
