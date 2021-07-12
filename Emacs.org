@@ -917,6 +917,9 @@ An RSS feed reader for Emacs.
                             ("https://www.archlinux.org/feeds/news/")
                             ("https://suckless.org/atom.xml")
                             ("https://emacsredux.com/atom.xml")
+                            ("https://www.reddit.com/r/emacs.rss")
+
+
                             ))
       (advice-add 'elfeed :after 'elfeed-update)
   )

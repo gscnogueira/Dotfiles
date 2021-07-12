@@ -91,7 +91,7 @@
 (setq doom-modeline-height 40)
 
 (use-package doom-themes
-  :init (load-theme 'doom-tomorrow-night t))
+  :init (load-theme 'doom-solarized-dark t))
 
 (setq code-directory "/home/gabriel/Code/")
 (setq config-directory "/home/gabriel/.dotfiles/")
@@ -308,7 +308,7 @@
   (set-face-attribute (car face) nil :height (cdr face)))
 
 
-(set-face-attribute 'org-document-title nil :height 1.5 :foreground "#D08770")
+(set-face-attribute 'org-document-title nil :height 1.5 :foreground "#b58900")
 
 (use-package org-bullets
   :after org
@@ -537,6 +537,9 @@
                           ("https://www.archlinux.org/feeds/news/")
                           ("https://suckless.org/atom.xml")
                           ("https://emacsredux.com/atom.xml")
+                          ("https://www.reddit.com/r/emacs.rss")
+
+
                           ))
     (advice-add 'elfeed :after 'elfeed-update)
 )
