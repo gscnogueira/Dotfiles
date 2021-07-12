@@ -146,8 +146,8 @@ Install =use-package=.
 ** Theme
 
 #+begin_src elisp
-(use-package doom-themes
-  :init (load-theme 'doom-tomorrow-night t))
+  (use-package doom-themes
+    :init (load-theme 'doom-solarized-dark t))
 #+end_src
 
 * Registers
@@ -520,7 +520,7 @@ Package for integration between github and Magit
     (set-face-attribute (car face) nil :height (cdr face)))
 
 
-  (set-face-attribute 'org-document-title nil :height 1.5 :foreground "#D08770")
+  (set-face-attribute 'org-document-title nil :height 1.5 :foreground "#b58900")
 #+end_src
 
 ** Bullets
