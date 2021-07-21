@@ -509,7 +509,12 @@ Package for integration between github and Magit
     :config
     (setq org-ellipsis " ▾"
           org-hide-emphasis-markers t
-          org-startup-folded t))
+          org-startup-folded t
+          org-directory "~/Notes")
+
+    (setq org-list-demote-modify-bullet
+          '(("+" . "-") ("-" . "+") ("*" . "-"))))
+
   (require 'org-faces)
 
   (dolist (face '((org-level-1 . 1.2)
