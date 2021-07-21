@@ -156,6 +156,7 @@ Install =use-package=.
 #+begin_src elisp
   (setq code-directory "/home/gabriel/Code/")
   (setq config-directory "/home/gabriel/.dotfiles/")
+  (setq semestre-file "/home/gabriel/Notes/UnB/2021-01/2021-01.org")
 #+end_src
 
 ** Keys
@@ -164,6 +165,7 @@ Install =use-package=.
   (set-register ?p (cons 'file (concat code-directory "PC/test.cpp")))
   (set-register ?c (cons 'file code-directory))
   (set-register ?d (cons 'file config-directory))
+  (set-register ?u (cons 'file semestre-file))
 #+end_src
 
 * Undo-tree
