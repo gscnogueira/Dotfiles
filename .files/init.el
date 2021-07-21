@@ -95,10 +95,12 @@
 
 (setq code-directory "/home/gabriel/Code/")
 (setq config-directory "/home/gabriel/.dotfiles/")
+(setq semestre-file "/home/gabriel/Notes/UnB/2021-01/2021-01.org")
 
 (set-register ?p (cons 'file (concat code-directory "PC/test.cpp")))
 (set-register ?c (cons 'file code-directory))
 (set-register ?d (cons 'file config-directory))
+(set-register ?u (cons 'file semestre-file))
 
 (use-package undo-tree
   :config
@@ -270,6 +272,11 @@
 
 (setq calendar-date-style 'european)
 
+(use-package perspective
+  :bind (("C-x k" . persp-kill-buffer*))
+  :init
+  (persp-mode))
+
 (setq Man-notify-method 'aggressive)
 
 (use-package yasnippet
@@ -295,7 +302,12 @@
   :config
   (setq org-ellipsis " ▾"
         org-hide-emphasis-markers t
-        org-startup-folded t))
+        org-startup-folded t
+        org-directory "~/Notes")
+
+  (setq org-list-demote-modify-bullet
+        '(("+" . "-") ("-" . "+") ("*" . "-"))))
+
 (require 'org-faces)
 
 (dolist (face '((org-level-1 . 1.2)

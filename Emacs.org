@@ -467,6 +467,15 @@ Package for integration between github and Magit
 (setq calendar-date-style 'european)
 #+end_src
 
+** Perspective
+
+#+begin_src elisp
+  (use-package perspective
+    :bind (("C-x k" . persp-kill-buffer*))
+    :init
+    (persp-mode))
+#+end_src
+
 * Unix
 ** Man
 #+begin_src elisp
