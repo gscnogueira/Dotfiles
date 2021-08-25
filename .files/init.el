@@ -328,6 +328,9 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
+(setq org-clock-sound  "~/.config/sounds/pop.wav")
+(setq org-show-notification-timeout 1)
+
 ;;(defun gscn/org-mode-visual-fill ()
     ;;(setq visual-fill-column-width 100
           ;;visual-fill-column-center-text t)

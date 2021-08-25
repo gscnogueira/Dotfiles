@@ -549,6 +549,13 @@ Package for integration between github and Magit
     (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 #+end_src
 
+** Timer
+
+#+begin_src elisp
+  (setq org-clock-sound  "~/.config/sounds/pop.wav")
+  (setq org-show-notification-timeout 1)
+#+end_src
+
 ** Visual fill column
 
 #+begin_src elisp
