@@ -2,7 +2,7 @@ typeset -U PATH path
 path=("$HOME/.local/bin" "$path[@]")
 export QT_QPA_PLATAFORMTHEME="qt5ct"
 export PATH
-export BAT_THEME="Nord"
+export BAT_THEME="Solarized (dark)"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export TERM="xterm-256color"
 export EDITOR="nvim"
@@ -17,9 +17,9 @@ alias gs='git status'
 alias grep='grep --color=auto'
 alias ls='ls --color=always'
 alias pc='cd ~/Code/PC/'
-alias please='echo "ciro é gay"'
 alias xclip='xclip -sel clip '
 alias xmo='cd ~/.xmonad'
+alias unb='cd ~/UnB/2021-1/'
 
 autoload -Uz compinit 
 compinit
