@@ -64,7 +64,7 @@
     frame_width = 2
 
     # Defines color of the frame around the notification window.
-    frame_color = "#4C566A"
+    frame_color = "#2aa198"
 
     # Define a color for the separator.
     # possible values are:
@@ -275,16 +275,16 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#282a36"
-    foreground = "#f8f8f2"
+    background = "#002b36"
+    foreground = "#93a1a1"
     timeout = 2s
     # Icon for notifications with low urgency, uncomment to enable
     icon = /home/gabriel/.config/dunst/low.svg
 
 [urgency_normal]
-    background = "#2E3440" 
-    foreground = "#81A1C1"
-    timeout = 2s
+    background = "#002b36" 
+    foreground = "#93a1a1"
+    timeout = 1500ms
     # Icon for notifications with normal urgency, uncomment to enable
 
 [urgency_critical]
