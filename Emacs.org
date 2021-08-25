@@ -607,6 +607,23 @@ Package for integration between github and Magit
 
 #+end_src
 
+** Org Roam
+
+#+begin_src elisp
+  (use-package org-roam
+    :init
+    (setq org-roam-v2-ack t)
+    :custom
+    (org-roam-directory "~/Notes")
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+           ("C-c f" . org-roam-node-find)
+           ("C-c i" . org-roam-node-insert)
+           )
+    :config
+    (org-roam-setup)
+    )
+#+end_src
+
 * Terminals
 ** term-mode
 

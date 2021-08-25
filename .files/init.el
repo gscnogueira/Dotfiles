@@ -368,6 +368,19 @@
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'gscn/org-babel-tangle-config)))
 
+(use-package org-roam
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/Notes")
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c f" . org-roam-node-find)
+         ("C-c i" . org-roam-node-insert)
+         )
+  :config
+  (org-roam-setup)
+  )
+
 (use-package term
   :config
   (setq explicit-shell-file-name "zsh")
