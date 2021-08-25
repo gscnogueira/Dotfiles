@@ -277,6 +277,10 @@
   :init
   (persp-mode))
 
+(use-package crux
+  :bind (
+         ("C-x 4 -" . crux-transpose-windows)))
+
 (setq Man-notify-method 'aggressive)
 
 (use-package yasnippet

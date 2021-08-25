@@ -476,6 +476,13 @@ Package for integration between github and Magit
     (persp-mode))
 #+end_src
 
+** CRUX
+#+begin_src elisp
+  (use-package crux
+    :bind (
+           ("C-x 4 -" . crux-transpose-windows)))
+#+end_src
+
 * Unix
 ** Man
 #+begin_src elisp
