@@ -570,6 +570,7 @@
                           ("https://suckless.org/atom.xml")
                           ("https://emacsredux.com/atom.xml")
                           ("https://www.reddit.com/r/emacs.rss")
+                          ("https://www.reddit.com/r/orgmode.rss")
 
 
                           ))
