@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/home/gabriel/Code/UnB/IPI/Trabalho-Final/Relatorio/Figuras'
+let g:netrw_dirhist_5='/home/gabriel/Code/UnB/IPI/Trabalho-1/Relatorio'
+let g:netrw_dirhist_4='/home/gabriel/Code/UnB/IPI/Trabalho-1'
+let g:netrw_dirhist_3='/home/gabriel/Code/UnB/IPI'
+let g:netrw_dirhist_2='/home/gabriel/Code/UnB/IPI/Trabalho-Final'
+let g:netrw_dirhist_1='/home/gabriel/Code/UnB/IPI/Trabalho-Final/Relatorio'
+let g:netrw_dirhist_0='/home/gabriel/Code/PC'
+let g:netrw_dirhist_9='/home/gabriel/Code/UnB/IPI/Trabalho-2/Relatorio'
+let g:netrw_dirhist_8='/home/gabriel/Code/UnB/IPI/Trabalho-2'
+let g:netrw_dirhist_7='/home/gabriel/Code/UnB/IPI/Trabalho-2/Relatorio'

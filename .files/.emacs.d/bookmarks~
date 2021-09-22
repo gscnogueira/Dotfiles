@@ -1,0 +1,15 @@
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("org-refile-last-stored"
+ (filename . "~/Notes/20210726225430-bancos_de_dados.org")
+ (front-context-string . "** The Relationa")
+ (rear-context-string . "a Model and SQL\n")
+ (position . 18120))
+("org-capture-last-stored"
+ (filename . "~/Notes/20210912161005-notas_2021_1.org")
+ (front-context-string . "\n** Fundamentos ")
+ (rear-context-string . "e: Notas 2021/1\n")
+ (position . 90))
+)

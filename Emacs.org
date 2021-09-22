@@ -1,5 +1,5 @@
 #+title: Emacs Configuration
-#+PROPERTY: header-args:elisp :tangle ~/.dotfiles/.files/init.el
+#+PROPERTY: header-args:elisp :tangle ~/.dotfiles/.files/.emacs.d/.init.el
 
 * Package System Setup
 Set up package archives.
@@ -43,27 +43,30 @@ Install =use-package=.
 ** Column and Line Numbers
 
 #+begin_src elisp
-  (column-number-mode)                 ;; show column number in the mode-line
-  (global-display-line-numbers-mode t) ;; enable line numbers
+    (column-number-mode)                 ;; show column number in the mode-line
+    (global-display-line-numbers-mode t) ;; enable line numbers
 
-  (dolist (mode '(org-mode-hook
-                  dired-mode-hook
-                  shell-mode-hook
-                  term-mode-hook
-                  tetris-mode-hook
-                  Man-mode-hook
-                  Man-mode-hook
-                  inferior-haskell-mode
-                  helpful-mode-hook
-                  mu4e-main-mode-hook
-                  doc-view-mode-hook
-                  calendar-mode-hook
-                  inferior-octave-mode-hook
-                  vterm-mode-hook
-                  elfeed-search-mode-hook
-                  elfeed-show-mode-hook
-                  eshell-mode-hook))
-      (add-hook mode (lambda() (display-line-numbers-mode 0))))
+    (dolist (mode '(
+                    org-agenda-mode-hook
+                    org-mode-hook
+                    Man-mode-hook
+                    Man-mode-hook
+                    calendar-mode-hook
+                    dired-mode-hook
+                    doc-view-mode-hook
+                    elfeed-search-mode-hook
+                    elfeed-show-mode-hook
+                    eshell-mode-hook
+                    helpful-mode-hook
+                    inferior-haskell-mode
+                    inferior-octave-mode-hook
+                    mu4e-main-mode-hook
+                    shell-mode-hook
+                    term-mode-hook
+                    tetris-mode-hook
+                    vterm-mode-hook
+                    ))
+        (add-hook mode (lambda() (display-line-numbers-mode 0))))
 #+end_src
 
 ** Windows Mannagement
@@ -526,10 +529,18 @@ Package for integration between github and Magit
     (setq org-ellipsis " ▾"
           org-hide-emphasis-markers t
           org-startup-folded t
+          org-log-into-drawer t
           org-directory "~/Notes")
 
     (setq org-list-demote-modify-bullet
-          '(("+" . "-") ("-" . "+") ("*" . "-"))))
+          '(("+" . "-") ("-" . "+") ("*" . "-")))
+    ;; what to do when following links to another file
+    (add-to-list 'org-link-frame-setup '(file . find-file))
+    :bind
+    (("C-c a" . org-agenda-list)
+     ("C-c t" . org-todo-list))
+    )
+
 
   (require 'org-faces)
 
@@ -561,6 +572,19 @@ Package for integration between github and Magit
 #+begin_src elisp
   (setq org-clock-sound  "~/.config/sounds/pop.wav")
   (setq org-show-notification-timeout 1)
+#+end_src
+
+** Agenda
+
+#+begin_src elisp
+  (setq org-agenda-files
+        '("~/Notes/20210807112735-tasks.org"
+          "~/Notes/20210904224143-aniversarios.org"
+          "~/Notes/20210726225417-fundamentos_teoricos_da_computacao.org"
+          "~/Notes/20210726225430-bancos_de_dados.org"
+          "~/Notes/20210726225600-programacao_competitiva_2.org"
+          "~/Notes/20210726225456-teoria_dos_numeros_1.org"
+          "~/Notes/20210726225541-redes_de_computadores.org"))
 #+end_src
 
 ** Visual fill column
@@ -638,6 +662,12 @@ Package for integration between github and Magit
     )
 #+end_src
 
+** Org Plot
+#+begin_src elisp
+  (use-package gnuplot-mode)
+  (use-package gnuplot)
+#+end_src
+
 * Terminals
 ** term-mode
 
@@ -680,13 +710,11 @@ Diferences to =term=:
 *** General Configuration
 
 #+begin_src elisp
-    (use-package vterm
-      :commands vterm
-      :bind ("C-c t" . vterm-other-window)
-      :config
-      (setq vterm-max-scrollback 10000)
-      (evil-set-initial-state 'vterm-mode 'emacs)
-  )
+  (use-package vterm
+    :commands vterm
+    :config
+    (setq vterm-max-scrollback 10000)
+    (evil-set-initial-state 'vterm-mode 'emacs))
 #+end_src  
 
 - Read docs on =vterm-use-vterm-prompt-detection-method= for prompt detection
@@ -959,15 +987,12 @@ An RSS feed reader for Emacs.
                             ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg")
                             ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA")
                             ("https://www.youtube.com/feeds/videos.xml?channel_id=UCsnGwSIHyoYN0kiINAGUKxg")
+                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UCAiiOTio8Yu69c3XnR7nQBQ")
                             ("https://github.com/dracula/dracula-theme/commits/master.atom")
                             ("https://github.com/UnBalloon/aulas-avancadas/commits/main.atom")
                             ("https://www.archlinux.org/feeds/news/")
                             ("https://suckless.org/atom.xml")
                             ("https://emacsredux.com/atom.xml")
-                            ("https://www.reddit.com/r/emacs.rss")
-                            ("https://www.reddit.com/r/orgmode.rss")
-
-
                             ))
       (advice-add 'elfeed :after 'elfeed-update)
   )

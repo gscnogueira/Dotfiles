@@ -1,0 +1,2 @@
+alias gg g++ -std=c++17 -O2 -Wall test.cpp -o test -lm -g
+alias pc cd ~/Code/PC

@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: Org-title
+# key: <t
+# --
+
+#+TITLE:  ${1 :title}
+#+AUTHOR: Gabriel Nogueira
+
+$0
