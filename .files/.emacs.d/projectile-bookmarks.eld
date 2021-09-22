@@ -1,1 +1,0 @@
-("~/.dotfiles/.git/" "~/.dotfiles/.files/" "~/Code/UnB/IPI/" "~/Code/UnB/CE/" "~/UnB/Extensao/Maratona-Extensao/" "~/.dotfiles/" "~/.local/src/slock-1.4/" "~/.xmonad/" "~/.local/bin/")
