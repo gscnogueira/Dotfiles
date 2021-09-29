@@ -348,7 +348,7 @@
 (setq org-clock-sound  "~/.config/sounds/pop.wav")
 (setq org-show-notification-timeout 1)
 
-(setq org-agenda-files
+(setq-default org-agenda-files
       '("~/Notes/20210807112735-tasks.org"
         "~/Notes/20210904224143-aniversarios.org"
         "~/Notes/20210726225417-fundamentos_teoricos_da_computacao.org"
