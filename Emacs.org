@@ -1,5 +1,5 @@
 #+title: Emacs Configuration
-#+PROPERTY: header-args:elisp :tangle ~/.dotfiles/.files/.emacs.d/.init.el
+#+PROPERTY: header-args:elisp :tangle ~/.dotfiles/.files/.emacs.d/init.el
 
 * Package System Setup
 Set up package archives.

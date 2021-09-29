@@ -8,8 +8,8 @@
  (rear-context-string . "a Model and SQL\n")
  (position . 18120))
 ("org-capture-last-stored"
- (filename . "~/Notes/20210914150425-jojo.org")
- (front-context-string)
- (rear-context-string . "D:\n#+title: Jojo")
- (position . 81))
+ (filename . "~/Notes/20210926202604-lista_de_coisas_que_a_rafa_fez.org")
+ (front-context-string . "\n\n* Foi sem educ")
+ (rear-context-string . "s que a rafa fez")
+ (position . 107))
 )
