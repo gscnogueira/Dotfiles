@@ -610,6 +610,7 @@ Package for integration between github and Magit
                                (C . t)
                                (python . t)
                                (shell . t)
+                               (sql . t)
                                (js     . t)
                                (haskell . t)))
 
@@ -627,6 +628,7 @@ Package for integration between github and Magit
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
   (add-to-list 'org-structure-template-alist '("hs" . "src haskell"))
+  (add-to-list 'org-structure-template-alist '("sql" . "src sql"))
   (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
 #+end_src
 

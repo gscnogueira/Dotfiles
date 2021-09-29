@@ -371,6 +371,7 @@
                              (C . t)
                              (python . t)
                              (shell . t)
+                             (sql . t)
                              (js     . t)
                              (haskell . t)))
 
@@ -384,6 +385,7 @@
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 (add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
 (add-to-list 'org-structure-template-alist '("hs" . "src haskell"))
+(add-to-list 'org-structure-template-alist '("sql" . "src sql"))
 (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
 
 (defun gscn/org-babel-tangle-config ()
