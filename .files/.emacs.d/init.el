@@ -415,6 +415,15 @@
 (use-package gnuplot-mode)
 (use-package gnuplot)
 
+(setq org-latex-listings 'minted
+      org-latex-packages-alist '(("" "minted"))
+      org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+(setq org-latex-minted-options
+      '(("frame" "single")))
+
 (use-package term
   :config
   (setq explicit-shell-file-name "zsh")
