@@ -201,6 +201,8 @@
 (setq-default tab-width 4)
 (setq-default evil-shift-width 4)
 
+(setq-default c-basic-offset 4)
+(setq c-default-style "linux" )
 (setq lsp-clients-clangd-args '("--header-insertion-decorators=0" "--header-insertion=never"))
 (add-hook 'c++-mode-hook 'lsp-deferred)
 

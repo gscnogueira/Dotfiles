@@ -327,9 +327,11 @@ Install =use-package=.
   (setq-default evil-shift-width 4)
 #+end_src
 
-** C++
+** C/C++
 
 #+begin_src elisp
+  (setq-default c-basic-offset 4)
+  (setq c-default-style "linux" )
   (setq lsp-clients-clangd-args '("--header-insertion-decorators=0" "--header-insertion=never"))
   (add-hook 'c++-mode-hook 'lsp-deferred)
 #+end_src
