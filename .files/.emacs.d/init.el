@@ -69,13 +69,13 @@
 
 (set-face-attribute 'default nil
                     :font "JetBrains Mono"
-                    :height 105
+                    :height 110
                     :weight 'normal)
 
 ;; Set fixed pitch face
 (set-face-attribute 'fixed-pitch nil
                     :font "JetBrains Mono"
-                    :height 105)
+                    :height 110)
 
 ;; Set variable pitch face
 ;;(set-face-attribute 'variable-pitch nil
