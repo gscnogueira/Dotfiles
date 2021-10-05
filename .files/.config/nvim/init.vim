@@ -25,7 +25,7 @@ Plug 'w0rp/ale'
 call plug#end()
 
 let g:lightline = {
-    \ 'colorscheme': 'solarized',
+    \ 'colorscheme': 'one',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
@@ -103,7 +103,7 @@ endif
 set autoread
 autocmd FocusGained * silent! checktime
 
-colorscheme NeoSolarized
+colorscheme onedark
 "transparent background:
 hi Normal guibg=NONE ctermbg=NONE
 if (has("termguicolors"))

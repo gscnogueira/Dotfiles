@@ -1,5 +1,5 @@
 #+title:Neovim Configuration
-#+PROPERTY: header-args:vimrc :tangle ~/.dotfiles/.files/init.vim
+#+PROPERTY: header-args:vimrc :tangle ~/.dotfiles/.files/.config/nvim/init.vim
 
 * Plugins
 ** Imports
@@ -37,7 +37,7 @@
 
 #+begin_src vimrc
   let g:lightline = {
-      \ 'colorscheme': 'solarized',
+      \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
@@ -156,7 +156,7 @@ autocmd FocusGained * silent! checktime
 ** Theme
 
 #+begin_src vimrc
-colorscheme NeoSolarized
+colorscheme onedark
 "transparent background:
 hi Normal guibg=NONE ctermbg=NONE
 if (has("termguicolors"))
