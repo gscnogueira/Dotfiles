@@ -69,13 +69,13 @@
 
 (set-face-attribute 'default nil
                     :font "JetBrains Mono"
-                    :height 110
+                    :height 118
                     :weight 'normal)
 
 ;; Set fixed pitch face
 (set-face-attribute 'fixed-pitch nil
                     :font "JetBrains Mono"
-                    :height 110)
+                    :height 118)
 
 ;; Set variable pitch face
 ;;(set-face-attribute 'variable-pitch nil
@@ -91,10 +91,9 @@
   :after all-the-icons
   :init
   (doom-modeline-mode 1))
-(setq doom-modeline-height 40)
 
 (use-package doom-themes
-  :init (load-theme 'doom-solarized-dark t))
+  :init (load-theme 'doom-one t))
 
 (setq code-directory "/home/gabriel/Code/")
 (setq config-directory "/home/gabriel/.dotfiles/")
@@ -260,6 +259,10 @@
   (company-idle-delay 0.0)
   (company-format-margin-function 'company-vscode-dark-icons-margin))
 
+(use-package magit
+:custom
+(magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
 (use-package projectile
   :config
   (projectile-mode)
@@ -268,12 +271,6 @@
   ("C-c p" . projectile-command-map)
   :init
   (setq projectile-project-search-path '("~/Code/UnB/" "~/.dotfiles/")))
-
-(use-package hydra)
-
-(use-package magit
-:custom
-(magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
 (setq calendar-date-style 'european)
 
@@ -286,11 +283,11 @@
   :bind (
          ("C-x 4 -" . crux-transpose-windows)))
 
-(setq Man-notify-method 'aggressive)
-
 (use-package yasnippet
   :config
   (yas-global-mode 1))
+
+(use-package hydra)
 
 (defun org-icons ()
    "Beautify org mode keywords."
@@ -327,23 +324,23 @@
 
 (require 'org-faces)
 
-(dolist (face '((org-level-1 . 1.2)
-                (org-level-2 . 1.1)
-                (org-level-3 . 1.0)
-                (org-level-4 . 1.0)
-                (org-level-5 . 1.0)
-                (org-level-6 . 1.0)
-                (org-level-7 . 1.0)))
-  (set-face-attribute (car face) nil :height (cdr face)))
+;; (dolist (face '((org-level-1 . 1.2)
+;;                 (org-level-2 . 1.1)
+;;                 (org-level-3 . 1.0)
+;;                 (org-level-4 . 1.0)
+;;                 (org-level-5 . 1.0)
+;;                 (org-level-6 . 1.0)
+;;                 (org-level-7 . 1.0)))
+;;   (set-face-attribute (car face) nil :height (cdr face)))
 
 
-(set-face-attribute 'org-document-title nil :height 1.5 :foreground "#b58900")
+;; ;; (set-face-a ttribute 'org-document-title nil :height 1.5 :foreground "#b58900")
 
 (use-package org-bullets
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+  (org-bullets-bullet-list '("◉" "○" "✸")))
 
 (setq org-clock-sound  "~/.config/sounds/pop.wav")
 (setq org-show-notification-timeout 1)
@@ -423,6 +420,10 @@
 
 (setq org-latex-minted-options
       '(("frame" "single")))
+
+(use-package ox-reveal)
+
+(setq Man-notify-method 'aggressive)
 
 (use-package term
   :config
@@ -610,7 +611,7 @@
 
 (defun gscn/set-font-faces()
   (message "Setting faces!")
-  (set-face-attribute 'default nil :font "JetBrains Mono" :height 105 :weight 'regular))
+  (set-face-attribute 'default nil :font "JetBrains Mono" :height 118 :weight 'normal))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions

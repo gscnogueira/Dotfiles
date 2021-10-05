@@ -112,13 +112,13 @@ Install =use-package=.
 #+begin_src elisp
   (set-face-attribute 'default nil
                       :font "JetBrains Mono"
-                      :height 110
+                      :height 118
                       :weight 'normal)
 
   ;; Set fixed pitch face
   (set-face-attribute 'fixed-pitch nil
                       :font "JetBrains Mono"
-                      :height 110)
+                      :height 118)
 
   ;; Set variable pitch face
   ;;(set-face-attribute 'variable-pitch nil
@@ -143,18 +143,17 @@ Install =use-package=.
      :after all-the-icons
      :init
      (doom-modeline-mode 1))
-   (setq doom-modeline-height 40)
 #+end_src
 
 ** Theme
 
 #+begin_src elisp
   (use-package doom-themes
-    :init (load-theme 'doom-solarized-dark t))
+    :init (load-theme 'doom-one t))
 #+end_src
 
-* Registers
-** Directories
+** Registers
+*** Directories
 
 #+begin_src elisp
   (setq code-directory "/home/gabriel/Code/")
@@ -162,7 +161,7 @@ Install =use-package=.
   (setq semestre-file "/home/gabriel/Notes/UnB/2021-01/2021-01.org")
 #+end_src
 
-** Keys
+*** Keys
 
 #+begin_src elisp
   (set-register ?p (cons 'file (concat code-directory "PC/test.cpp")))
@@ -271,8 +270,9 @@ Install =use-package=.
   (ivy-rich-mode 1))
 #+end_src
 
-* Languages
-** Language Server Protocol
+* Emacs IDE
+** Languages
+*** Language Server Protocol
 
 #+begin_src elisp
   (use-package lsp-mode
@@ -288,15 +288,15 @@ Install =use-package=.
     (lsp-ui-doc-position 'at-point))
 #+end_src
 
-** General
-*** Rainbow Delimiters 
+*** General
+**** Rainbow Delimiters 
 
 #+begin_src elisp
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
-*** Smartparens
+**** Smartparens
 
 #+begin_src elisp
   (use-package smartparens
@@ -304,7 +304,7 @@ Install =use-package=.
            (prog-mode . show-smartparens-mode)))
 #+end_src
 
-*** Evil Nerd Commenter
+**** Evil Nerd Commenter
 
 #+begin_src elisp
   (use-package evil-nerd-commenter
@@ -312,7 +312,7 @@ Install =use-package=.
     (evilnc-default-hotkeys))
 #+end_src
 
-*** Evil Surround
+**** Evil Surround
 
 #+begin_src elisp
 (use-package evil-surround
@@ -320,14 +320,14 @@ Install =use-package=.
   (global-evil-surround-mode 1))
  #+end_src
 
-*** Tab
+**** Tab
 
 #+begin_src elisp
   (setq-default tab-width 4)
   (setq-default evil-shift-width 4)
 #+end_src
 
-** C/C++
+*** C/C++
 
 #+begin_src elisp
   (setq-default c-basic-offset 4)
@@ -336,13 +336,13 @@ Install =use-package=.
   (add-hook 'c++-mode-hook 'lsp-deferred)
 #+end_src
 
-** CSV
+*** CSV
 
 #+begin_src elisp
   (use-package csv-mode)
 #+end_src
 
-** Emacs Lisp
+*** Emacs Lisp
 
 #+begin_src elisp
 (use-package helpful
@@ -356,25 +356,25 @@ Install =use-package=.
   ([remap describe-key] . helpful-key))
 #+end_src
 
-** Go
+*** Go
 
 #+begin_src elisp
 (use-package go-mode)
 #+end_src
 
-** Haskell
+*** Haskell
 
 #+begin_src elisp
   (use-package haskell-mode)
 #+end_src
 
-** R
+*** R
 
 #+begin_src elisp
   (use-package ess)
 #+end_src
 
-** TypeScript
+*** TypeScript
 
 #+begin_src elisp
   (use-package typescript-mode
@@ -384,13 +384,13 @@ Install =use-package=.
     (setq typescript-indent-level 2))
 #+end_src
 
-** Vim Script
+*** Vim Script
 
 #+begin_src elisp
   (use-package vimrc-mode)
 #+end_src
 
-** Octave
+*** Octave
 
 #+begin_src elisp
 
@@ -419,7 +419,7 @@ Install =use-package=.
 
 #+end_src
 
-* Company Mode
+** Company Mode
 
 #+begin_src elisp
   (use-package company
@@ -432,7 +432,20 @@ Install =use-package=.
 
 #+end_src
 
-* Projectile
+** Git
+*** Magit
+
+#+begin_src elisp
+  (use-package magit
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
+
+*** TODO Forge
+
+Package for integration between github and Magit
+
+** Projectile
 
 #+begin_src elisp
   (use-package projectile
@@ -445,25 +458,6 @@ Install =use-package=.
     (setq projectile-project-search-path '("~/Code/UnB/" "~/.dotfiles/")))
 
 #+end_src
-
-* Hydra
-
-#+begin_src elisp
-(use-package hydra)
-#+end_src
-
-* Git
-** Magit
-
-#+begin_src elisp
-  (use-package magit
-  :custom
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
-#+end_src
-
-** TODO Forge
-
-Package for integration between github and Magit
 
 * Productivity
 ** Calendar
@@ -488,13 +482,7 @@ Package for integration between github and Magit
            ("C-x 4 -" . crux-transpose-windows)))
 #+end_src
 
-* Unix
-** Man
-#+begin_src elisp
-(setq Man-notify-method 'aggressive)
-#+end_src
-
-* YASnippet
+** YASnippet
 
 #+begin_src elisp
   (use-package yasnippet
@@ -503,8 +491,14 @@ Package for integration between github and Magit
 
 #+end_src
 
-* Org Mode
-** Icons
+** Hydra
+
+#+begin_src elisp
+(use-package hydra)
+#+end_src
+
+** Org Mode
+*** Icons
 
 #+begin_src elisp
   (defun org-icons ()
@@ -516,7 +510,7 @@ Package for integration between github and Magit
      (prettify-symbols-mode))
 #+end_src
 
-** Org Configurations
+*** Org Configurations
 
 #+begin_src elisp
   (defun gscn/org-mode-setup()
@@ -546,37 +540,37 @@ Package for integration between github and Magit
 
   (require 'org-faces)
 
-  (dolist (face '((org-level-1 . 1.2)
-                  (org-level-2 . 1.1)
-                  (org-level-3 . 1.0)
-                  (org-level-4 . 1.0)
-                  (org-level-5 . 1.0)
-                  (org-level-6 . 1.0)
-                  (org-level-7 . 1.0)))
-    (set-face-attribute (car face) nil :height (cdr face)))
+  ;; (dolist (face '((org-level-1 . 1.2)
+  ;;                 (org-level-2 . 1.1)
+  ;;                 (org-level-3 . 1.0)
+  ;;                 (org-level-4 . 1.0)
+  ;;                 (org-level-5 . 1.0)
+  ;;                 (org-level-6 . 1.0)
+  ;;                 (org-level-7 . 1.0)))
+  ;;   (set-face-attribute (car face) nil :height (cdr face)))
 
 
-  (set-face-attribute 'org-document-title nil :height 1.5 :foreground "#b58900")
+  ;; ;; (set-face-a ttribute 'org-document-title nil :height 1.5 :foreground "#b58900")
 #+end_src
 
-** Bullets
+*** Bullets
 
 #+begin_src elisp
   (use-package org-bullets
     :after org
     :hook (org-mode . org-bullets-mode)
     :custom
-    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+    (org-bullets-bullet-list '("◉" "○" "✸")))
 #+end_src
 
-** Timer
+*** Timer
 
 #+begin_src elisp
   (setq org-clock-sound  "~/.config/sounds/pop.wav")
   (setq org-show-notification-timeout 1)
 #+end_src
 
-** Agenda
+*** Agenda
 
 #+begin_src elisp
   (setq-default org-agenda-files
@@ -589,7 +583,7 @@ Package for integration between github and Magit
           "~/Notes/20210726225541-redes_de_computadores.org"))
 #+end_src
 
-** Visual fill column
+*** Visual fill column
 
 #+begin_src elisp
   ;;(defun gscn/org-mode-visual-fill ()
@@ -601,7 +595,7 @@ Package for integration between github and Magit
     ;;:hook (org-mode . gscn/org-mode-visual-fill))
 #+end_src
  
-** Org Babel
+*** Org Babel
 
 #+begin_src elisp
   (org-babel-do-load-languages
@@ -618,7 +612,7 @@ Package for integration between github and Magit
   (setq org-src-window-setup 'current-window)
 #+end_src
 
-** Structure Templates
+*** Structure Templates
 
 #+begin_src elisp
   (require 'org-tempo)
@@ -632,7 +626,7 @@ Package for integration between github and Magit
   (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
 #+end_src
 
-** Auto-tangle Configuration Files
+*** Auto-tangle Configuration Files
 
 #+begin_src elisp
 
@@ -649,7 +643,7 @@ Package for integration between github and Magit
 
 #+end_src
 
-** Org Roam
+*** Org Roam
 
 #+begin_src elisp
   (use-package org-roam
@@ -666,13 +660,13 @@ Package for integration between github and Magit
     )
 #+end_src
 
-** Org Plot
+*** Org Plot
 #+begin_src elisp
   (use-package gnuplot-mode)
   (use-package gnuplot)
 #+end_src
 
-** Latex Export
+*** Latex Export
 
 #+begin_src elisp
   (setq org-latex-listings 'minted
@@ -683,6 +677,18 @@ Package for integration between github and Magit
 
   (setq org-latex-minted-options
         '(("frame" "single")))
+#+end_src
+
+*** Org Reveal
+
+#+begin_src elisp
+  (use-package ox-reveal)
+#+end_src
+
+* Unix
+** Man
+#+begin_src elisp
+(setq Man-notify-method 'aggressive)
 #+end_src
 
 * Terminals
@@ -1023,7 +1029,7 @@ kill-buffer
 #+begin_src elisp
 (defun gscn/set-font-faces()
   (message "Setting faces!")
-  (set-face-attribute 'default nil :font "JetBrains Mono" :height 105 :weight 'regular))
+  (set-face-attribute 'default nil :font "JetBrains Mono" :height 118 :weight 'normal))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
