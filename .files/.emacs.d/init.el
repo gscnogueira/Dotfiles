@@ -19,8 +19,9 @@
 (menu-bar-mode -1)	       ;; Disable the menu bar
 (blink-cursor-mode 1)	       ;; Blink cursor
 (setq mouse-autoselect-window t)
+(add-hook 'prog-mode-hook 'hl-line-mode)
 
-;;(setq visible-bell t)          ;; Set up the visual bell
+;;(setq visible-bell nil)          ;; Set up the visual bell
 
 (column-number-mode)                 ;; show column number in the mode-line
 (global-display-line-numbers-mode t) ;; enable line numbers

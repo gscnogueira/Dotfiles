@@ -36,8 +36,9 @@ Install =use-package=.
   (menu-bar-mode -1)	       ;; Disable the menu bar
   (blink-cursor-mode 1)	       ;; Blink cursor
   (setq mouse-autoselect-window t)
+  (add-hook 'prog-mode-hook 'hl-line-mode)
 
-  ;;(setq visible-bell t)          ;; Set up the visual bell
+  ;;(setq visible-bell nil)          ;; Set up the visual bell
 #+end_src
 
 ** Column and Line Numbers
