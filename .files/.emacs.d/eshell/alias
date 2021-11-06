@@ -1,3 +1,0 @@
-alias ggo gg && ./test <in.txt >out.txt
-alias pc cd ~/Code/PC
-alias gg g++ -std=c++17 -O2 -Wall test.cpp -o test -lm -g

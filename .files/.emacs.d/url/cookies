@@ -1,17 +1,0 @@
-;; Emacs-W3 HTTP cookies file
-;; Automatically generated file!!! DO NOT EDIT!!!
-
-(setq url-cookie-storage
- '(("codeforces.com"
-  [url-cookie "39ce7" "CFk0SApu" "dom jun 20 07:44:26 2021 GMT" "/" "codeforces.com" nil]
-  [url-cookie "X-User-Sha1" "8f0c3af80f8b424d55ed3a3b2bcf654e77891caf" "qua jun 08 17:58:52 2022 GMT" "/" "codeforces.com" nil]))
-)
-(setq url-cookie-secure-storage
- '((".visualstudio.com"
-  [url-cookie "VstsSession" "%7B%22PersistentSessionId%22%3A%2236877435-386a-4a4d-a0e4-96642ae2add9%22%2C%22PendingAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22CurrentAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22SignInState%22%3A%7B%7D%7D" "Thu, 09-Apr-2026 16:25:58 GMT" "/" ".visualstudio.com" t]))
-)
-
-;; Local Variables:
-;; version-control: never
-;; no-byte-compile: t
-;; End:

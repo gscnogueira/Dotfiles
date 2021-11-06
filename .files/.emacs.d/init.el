@@ -98,7 +98,7 @@
 
 (setq code-directory "/home/gabriel/Code/")
 (setq config-directory "/home/gabriel/.dotfiles/")
-(setq semestre-file "/home/gabriel/Notes/UnB/2021-01/2021-01.org")
+(setq semestre-file "/home/gabriel/Dropbox/Notes/UnB/2021-01/2021-01.org")
 
 (set-register ?p (cons 'file (concat code-directory "PC/test.cpp")))
 (set-register ?c (cons 'file code-directory))
@@ -125,13 +125,14 @@
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil) ;; necessary to use evil collection
+  (setq evil-search-module 'evil-search)
   (evil-mode 1)
   :hook (evil-mode . gscn/evil-hook)
   :config
   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-undo-system 'undo-tree)
-  (setq evil-search-module 'evil-search)) 
+  ) 
 
 (use-package evil-collection
   :after evil
@@ -158,7 +159,7 @@
 
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
-	 ("C-x b" . counsel-ibuffer)
+	 ("C-x b" . persp-counsel-switch-buffer)
 	 ("C-x C-f" . counsel-find-file)
 	 ("C-x C-r" . counsel-buffer-or-recentf)
 	 ("C-M-j" . counsel-switch-buffer)
@@ -199,6 +200,7 @@
   :config
   (global-evil-surround-mode 1))
 
+(setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq-default evil-shift-width 4)
 
@@ -222,6 +224,12 @@
 (use-package go-mode)
 
 (use-package haskell-mode)
+
+;; (use-package lsp-pyright
+;;   :ensure t
+;;   :hook (python-mode . (lambda ()
+;;                           (require 'lsp-pyright)
+;;                           (lsp-deferred))))  ; or lsp-deferred
 
 (use-package ess)
 
@@ -285,9 +293,9 @@
   :bind (
          ("C-x 4 -" . crux-transpose-windows)))
 
-(use-package yasnippet
-  :config
-  (yas-global-mode 1))
+;; (use-package yasnippet
+;;   :config
+;;   (yas-global-mode 1))
 
 (use-package hydra)
 
@@ -312,7 +320,7 @@
         org-hide-emphasis-markers t
         org-startup-folded t
         org-log-into-drawer t
-        org-directory "~/Notes")
+        org-directory "~/Dropbox/Notes")
 
   (setq org-list-demote-modify-bullet
         '(("+" . "-") ("-" . "+") ("*" . "-")))
@@ -348,13 +356,13 @@
 (setq org-show-notification-timeout 1)
 
 (setq-default org-agenda-files
-      '("~/Notes/20210807112735-tasks.org"
-        "~/Notes/20210904224143-aniversarios.org"
-        "~/Notes/20210726225417-fundamentos_teoricos_da_computacao.org"
-        "~/Notes/20210726225430-bancos_de_dados.org"
-        "~/Notes/20210726225600-programacao_competitiva_2.org"
-        "~/Notes/20210726225456-teoria_dos_numeros_1.org"
-        "~/Notes/20210726225541-redes_de_computadores.org"))
+      '("~/Dropbox/Notes/20210807112735-tasks.org"
+        "~/Dropbox/Notes/20210904224143-aniversarios.org"
+        "~/Dropbox/Notes/20210726225417-fundamentos_teoricos_da_computacao.org"
+        "~/Dropbox/Notes/20210726225430-bancos_de_dados.org"
+        "~/Dropbox/Notes/20210726225600-programacao_competitiva_2.org"
+        "~/Dropbox/Notes/20210726225456-teoria_dos_numeros_1.org"
+        "~/Dropbox/Notes/20210726225541-redes_de_computadores.org"))
 
 ;;(defun gscn/org-mode-visual-fill ()
     ;;(setq visual-fill-column-width 100
@@ -402,7 +410,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/Notes")
+  (org-roam-directory "~/Dropbox/Notes")
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c f" . org-roam-node-find)
          ("C-c i" . org-roam-node-insert)
@@ -612,7 +620,7 @@
 )
 
 (defun gscn/set-font-faces()
-  (message "Setting faces!")
+  (message "Setting faces test kkk!")
   (set-face-attribute 'default nil :font "JetBrains Mono" :height 118 :weight 'normal))
 
 (if (daemonp)

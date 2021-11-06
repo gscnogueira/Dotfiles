@@ -159,7 +159,7 @@ Install =use-package=.
 #+begin_src elisp
   (setq code-directory "/home/gabriel/Code/")
   (setq config-directory "/home/gabriel/.dotfiles/")
-  (setq semestre-file "/home/gabriel/Dropbox/Notes/UnB/2021-01/2021-01.org")
+  (setq semestre-file "/home/gabriel/Notes/UnB/2021-01/2021-01.org")
 #+end_src
 
 *** Keys
@@ -207,14 +207,12 @@ Install =use-package=.
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil) ;; necessary to use evil collection
-    (setq evil-search-module 'evil-search)
     (evil-mode 1)
     :hook (evil-mode . gscn/evil-hook)
     :config
     (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
     (evil-set-initial-state 'messages-buffer-mode 'normal)
-    (evil-set-undo-system 'undo-tree)
-    ) 
+    (evil-set-undo-system 'undo-tree)) 
 
   (use-package evil-collection
     :after evil
@@ -253,7 +251,7 @@ Install =use-package=.
 #+begin_src elisp
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
-	 ("C-x b" . persp-counsel-switch-buffer)
+	 ("C-x b" . counsel-ibuffer)
 	 ("C-x C-f" . counsel-find-file)
 	 ("C-x C-r" . counsel-buffer-or-recentf)
 	 ("C-M-j" . counsel-switch-buffer)
@@ -326,7 +324,6 @@ Install =use-package=.
 **** Tab
 
 #+begin_src elisp
-  (setq-default indent-tabs-mode nil)
   (setq-default tab-width 4)
   (setq-default evil-shift-width 4)
 #+end_src
@@ -370,15 +367,6 @@ Install =use-package=.
 
 #+begin_src elisp
   (use-package haskell-mode)
-#+end_src
-
-*** Python
-#+begin_src elisp
-  ;; (use-package lsp-pyright
-  ;;   :ensure t
-  ;;   :hook (python-mode . (lambda ()
-  ;;                           (require 'lsp-pyright)
-  ;;                           (lsp-deferred))))  ; or lsp-deferred
 #+end_src
 
 *** R
@@ -498,9 +486,9 @@ Package for integration between github and Magit
 ** YASnippet
 
 #+begin_src elisp
-  ;; (use-package yasnippet
-  ;;   :config
-  ;;   (yas-global-mode 1))
+  (use-package yasnippet
+    :config
+    (yas-global-mode 1))
 
 #+end_src
 
@@ -539,7 +527,7 @@ Package for integration between github and Magit
           org-hide-emphasis-markers t
           org-startup-folded t
           org-log-into-drawer t
-          org-directory "~/Dropbox/Notes")
+          org-directory "~/Notes")
 
     (setq org-list-demote-modify-bullet
           '(("+" . "-") ("-" . "+") ("*" . "-")))
@@ -573,7 +561,7 @@ Package for integration between github and Magit
     :after org
     :hook (org-mode . org-bullets-mode)
     :custom
-    (org-bullets-bullet-list '("◉" "○" "✸")))
+    (org-bullets-bullet-list '("◉" "○" "●" "✸")))
 #+end_src
 
 *** Timer
@@ -587,13 +575,13 @@ Package for integration between github and Magit
 
 #+begin_src elisp
   (setq-default org-agenda-files
-        '("~/Dropbox/Notes/20210807112735-tasks.org"
-          "~/Dropbox/Notes/20210904224143-aniversarios.org"
-          "~/Dropbox/Notes/20210726225417-fundamentos_teoricos_da_computacao.org"
-          "~/Dropbox/Notes/20210726225430-bancos_de_dados.org"
-          "~/Dropbox/Notes/20210726225600-programacao_competitiva_2.org"
-          "~/Dropbox/Notes/20210726225456-teoria_dos_numeros_1.org"
-          "~/Dropbox/Notes/20210726225541-redes_de_computadores.org"))
+        '("~/Notes/20210807112735-tasks.org"
+          "~/Notes/20210904224143-aniversarios.org"
+          "~/Notes/20210726225417-fundamentos_teoricos_da_computacao.org"
+          "~/Notes/20210726225430-bancos_de_dados.org"
+          "~/Notes/20210726225600-programacao_competitiva_2.org"
+          "~/Notes/20210726225456-teoria_dos_numeros_1.org"
+          "~/Notes/20210726225541-redes_de_computadores.org"))
 #+end_src
 
 *** Visual fill column
@@ -663,7 +651,7 @@ Package for integration between github and Magit
     :init
     (setq org-roam-v2-ack t)
     :custom
-    (org-roam-directory "~/Dropbox/Notes")
+    (org-roam-directory "~/Notes")
     :bind (("C-c n l" . org-roam-buffer-toggle)
            ("C-c f" . org-roam-node-find)
            ("C-c i" . org-roam-node-insert)
@@ -1041,7 +1029,7 @@ kill-buffer
 
 #+begin_src elisp
 (defun gscn/set-font-faces()
-  (message "Setting faces test kkk!")
+  (message "Setting faces!")
   (set-face-attribute 'default nil :font "JetBrains Mono" :height 118 :weight 'normal))
 
 (if (daemonp)
