@@ -1,96 +1,85 @@
-#+title: Emacs Configuration
+#+TITLE: Emacs Configuration
 #+PROPERTY: header-args:elisp :tangle ~/.dotfiles/.files/.emacs.d/init.el
 
-* Package System Setup
-Set up package archives.
+* Appearence
+** Making emacs clean
 
 #+begin_src elisp
-(require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                             ("org" . "https://orgmode.org/elpa/")
-                             ("elpa" . "https://elpa.gnu.org/packages/")))
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
-#+end_src
+  (setq inhibit-splash-screen t)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (tooltip-mode -1)
+  (menu-bar-mode -1)
+ #+end_src
 
-Install =use-package=.
-
-#+begin_src  elisp
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(require 'use-package)
-(setq use-package-always-ensure t)
-#+end_src
-
-* General Configuration
-** User Interface
-
-#+begin_src elisp 
-
-  (setq inhibit-splash-screen t)   ;; Don't show startup message
-  (scroll-bar-mode -1)	       ;; Disable visible scrollbar
-  (tool-bar-mode -1)	       ;; Disable the toolbar
-  (tooltip-mode -1)	               ;; Disable tooltips
-  (set-fringe-mode 10)	       ;; Give some breathing room
-  (menu-bar-mode -1)	       ;; Disable the menu bar
-  (blink-cursor-mode 1)	       ;; Blink cursor
-  (setq mouse-autoselect-window t)
-  (add-hook 'prog-mode-hook 'hl-line-mode)
-
-  ;;(setq visible-bell nil)          ;; Set up the visual bell
-#+end_src
-
-** Column and Line Numbers
+** Theme
 
 #+begin_src elisp
-    (column-number-mode)                 ;; show column number in the mode-line
-    (global-display-line-numbers-mode t) ;; enable line numbers
-
-    (dolist (mode '(
-                    org-agenda-mode-hook
-                    org-mode-hook
-                    Man-mode-hook
-                    Man-mode-hook
-                    calendar-mode-hook
-                    dired-mode-hook
-                    doc-view-mode-hook
-                    elfeed-search-mode-hook
-                    elfeed-show-mode-hook
-                    eshell-mode-hook
-                    helpful-mode-hook
-                    inferior-haskell-mode
-                    inferior-octave-mode-hook
-                    mu4e-main-mode-hook
-                    shell-mode-hook
-                    term-mode-hook
-                    tetris-mode-hook
-                    vterm-mode-hook
-                    ))
-        (add-hook mode (lambda() (display-line-numbers-mode 0))))
+  (load-theme 'modus-vivendi t)
 #+end_src
 
-** Windows Mannagement
-*** winner-mode
+** Fonts
 
 #+begin_src elisp
-  (use-package winner-mode
-    :ensure nil
+  (defun gscn/set-font-faces()
+    (set-face-attribute 'default nil
+                        :font "JetBrains Mono"
+                        :height 118 ))
+  (gscn/set-font-faces)
+#+end_src
+
+** Icons
+
+#+begin_src elisp
+  (use-package all-the-icons)
+#+end_src
+
+** Modeline
+*** Doom Modeline
+
+#+begin_src elisp
+  (use-package doom-modeline
+    :after all-the-icons
     :init
-    (winner-mode)
-    :bind(:map evil-window-map
-               ("u" . winner-undo)
-               ("U" . winner-redo)))
+    (doom-modeline-mode 1))
 #+end_src
 
-*** Key-bindings
+*** General Configuration
 
 #+begin_src elisp
-  (global-set-key (kbd "C-x p") 'previous-window-any-frame)
+   (column-number-mode)                 ;; show column number in the mode-line
 #+end_src
 
-** Buffer Mannagement
-*** Key bindings
+** Line Numbers
+
+#+begin_src elisp
+
+  (global-display-line-numbers-mode t) ;; enable line numbers
+
+  (dolist (mode '(
+                  org-agenda-mode-hook
+                  org-mode-hook
+                  Man-mode-hook
+                  Man-mode-hook
+                  calendar-mode-hook
+                  dired-mode-hook
+                  doc-view-mode-hook
+                  elfeed-search-mode-hook
+                  elfeed-show-mode-hook
+                  eshell-mode-hook
+                  helpful-mode-hook
+                  inferior-haskell-mode
+                  inferior-octave-mode-hook
+                  mu4e-main-mode-hook
+                  shell-mode-hook
+                  term-mode-hook
+                  tetris-mode-hook
+                  vterm-mode-hook
+                  ))
+    (add-hook mode (lambda() (display-line-numbers-mode 0))))
+#+end_src
+
+* General key bindings
 
 #+begin_src elisp
   (global-unset-key (kbd "C-x ["))
@@ -102,76 +91,34 @@ Install =use-package=.
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+end_src
 
-** Auto-revert mode
+* Packages
+** Package System Setup
 
 #+begin_src elisp
-(global-auto-revert-mode 1)
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("org" . "https://orgmode.org/elpa/")
+			   ("elpa" . "https://elpa.gnu.org/packages/")))
+  (package-initialize)
 #+end_src
 
-** Fonts
+** Use-Package
+
+Checking if ~use-package~ is already installed:
 
 #+begin_src elisp
-  (set-face-attribute 'default nil
-                      :font "JetBrains Mono"
-                      :height 118
-                      :weight 'normal)
-
-  ;; Set fixed pitch face
-  (set-face-attribute 'fixed-pitch nil
-                      :font "JetBrains Mono"
-                      :height 118)
-
-  ;; Set variable pitch face
-  ;;(set-face-attribute 'variable-pitch nil
-                      ;;:font "Cantarell"
-                      ;;:height 135
-                      ;;:weight 'regular)
-
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
 #+end_src
-
-*** Emoji
 
 #+begin_src elisp
-(use-package emojify)
+  (require 'use-package)
+  (setq use-package-always-ensure t)
 #+end_src
 
-** Mode-Line
-
-#+begin_src elisp
-   (use-package all-the-icons)
-
-   (use-package doom-modeline
-     :after all-the-icons
-     :init
-     (doom-modeline-mode 1))
-#+end_src
-
-** Theme
-
-#+begin_src elisp
-  (use-package doom-themes
-    :init (load-theme 'doom-one t))
-#+end_src
-
-** Registers
-*** Directories
-
-#+begin_src elisp
-  (setq code-directory "/home/gabriel/Code/")
-  (setq config-directory "/home/gabriel/.dotfiles/")
-  (setq semestre-file "/home/gabriel/Dropbox/Notes/UnB/2021-01/2021-01.org")
-#+end_src
-
-*** Keys
-
-#+begin_src elisp
-  (set-register ?p (cons 'file (concat code-directory "PC/test.cpp")))
-  (set-register ?c (cons 'file code-directory))
-  (set-register ?d (cons 'file config-directory))
-  (set-register ?u (cons 'file semestre-file))
-#+end_src
-
-* Undo-tree
+- OBS: The ~:ensure~ keyword causes the package(s) to be installed automatically if not already present on your system.
+  
+** Undo-tree
 
 #+begin_src elisp
   (use-package undo-tree
@@ -179,93 +126,45 @@ Install =use-package=.
     (global-undo-tree-mode 1))
 #+end_src
 
-* Keyboard Bindings
-** ESC quit prompts
-
-#+begin_src elisp
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-#+end_src
-
-** which-key
-
-#+begin_src elisp
-(use-package which-key
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config
-  (setq which-key-idle-delay 0.3))
-#+end_src
-
 ** Evil
 
 #+begin_src elisp
-  (defun gscn/evil-hook ()
-    (dolist (mode '(shell-mode eshell-mode vterm-mode))
-            (add-to-list 'evil-emacs-state-modes mode)))
-
   (use-package evil
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil) ;; necessary to use evil collection
-    (setq evil-search-module 'evil-search)
     (evil-mode 1)
-    :hook (evil-mode . gscn/evil-hook)
     :config
-    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-    (evil-set-initial-state 'messages-buffer-mode 'normal)
     (evil-set-undo-system 'undo-tree)
-    ) 
+    )
 
+#+end_src
+
+Evil collection: This is a collection of Evil bindings for the parts of Emacs that Evil does not cover properly by default, such as help-mode, M-x calendar, Eshell and more.
+
+#+begin_src elisp
   (use-package evil-collection
     :after evil
     :config
     (evil-collection-init))
-
 #+end_src
 
-*NOTE*: You can use ~C-z~ to alternate between evil mode and emacs mode.
-
-* Completion
 ** Ivy
 
 #+begin_src elisp
-(use-package ivy
-  :diminish ;; dont show minor mode in the bar
-
-  :init (ivy-mode 1)
-  :bind (;;("C-s" . swiper) ;; have to install swiper
-	 :map ivy-minibuffer-map
-	 ("TAB" . ivy-alt-done)
-	 ("C-l" . ivy-alt-done)
-	 ("C-j" . ivy-next-line)
-	 ("C-k" . ivy-previous-line)
-	 :map ivy-switch-buffer-map
-	 ("C-k" . ivy-previous-line)
-	 ("C-l" . ivy-done)
-	 ("C-d" . ivy-switch-buffer-kill)
-	 :map ivy-reverse-i-search-map
-	 ("C-k" . ivy-previous-line)
-	 ("C-d" . ivy-reverse-i-search-kill)))
+  (use-package ivy
+    :init (ivy-mode 1)
+    :bind (
+           :map ivy-minibuffer-map
+           ("C-k" . ivy-previous-line)
+           ("C-j" . ivy-next-line)
+           ("C-k" . ivy-previous-line)
+           ("TAB" . ivy-alt-done)
+           :map ivy-switch-buffer-map
+           ("C-d" . ivy-switch-buffer-kill)
+           ("C-k" . ivy-previous-line)
+    ))
 #+end_src
-
-** Counsel
-
-#+begin_src elisp
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-	 ("C-x b" . persp-counsel-switch-buffer)
-	 ("C-x C-f" . counsel-find-file)
-	 ("C-x C-r" . counsel-buffer-or-recentf)
-	 ("C-M-j" . counsel-switch-buffer)
-	 :map minibuffer-local-map
-	 ("C-r" . counsel-minibuffer-history))
-  :config
-  (setq ivy-initial-inputs-alist nil) ;; Don't start searches with ^
-  (recentf-mode 1)) ;; Don't start searches with ^
-#+end_src
-
-*NOTE*: ~M-o~ shows prompt options
-** Ivy rich
 
 #+begin_src elisp
 (use-package ivy-rich
@@ -273,297 +172,52 @@ Install =use-package=.
   (ivy-rich-mode 1))
 #+end_src
 
-* Emacs IDE
-** Languages
-*** Language Server Protocol
+** Counsel
 
 #+begin_src elisp
-  (use-package lsp-mode
-    :commands (lsp lsp-deferred)
-    :init
-    (setq lsp-keymap-prefix "C-c l")
-    :config
-    (lsp-enable-which-key-integration t))
-
-  (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
-    :custom
-    (lsp-ui-doc-position 'at-point))
-#+end_src
-
-*** General
-**** Rainbow Delimiters 
-
-#+begin_src elisp
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-#+end_src
-
-**** Smartparens
-
-#+begin_src elisp
-  (use-package smartparens
-    :hook ((prog-mode . smartparens-mode)
-           (prog-mode . show-smartparens-mode)))
-#+end_src
-
-**** Evil Nerd Commenter
-
-#+begin_src elisp
-  (use-package evil-nerd-commenter
-    :config
-    (evilnc-default-hotkeys))
-#+end_src
-
-**** Evil Surround
-
-#+begin_src elisp
-(use-package evil-surround
-  :config
-  (global-evil-surround-mode 1))
- #+end_src
-
-**** Tab
-
-#+begin_src elisp
-  (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 4)
-  (setq-default evil-shift-width 4)
-#+end_src
-
-*** C/C++
-
-#+begin_src elisp
-  (setq-default c-basic-offset 4)
-  (setq c-default-style "linux" )
-  (setq lsp-clients-clangd-args '("--header-insertion-decorators=0" "--header-insertion=never"))
-  (add-hook 'c++-mode-hook 'lsp-deferred)
-#+end_src
-
-*** CSV
-
-#+begin_src elisp
-  (use-package csv-mode)
-#+end_src
-
-*** Emacs Lisp
-
-#+begin_src elisp
-(use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
-#+end_src
-
-*** Go
-
-#+begin_src elisp
-(use-package go-mode)
-#+end_src
-
-*** Haskell
-
-#+begin_src elisp
-  (use-package haskell-mode)
-#+end_src
-
-*** Python
-#+begin_src elisp
-  ;; (use-package lsp-pyright
-  ;;   :ensure t
-  ;;   :hook (python-mode . (lambda ()
-  ;;                           (require 'lsp-pyright)
-  ;;                           (lsp-deferred))))  ; or lsp-deferred
-#+end_src
-
-*** R
-
-#+begin_src elisp
-  (use-package ess)
-#+end_src
-
-*** TypeScript
-
-#+begin_src elisp
-  (use-package typescript-mode
-    :mode "\\.ts\\'"
-    :hook (typescript-mode . lsp-deferred)
-    :config
-    (setq typescript-indent-level 2))
-#+end_src
-
-*** Vim Script
-
-#+begin_src elisp
-  (use-package vimrc-mode)
-#+end_src
-
-*** Octave
-
-#+begin_src elisp
-
-
-  (setq auto-mode-alist
-		  (cons '("\\.m$" . octave-mode) auto-mode-alist))
-
-  (add-hook 'octave-mode-hook
-			(lambda ()
-			  (abbrev-mode 1)
-			  (auto-fill-mode 1)
-			  (if (eq window-system 'x)
-				  (font-lock-mode 1))))
-
-  ;; (use-package octave-mode
-  ;;   :ensure nil
-  ;;   :bind(
-  ;; 		:map octave-mode-map
-  ;; 			 ("<C-return>" . octave-send-line)
-  ;; 			 ))
-
-  (require 'octave)
-  (define-key octave-mode-map (kbd "<C-return>") 'octave-send-line)
-
-
-
-#+end_src
-
-** Company Mode
-
-#+begin_src elisp
-  (use-package company
-    :after lsp-mode
-    :hook (prog-mode . company-mode)
-    :custom
-    (company-minimum-prefix-length 1)
-    (company-idle-delay 0.0)
-    (company-format-margin-function 'company-vscode-dark-icons-margin))
-
-#+end_src
-
-** Git
-*** Magit
-
-#+begin_src elisp
-  (use-package magit
-  :custom
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
-#+end_src
-
-*** TODO Forge
-
-Package for integration between github and Magit
-
-** Projectile
-
-#+begin_src elisp
-  (use-package projectile
-    :config
-    (projectile-mode)
-    (setq projectile-switch-project-action 'projectile-dired)
-    :bind-keymap
-    ("C-c p" . projectile-command-map)
-    :init
-    (setq projectile-project-search-path '("~/Code/UnB/" "~/.dotfiles/")))
-
-#+end_src
-
-* Productivity
-** Calendar
-
-#+begin_src elisp
-(setq calendar-date-style 'european)
-#+end_src
-
-** Perspective
-
-#+begin_src elisp
-  (use-package perspective
-    :bind (("C-x k" . persp-kill-buffer*))
-    :init
-    (persp-mode))
-#+end_src
-
-** CRUX
-#+begin_src elisp
-  (use-package crux
+  (use-package counsel
     :bind (
-           ("C-x 4 -" . crux-transpose-windows)))
+           ("M-x" . counsel-M-x)
+           ("C-x b" . counsel-switch-buffer)
+           ("C-x C-f" . counsel-find-file)
+           ("C-x C-r" . counsel-buffer-or-recentf)
+           ("C-M-j" . counsel-switch-buffer)
+           :map minibuffer-local-map
+           ("C-r" . counsel-minibuffer-history))
+    :config
+    (recentf-mode 1)) 
 #+end_src
 
-** YASnippet
+** Org
 
 #+begin_src elisp
-  ;; (use-package yasnippet
-  ;;   :config
-  ;;   (yas-global-mode 1))
-
-#+end_src
-
-** Hydra
-
-#+begin_src elisp
-(use-package hydra)
-#+end_src
-
-** Org Mode
-*** Icons
-
-#+begin_src elisp
-  (defun org-icons ()
-     "Beautify org mode keywords."
-     (interactive)
-     (setq prettify-symbols-alist '(("[ ]" . "")
-                                    ("[X]" . "")
-                                    ))
-     (prettify-symbols-mode))
-#+end_src
-
-*** Org Configurations
-
-#+begin_src elisp
-  (defun gscn/org-mode-setup()
-    (org-indent-mode)
-    (org-icons)
-    (visual-line-mode 1)) 
-
   (use-package org
-    :hook ((org-mode . gscn/org-mode-setup)
-           (org-mode . org-toggle-pretty-entities))
+    :hook ((org-mode . org-indent-mode)
+           (org-mode . visual-line-mode))
     :config
     (setq org-ellipsis " ▾"
-          org-hide-emphasis-markers t
           org-startup-folded t
-          org-log-into-drawer t
-          org-directory "~/Dropbox/Notes")
-
-    (setq org-list-demote-modify-bullet
-          '(("+" . "-") ("-" . "+") ("*" . "-")))
-    ;; what to do when following links to another file
-    (add-to-list 'org-link-frame-setup '(file . find-file))
+          org-directory "~/Dropbox/Notes"
+          org-hide-emphasis-markers t
+          org-startup-with-inline-images t
+          org-src-window-setup 'current-window
+          org-log-done 'time)
     :bind
     (("C-c a" . org-agenda-list)
-     ("C-c t" . org-todo-list))
-    )
+     ("C-c t" . org-todo-list)))
+#+end_src
+*** Agenda 
+**** Agenda Files
 
-
-  (require 'org-faces)
-
-  ;; (dolist (face '((org-level-1 . 1.2)
-  ;;                 (org-level-2 . 1.1)
-  ;;                 (org-level-3 . 1.0)
-  ;;                 (org-level-4 . 1.0)
-  ;;                 (org-level-5 . 1.0)
-  ;;                 (org-level-6 . 1.0)
-  ;;                 (org-level-7 . 1.0)))
-  ;;   (set-face-attribute (car face) nil :height (cdr face)))
-
-
-  ;; ;; (set-face-a ttribute 'org-document-title nil :height 1.5 :foreground "#b58900")
+#+begin_src elisp
+  (setq-default org-agenda-files
+                '("~/Dropbox/Notes/20210807112735-tasks.org"
+                  "~/Dropbox/Notes/20220604163621-introducao_a_inteligencia_artificial_iia.org"
+                  "~/Dropbox/Notes/20220609130428-linguagens_de_programacao_lp.org"
+                  "~/Dropbox/Notes/20220610234938-sistemas_de_informacao_si.org"
+                  "~/Dropbox/Notes/20220610141035-tecnicas_de_programacao_2_tp2.org"
+                  "~/Dropbox/Notes/20220603170435-tag.org"
+                  "~/Dropbox/Notes/20210904224143-aniversarios.org"))
 #+end_src
 
 *** Bullets
@@ -576,44 +230,12 @@ Package for integration between github and Magit
     (org-bullets-bullet-list '("◉" "○" "✸")))
 #+end_src
 
-*** Timer
-
-#+begin_src elisp
-  (setq org-clock-sound  "~/.config/sounds/pop.wav")
-  (setq org-show-notification-timeout 1)
-#+end_src
-
-*** Agenda
-
-#+begin_src elisp
-  (setq-default org-agenda-files
-        '("~/Dropbox/Notes/20210807112735-tasks.org"
-          "~/Dropbox/Notes/20210904224143-aniversarios.org"
-          "~/Dropbox/Notes/20210726225417-fundamentos_teoricos_da_computacao.org"
-          "~/Dropbox/Notes/20210726225430-bancos_de_dados.org"
-          "~/Dropbox/Notes/20210726225600-programacao_competitiva_2.org"
-          "~/Dropbox/Notes/20210726225456-teoria_dos_numeros_1.org"
-          "~/Dropbox/Notes/20210726225541-redes_de_computadores.org"))
-#+end_src
-
-*** Visual fill column
-
-#+begin_src elisp
-  ;;(defun gscn/org-mode-visual-fill ()
-    ;;(setq visual-fill-column-width 100
-          ;;visual-fill-column-center-text t)
-    ;;(visual-fill-column-mode 1))
-;;
-  ;;(use-package visual-fill-column
-    ;;:hook (org-mode . gscn/org-mode-visual-fill))
-#+end_src
- 
-*** Org Babel
+*** Babel
 
 #+begin_src elisp
   (org-babel-do-load-languages
-   'org-babel-load-languages '(
-                               (emacs-lisp . t)
+   'org-babel-load-languages '((emacs-lisp . t)
+                               (R . t)
                                (C . t)
                                (python . t)
                                (shell . t)
@@ -621,36 +243,32 @@ Package for integration between github and Magit
                                (js     . t)
                                (haskell . t)))
 
-  (setq org-confirm-babel-evaluate nil) ;; não pergunta se vc quer validar
-  (setq org-src-window-setup 'current-window)
+  (setq org-confirm-babel-evaluate nil)
 #+end_src
 
 *** Structure Templates
 
-#+begin_src elisp
-  (require 'org-tempo)
-
-  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-  (add-to-list 'org-structure-template-alist '("el" . "src elisp"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python"))
-  (add-to-list 'org-structure-template-alist '("cpp" . "src cpp"))
-  (add-to-list 'org-structure-template-alist '("hs" . "src haskell"))
-  (add-to-list 'org-structure-template-alist '("sql" . "src sql"))
-  (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
-#+end_src
+ #+begin_src elisp
+   (require 'org-tempo)
+ #+end_src
+ 
+ #+begin_src elisp
+   (setq org-structure-template-alist
+         (append org-structure-template-alist '(("sh" . "src shell")
+                                                ("el" . "src elisp")
+                                                ("py" . "src python"))))
+ #+end_src
 
 *** Auto-tangle Configuration Files
 
 #+begin_src elisp
-
   (defun gscn/org-babel-tangle-config ()
     (when (string-match
 
-           (expand-file-name "~/.dotfiles/.*\.org$")
-           (buffer-file-name))
+	   (expand-file-name "~/.dotfiles/.*\.org$")
+	   (buffer-file-name))
       (let ((org-confirm-babel-evaluate nil))
-        (org-babel-tangle))))
-
+	(org-babel-tangle))))
 
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'gscn/org-babel-tangle-config)))
 
@@ -673,384 +291,36 @@ Package for integration between github and Magit
     )
 #+end_src
 
-*** Org Plot
+** Winner-mode
+
 #+begin_src elisp
-  (use-package gnuplot-mode)
-  (use-package gnuplot)
+  (winner-mode)
 #+end_src
 
-*** Latex Export
+** Languages
+*** Haskell
 
 #+begin_src elisp
-  (setq org-latex-listings 'minted
-        org-latex-packages-alist '(("" "minted"))
-        org-latex-pdf-process
-        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
-  (setq org-latex-minted-options
-        '(("frame" "single")))
+  (use-package haskell-mode)
 #+end_src
 
-*** Org Reveal
+*** Scala
 
 #+begin_src elisp
-  (use-package ox-reveal)
+  (use-package scala-mode
+    :interpreter
+      ("scala" . scala-mode))
 #+end_src
 
-* Unix
-** Man
+* Daemon
+
 #+begin_src elisp
-(setq Man-notify-method 'aggressive)
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda(frame)
+                  (setq doom-modeline-icon t)
+                  (with-selected-frame frame
+                    (gscn/set-font-faces))))
+    (gscn/set-font-faces)) 
 #+end_src
-
-* Terminals
-** term-mode
-
-#+begin_src elisp
-  (use-package term
-    :config
-    (setq explicit-shell-file-name "zsh")
-    (setq term-prompt-regexp "^[^#$%>\\n]*[#$%>] *"))
-
-#+end_src
-
-- ~C-c C-p~ / ~C-c C-n~ - go back and forward in the buffer's prompts (also =[[= and =]]= with wvil mode)
-- You can use ~C-c C-k~ to enable =char-mode=, and ~C-c C-j~ to get back to =line-mode=
-- If you have =evil-collection= installed, =term-mode= will enter char mode when you use Evil's Insert mode
-- Caveat - editing the input line with Evil motions doesn't work
-
-*** For better color support
-
-Make sure the =tic= program is available on your machine (could be part of =ncurses= package).
-
-#+begin_src elisp
-  (use-package eterm-256color
-    :hook (term-mode . eterm-256color-mode))
-#+end_src
-
-*** ans-term
-
-=ansi-term= is a specialization of =term-mode=
-
-Minor differences:
-- Buffers are managed slightly differently
-** vterm (emacs-libvterm)
-
-NOTE: This one needs to compile a native library, make sure to install its dependencies.
-
-Diferences to =term=:
-
-- Written in native code, much faster and better emulation
-- There is no =line-mode= / =char-mode= split
-*** General Configuration
-
-#+begin_src elisp
-  (use-package vterm
-    :commands vterm
-    :config
-    (setq vterm-max-scrollback 10000)
-    (evil-set-initial-state 'vterm-mode 'emacs))
-#+end_src  
-
-- Read docs on =vterm-use-vterm-prompt-detection-method= for prompt detection
-*** Toggle
-
-#+begin_src elisp
-      (use-package vterm-toggle
-        :bind (
-               ("C-;" . vterm-toggle))
-        :config
-        (setq vterm-toggle-hide-method 'reset-window-configration)
-        (setq vterm-toggle-reset-window-configration-after-exit t)
-        (setq vterm-toggle-fullscreen-p nil)
-  (add-to-list 'display-buffer-alist
-        '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
-           (display-buffer-reuse-window display-buffer-same-window)))
-  )
-#+end_src
-
-** shell-mode
-
-Runs a shell program on your computer in a more controlled buffer. Does not operate as a terminal emulator.
-
-- ~C-c C-p~ / ~C-c C-n~ - go back and forward in the buffer's prompts
-- ~M-p~ / ~M-n~ - go back and forward in the input history
-- ~C-c C-u~ - delete the current input string backwards up to the cursor
-- =counsel-shell-history= - A searchable history of commands typed into the shell
-
-** Eshell
-*** General Configuration
-
-#+begin_src elisp
-
-  (defun gscn/configure-eshell ()
-    ;; Save command history when commands are entered
-    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-
-    ;; Truncate buffer for performance
-    (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-
-    ;;Bind some useful keys for evil-mode
-    (evil-define-key '(normal insert visual) ehsell-mode-map (kbd "C-r") 'counsel-esh-history)
-    (evil-define-key '(normal insert visual) ehsell-mode-map (kbd "<home>") 'eshell-bol)
-    (evil-normalize-keymaps)
-
-    (setq eshell-history-size         10000
-          ehsell-buffer-maximum-lines 10000
-          eshell-hist-ignoredups      t))
-
-  (use-package eshell-git-prompt)
-
-  (use-package eshell
-    :hook (eshell-first-time-mode . gscn/configure-eshell)
-    :config
-    (setq eshell-mode-map (make-sparse-keymap))
-    (eshell-git-prompt-use-theme 'git-radar))
-#+end_src
-
-*** Aliases
-
-#+begin_src elisp
-  (defun eshell/ff (&rest args)
-    (apply #'find-file args))
-
-  (defun eshell/cl ()
-    (eshell/clear 1))
-
-  (defun eshell/gg (&rest args)
-    (shell-command-to-string "ls"))
-#+end_src
-
-*** Syntax Highlighting
-
-#+begin_src elisp
-  (use-package eshell-syntax-highlighting
-    :after esh-mode
-    :config
-    ;; Enable in all Eshell buffers.
-    (eshell-syntax-highlighting-global-mode +1))
-#+end_src
-
-*** Toggle eshell
-
-#+begin_src elisp
-  (use-package eshell-toggle
-    :bind ("C-:" . eshell-toggle))
-#+end_src
-
-* Dired
-** Configuration 
-
-- =dired-listing-switches=: Try =-agho --group-directories-first=
-- ~g~ / ~g r~ Refresh the buffer with =revert-buffer= after changing configuration (and after filesystem changes)
-  
-#+begin_src elisp
-  (defun dired-videos ()
-    (interactive)
-    (dired-single-buffer "~/Videos/"))
-
-  (use-package dired-single)
-  (use-package dired
-    :ensure nil
-    :commands (dired dired-jump)
-    :bind (("C-x C-j" . dired-jump))
-    :custom
-    ((dired-listing-switches "-agho --group-directories-first"))
-    :config
-    (evil-collection-define-key 'normal 'dired-mode-map
-      "h" 'dired-single-up-directory
-      "l" 'dired-single-buffer
-      "b" 'dired-videos
-      ))
-
-  (use-package all-the-icons-dired
-    :hook (dired-mode .  all-the-icons-dired-mode))
-#+end_src
-
-** File Operations
-*** Marking files
-
-- =m= - Marks a file
-- =u= - Unmarks a file
-- =U= - Unmarks all files in buffer
-- =* t= / =t= - Inverts marked files in the buffer
-- =% m= - Mark files in the buffer using regular expression
-- =*= - Lots of other auto-marking functions
-- =k= / =K= - "Kill" marked items (refresh buffer with =g= / =g r= to get back)
-- Many operations can be done on a single file if there are no active marks
-
-*** Copying and Renaming Files
-
-- =C= - Copy marked files (or if no files are marked, the current file)
-- Copying single and multiple files
-- =U= - Unmarks all files in buffer
-- =R= - Rename marked files, renaming multiple is a move!
-- =% R= - Rename based on regular expression: =^test=, =old\&=
-
-*** Deleting files
-
-- =D= - Delete marked file
-- =d= - Mark file for deletion
-- =x= - Execute deletion for marks
-- =delete-by-moving-to-trash= - Move to trash instead of deleting permanently
-
-*** Creating and extracting archives
-
-- =Z= - Compress or uncompress a file or folder to (=.tar.gz=)
-- =c= - Compress selection to an specific file
-- =dired-compress-files-alist= - Bind compression commands to file extension
-
-*** Other commom operations
-
-- =T= - Touch (change timestamp)
-- =M= - Change file mode
-- =O= - Change file owner
-- =G= - Change file group
-- =S= - Create a symbolic link to thid file
-- =L= - Load an Emacs Lisp file into Emacs
-
-** Single Dired buffer
-
-Closed Dired buffers are just burried! They need to be refreshed if you go back to them/
-
-Use =dired-single= to help with this
-
-** Open external files
-
-#+begin_src elisp
-    (use-package dired-open
-      :config
-      (setq dired-open-extensions '(("png" . "sxiv")
-                                    ("mp4" . "mpv")
-                                    ("mkv" . "mpv"))))
-#+end_src
-
-** Hide/Show dotfiles
-
-#+begin_src elisp
-  (use-package dired-hide-dotfiles
-    :hook (dired-mode . dired-hide-dotfiles-mode)
-    :config
-    (evil-collection-define-key 'normal 'dired-mode-map
-      "H" 'dired-hide-dotfiles-mode))
-#+end_src
-
-* Password Management
-
-#+begin_src elisp
-  (defun gscn/lookup-password(&rest keys)
-    (let ((result (apply #'auth-source-search keys)))
-      (if result
-        (funcall (plist-get (car result) :secret))
-        nil)))
-#+end_src
-
-* Managing Mail with mu4e
-
-
-#+begin_src elisp
-  (use-package mu4e
-    :ensure nil
-    :defer 20 ;; Wait until 20 seconds after startup
-    :load-path "/usr/share/emacs/site-lisp/mu4e/"
-
-    :bind (:map global-map
-                ("C-c m " . mu4e))
-    :config
-
-    ;; This is set to 't' to avoid mail syncing isses when using mbsync
-    (setq mu4e-change-filenames-when-moving t)
-
-    ;; Refresh mail using isync every 10 minutes
-    (setq mu4e-update-interval (* 10 60))
-    (setq mu4e-get-mail-command "mbsync -a")
-    (setq mu4e-maildir "~/Documents/Mail")
-    (setq mu4e-compose-format-flowed t) ;; Text will be adapted to screen size 
-    (setq mu4e-compose-signature "Att.\nGabriel S. C. Nogueira") ;; Text will be adapted to screen size 
-
-    (setq user-mail-address "gab.nog94@gmail.com")
-    (setq user-full-name "Gabriel da Silva Corvino Nogueira")
-    (setq mu4e-drafts-folder "/[Gmail]/Rascunhos")
-    (setq mu4e-sent-folder "/[Gmail]/E-mails enviados")
-    (setq mu4e-refile-folder "/[Gmail]/Todos os e-mails")
-    (setq mu4e-trash-folder "/[Gmail]/Lixeira")
-    (setq smtpmail-smtp-server "smtp.gmail.com")
-    (setq smtpmail-smtp-service 465)
-    (setq smtpmail-stream-type 'ssl)
-    (setq message-send-mail-function 'smtpmail-send-it)
-
-    (setq mu4e-maildir-shortcuts
-          '(("/Inbox"                    . ?i)
-            ("/[Gmail]/E-mails enviados" . ?e)
-            ("/[Gmail]/Lixeira"          . ?l)
-            ("/[Gmail]/Rascunhos"        . ?r)
-            ("/[Gmail]/Todos os e-mails" . ?t)))
-
-    ( setq mu4e-bookmarks 
-     '((:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key 117)
-       (:name "Inbox" :query "maildir:/Inbox" :key ?i)
-       (:name "Today's messages" :query "date:today..now" :key 116)
-       (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key 119)
-       (:name "Messages with images" :query "mime:image/*" :key 112))
-     )
-    (mu4e t))
-#+end_src
-
-* Elfeed
-
-An RSS feed reader for Emacs.
-
-#+begin_src elisp
-    (defun gscn/elfeed-setup ()
-      (( elfed-search-set-filter "@6-months-ago")
-       ))
-    (use-package elfeed
-      :bind (:map global-map
-              ("C-c e " . elfeed))
-      :config
-      (setq elfeed-feeds '(
-                            ("https://feeds.feedburner.com/diolinux ")
-                            ("https://itsfoss.com/feed/")
-                            ("https://lukesmith.xyz/rss.xml")
-                            ("https://noticias.unb.br/?format=feed&type=rss")
-                            ("https://cic.unb.br/feed/")
-                            ("https://decrepitos.com/podcast/feed.xml")
-                            ("https://notrelated.libsyn.com/rss")
-                            ("https://anchor.fm/s/14298150/podcast/rss")
-                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UCld68syR8Wi-GY_n4CaoJGA")
-                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UCEf5U1dB5a2e2S-XUlnhxSA")
-                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg")
-                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA")
-                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UCsnGwSIHyoYN0kiINAGUKxg")
-                            ("https://www.youtube.com/feeds/videos.xml?channel_id=UCAiiOTio8Yu69c3XnR7nQBQ")
-                            ("https://github.com/dracula/dracula-theme/commits/master.atom")
-                            ("https://github.com/UnBalloon/aulas-avancadas/commits/main.atom")
-                            ("https://www.archlinux.org/feeds/news/")
-                            ("https://suckless.org/atom.xml")
-                            ("https://emacsredux.com/atom.xml")
-                            ))
-      (advice-add 'elfeed :after 'elfeed-update)
-  )
-#+end_src
-
-Wrong type argument: integer-or-marker-p, nil
-kill-buffer
-
-* Emacs Daemon
-
-#+begin_src elisp
-(defun gscn/set-font-faces()
-  (message "Setting faces test kkk!")
-  (set-face-attribute 'default nil :font "JetBrains Mono" :height 118 :weight 'normal))
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-	      (lambda(frame)
-		(setq doom-modeline-icon t)
-		(with-selected-frame frame
-		  (gscn/set-font-faces))))
- (gscn/set-font-faces)) 
-#+end_src
-
 
