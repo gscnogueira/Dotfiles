@@ -23,13 +23,14 @@ source /home/gabriel/.config/lf/icons
   alias gc='git commit -av'
   alias gd='git diff'
   alias gg='g++ -std=c++17 -O2 -Wall test.cpp -o test -lm -g'
-  alias gs='git status'
+  alias gs='git status -s'
   alias grep='grep --color=auto'
   alias ls='ls --color=always'
   alias pc='cd ~/Code/PC/'
   alias xclip='xclip -sel clip '
   alias xmo='cd ~/.xmonad'
-  alias unb='cd ~/UnB/2021-1/'
+  alias unb='cd ~/UnB/2022-1/'
+  alias al='cd ~/Code/KnEDLe/active_learning_ensemble'
 #+end_src
 
 * Settings
