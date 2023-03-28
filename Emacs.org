@@ -15,7 +15,13 @@
 ** Theme
 
 #+begin_src elisp
+
   (load-theme 'modus-vivendi t)
+  (setq modus-themes-italic-constructs t)
+  (setq modus-themes-bold-constructs t)
+  (setq modus-themes-paren-match '(underline intense))
+  (setq modus-themes-syntax '(alt-syntax))
+
 #+end_src
 
 ** Fonts
@@ -24,7 +30,8 @@
   (defun gscn/set-font-faces()
     (set-face-attribute 'default nil
                         :font "JetBrains Mono"
-                        :height 118 ))
+                        :height 118
+                        :weight 'normal ))
   (gscn/set-font-faces)
 #+end_src
 
@@ -77,18 +84,6 @@
                   vterm-mode-hook
                   ))
     (add-hook mode (lambda() (display-line-numbers-mode 0))))
-#+end_src
-
-* General key bindings
-
-#+begin_src elisp
-  (global-unset-key (kbd "C-x ["))
-  (global-unset-key (kbd "C-x ]"))
-  (global-unset-key (kbd "C-x C-b"))
-
-  (global-set-key (kbd "C-x [") 'previous-buffer)
-  (global-set-key (kbd "C-x ]") 'next-buffer)
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+end_src
 
 * Packages
@@ -197,7 +192,7 @@ Evil collection: This is a collection of Evil bindings for the parts of Emacs th
     :config
     (setq org-ellipsis " ▾"
           org-startup-folded t
-          org-directory "~/Dropbox/Notes"
+          org-directory "~/Notes"
           org-hide-emphasis-markers t
           org-startup-with-inline-images t
           org-src-window-setup 'current-window
@@ -206,18 +201,28 @@ Evil collection: This is a collection of Evil bindings for the parts of Emacs th
     (("C-c a" . org-agenda-list)
      ("C-c t" . org-todo-list)))
 #+end_src
+*** Icons
+
+#+begin_src elisp
+  (setq prettify-symbols-alist '(("[ ]" . "")
+                                 ("[X]" . "")
+                                 ))
+#+end_src
+
 *** Agenda 
 **** Agenda Files
 
 #+begin_src elisp
-  (setq-default org-agenda-files
-                '("~/Dropbox/Notes/20210807112735-tasks.org"
-                  "~/Dropbox/Notes/20220604163621-introducao_a_inteligencia_artificial_iia.org"
-                  "~/Dropbox/Notes/20220609130428-linguagens_de_programacao_lp.org"
-                  "~/Dropbox/Notes/20220610234938-sistemas_de_informacao_si.org"
-                  "~/Dropbox/Notes/20220610141035-tecnicas_de_programacao_2_tp2.org"
-                  "~/Dropbox/Notes/20220603170435-tag.org"
-                  "~/Dropbox/Notes/20210904224143-aniversarios.org"))
+    (setq-default org-agenda-files
+                  '("~/Notes/20210807112735-tasks.org"
+                    "~/Notes/20221025142716-engenharia_de_software_es.org"
+                    "~/Notes/20221025142726-programacao_concorrente_pc.org"
+                    "~/Notes/20221025142734-programacao_funcional_pf.org"
+                    "~/Notes/20221025142743-automatos_e_computabilidade_ac.org"
+                    "~/Notes/20220127092030-knedle.org"
+                    "~/Notes/20221025142750-computacao_experimental_ce.org"
+                    "~/Notes/20221025142758-informatica_e_sociedade_is.org"
+                    "~/Notes/20210904224143-aniversarios.org"))
 #+end_src
 
 *** Bullets
@@ -239,6 +244,7 @@ Evil collection: This is a collection of Evil bindings for the parts of Emacs th
                                (C . t)
                                (python . t)
                                (shell . t)
+                               (ruby . t)
                                (sql . t)
                                (js     . t)
                                (haskell . t)))
@@ -256,19 +262,26 @@ Evil collection: This is a collection of Evil bindings for the parts of Emacs th
    (setq org-structure-template-alist
          (append org-structure-template-alist '(("sh" . "src shell")
                                                 ("el" . "src elisp")
+                                                ("hs" . "src haskell")
                                                 ("py" . "src python"))))
  #+end_src
 
 *** Auto-tangle Configuration Files
 
+Add the files that must be tangled to the ~org-tangle-files~ list
+
+#+begin_src elisp
+  (setq org-tangle-files '("~/.dotfiles/.*\.org$"
+                           "~/.xmonad/.*\.org$"))
+#+end_src
+
 #+begin_src elisp
   (defun gscn/org-babel-tangle-config ()
-    (when (string-match
-
-	   (expand-file-name "~/.dotfiles/.*\.org$")
-	   (buffer-file-name))
+    (when (let ((files (mapcar #'expand-file-name org-tangle-files)))
+            (cl-some (lambda (x) (string-match-p x (buffer-file-name))) files))
       (let ((org-confirm-babel-evaluate nil))
-	(org-babel-tangle))))
+        (org-babel-tangle)))
+    )
 
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'gscn/org-babel-tangle-config)))
 
@@ -281,7 +294,7 @@ Evil collection: This is a collection of Evil bindings for the parts of Emacs th
     :init
     (setq org-roam-v2-ack t)
     :custom
-    (org-roam-directory "~/Dropbox/Notes")
+    (org-roam-directory "~/Notes")
     :bind (("C-c n l" . org-roam-buffer-toggle)
            ("C-c f" . org-roam-node-find)
            ("C-c i" . org-roam-node-insert)
@@ -291,10 +304,10 @@ Evil collection: This is a collection of Evil bindings for the parts of Emacs th
     )
 #+end_src
 
-** Winner-mode
-
+*** General Config
+Open links in same frame
 #+begin_src elisp
-  (winner-mode)
+  (add-to-list 'org-link-frame-setup '(file . find-file))
 #+end_src
 
 ** Languages
@@ -310,6 +323,86 @@ Evil collection: This is a collection of Evil bindings for the parts of Emacs th
   (use-package scala-mode
     :interpreter
       ("scala" . scala-mode))
+#+end_src
+
+** VTERM
+
+#+begin_src elisp
+  (use-package vterm
+    :commands vterm
+    :config
+    (setq vterm-max-scrollback 10000)
+    (evil-set-initial-state 'vterm-mode 'emacs))
+#+end_src  
+
+*** Toggle
+
+#+begin_src elisp
+  (use-package vterm-toggle
+    :bind (("C-;" . vterm-toggle))
+    :config
+    (setq vterm-toggle-hide-method 'reset-window-configration)
+    (setq vterm-toggle-reset-window-configration-after-exit t)
+    (setq vterm-toggle-fullscreen-p nil)
+    (add-to-list 'display-buffer-alist
+                 '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
+                   (display-buffer-reuse-window display-buffer-same-window)))
+    )
+#+end_src
+
+** AUCTeX
+
+#+begin_src elisp
+  (use-package auctex)
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+#+end_src
+
+** Org Reveal
+
+#+begin_src elisp
+  (use-package ox-reveal)
+#+end_src
+** Magit
+* File Mannagement
+** Backup Files
+
+#+begin_src elisp
+  (setq make-backup-files nil) 
+#+end_src
+
+** Dired
+
+#+begin_src elisp
+  (use-package dired
+    :ensure nil
+    :commands (dired dired-jump)
+    :bind (("C-x C-j" . dired-jump))
+    :custom
+    ((dired-listing-switches "-gho --group-directories-first"))
+    :config
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "h" 'dired-up-directory
+      "l" 'dired-find-file))
+#+end_src
+
+* Window Mannagement
+** Winner-mode
+
+#+begin_src elisp
+  (winner-mode)
+#+end_src
+
+* Key bindings
+
+#+begin_src elisp
+  (global-unset-key (kbd "C-x ["))
+  (global-unset-key (kbd "C-x ]"))
+  (global-unset-key (kbd "C-x C-b"))
+
+  (global-set-key (kbd "C-x [") 'previous-buffer)
+  (global-set-key (kbd "C-x ]") 'next-buffer)
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+end_src
 
 * Daemon

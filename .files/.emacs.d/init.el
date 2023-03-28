@@ -5,11 +5,16 @@
 (menu-bar-mode -1)
 
 (load-theme 'modus-vivendi t)
+(setq modus-themes-italic-constructs t)
+(setq modus-themes-bold-constructs t)
+(setq modus-themes-paren-match '(underline intense))
+(setq modus-themes-syntax '(alt-syntax))
 
 (defun gscn/set-font-faces()
   (set-face-attribute 'default nil
                       :font "JetBrains Mono"
-                      :height 118 ))
+                      :height 118
+                      :weight 'normal ))
 (gscn/set-font-faces)
 
 (use-package all-the-icons)
@@ -44,14 +49,6 @@
                 vterm-mode-hook
                 ))
   (add-hook mode (lambda() (display-line-numbers-mode 0))))
-
-(global-unset-key (kbd "C-x ["))
-(global-unset-key (kbd "C-x ]"))
-(global-unset-key (kbd "C-x C-b"))
-
-(global-set-key (kbd "C-x [") 'previous-buffer)
-(global-set-key (kbd "C-x ]") 'next-buffer)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -118,7 +115,7 @@
   :config
   (setq org-ellipsis " ▾"
         org-startup-folded t
-        org-directory "~/Dropbox/Notes"
+        org-directory "~/Notes"
         org-hide-emphasis-markers t
         org-startup-with-inline-images t
         org-src-window-setup 'current-window
@@ -127,14 +124,20 @@
   (("C-c a" . org-agenda-list)
    ("C-c t" . org-todo-list)))
 
+(setq prettify-symbols-alist '(("[ ]" . "")
+                               ("[X]" . "")
+                               ))
+
 (setq-default org-agenda-files
-              '("~/Dropbox/Notes/20210807112735-tasks.org"
-                "~/Dropbox/Notes/20220604163621-introducao_a_inteligencia_artificial_iia.org"
-                "~/Dropbox/Notes/20220609130428-linguagens_de_programacao_lp.org"
-                "~/Dropbox/Notes/20220610234938-sistemas_de_informacao_si.org"
-                "~/Dropbox/Notes/20220610141035-tecnicas_de_programacao_2_tp2.org"
-                "~/Dropbox/Notes/20220603170435-tag.org"
-                "~/Dropbox/Notes/20210904224143-aniversarios.org"))
+              '("~/Notes/20210807112735-tasks.org"
+                "~/Notes/20221025142716-engenharia_de_software_es.org"
+                "~/Notes/20221025142726-programacao_concorrente_pc.org"
+                "~/Notes/20221025142734-programacao_funcional_pf.org"
+                "~/Notes/20221025142743-automatos_e_computabilidade_ac.org"
+                "~/Notes/20220127092030-knedle.org"
+                "~/Notes/20221025142750-computacao_experimental_ce.org"
+                "~/Notes/20221025142758-informatica_e_sociedade_is.org"
+                "~/Notes/20210904224143-aniversarios.org"))
 
 (use-package org-bullets
   :after org
@@ -148,6 +151,7 @@
                              (C . t)
                              (python . t)
                              (shell . t)
+                             (ruby . t)
                              (sql . t)
                              (js     . t)
                              (haskell . t)))
@@ -159,15 +163,18 @@
 (setq org-structure-template-alist
       (append org-structure-template-alist '(("sh" . "src shell")
                                              ("el" . "src elisp")
+                                             ("hs" . "src haskell")
                                              ("py" . "src python"))))
 
-(defun gscn/org-babel-tangle-config ()
-  (when (string-match
+(setq org-tangle-files '("~/.dotfiles/.*\.org$"
+                         "~/.xmonad/.*\.org$"))
 
-	 (expand-file-name "~/.dotfiles/.*\.org$")
-	 (buffer-file-name))
+(defun gscn/org-babel-tangle-config ()
+  (when (let ((files (mapcar #'expand-file-name org-tangle-files)))
+          (cl-some (lambda (x) (string-match-p x (buffer-file-name))) files))
     (let ((org-confirm-babel-evaluate nil))
-      (org-babel-tangle))))
+      (org-babel-tangle)))
+  )
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'gscn/org-babel-tangle-config)))
 
@@ -175,7 +182,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/Dropbox/Notes")
+  (org-roam-directory "~/Notes")
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c f" . org-roam-node-find)
          ("C-c i" . org-roam-node-insert)
@@ -184,13 +191,59 @@
   (org-roam-setup)
   )
 
-(winner-mode)
+(add-to-list 'org-link-frame-setup '(file . find-file))
 
 (use-package haskell-mode)
 
 (use-package scala-mode
   :interpreter
     ("scala" . scala-mode))
+
+(use-package vterm
+  :commands vterm
+  :config
+  (setq vterm-max-scrollback 10000)
+  (evil-set-initial-state 'vterm-mode 'emacs))
+
+(use-package vterm-toggle
+  :bind (("C-;" . vterm-toggle))
+  :config
+  (setq vterm-toggle-hide-method 'reset-window-configration)
+  (setq vterm-toggle-reset-window-configration-after-exit t)
+  (setq vterm-toggle-fullscreen-p nil)
+  (add-to-list 'display-buffer-alist
+               '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
+                 (display-buffer-reuse-window display-buffer-same-window)))
+  )
+
+(use-package auctex)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+
+(use-package ox-reveal)
+
+(setq make-backup-files nil)
+
+(use-package dired
+  :ensure nil
+  :commands (dired dired-jump)
+  :bind (("C-x C-j" . dired-jump))
+  :custom
+  ((dired-listing-switches "-gho --group-directories-first"))
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-up-directory
+    "l" 'dired-find-file))
+
+(winner-mode)
+
+(global-unset-key (kbd "C-x ["))
+(global-unset-key (kbd "C-x ]"))
+(global-unset-key (kbd "C-x C-b"))
+
+(global-set-key (kbd "C-x [") 'previous-buffer)
+(global-set-key (kbd "C-x ]") 'next-buffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
