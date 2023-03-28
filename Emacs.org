@@ -199,7 +199,11 @@ Evil collection: This is a collection of Evil bindings for the parts of Emacs th
           org-log-done 'time)
     :bind
     (("C-c a" . org-agenda-list)
-     ("C-c t" . org-todo-list)))
+     ("C-c t" . org-todo-list)
+     :map org-mode-map
+     ("C-c SPC" . counsel-outline)
+     ))
+
 #+end_src
 *** Icons
 
@@ -417,3 +421,26 @@ Open links in same frame
     (gscn/set-font-faces)) 
 #+end_src
 
+* My Extensions
+** Config Editor
+
+Config files list:
+#+begin_src elisp
+  (setq config-file-alist '(
+                            ("Emacs"  . "~/.dotfiles/Emacs.org")
+                            ("Xmonad" . "~/.xmonad/README.org")
+                            ("Nvim"  . "~/.dotfiles/Nvim.org)")
+                            ("Zsh"  . "~/.dotfiles/Zsh.org")
+                            ))
+#+end_src
+
+#+begin_src elisp
+  (defun gscn/edit_config()
+    (interactive)
+    (find-file (expand-file-name (cdr (assoc (ivy-read "Config:" config-file-alist) config-file-alist))))
+    )
+#+end_src
+
+#+begin_src elisp
+  (global-set-key (kbd "C-c c") 'gscn/edit_config)
+#+end_src

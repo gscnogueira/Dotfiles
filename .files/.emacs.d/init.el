@@ -122,7 +122,10 @@
         org-log-done 'time)
   :bind
   (("C-c a" . org-agenda-list)
-   ("C-c t" . org-todo-list)))
+   ("C-c t" . org-todo-list)
+   :map org-mode-map
+   ("C-c SPC" . counsel-outline)
+   ))
 
 (setq prettify-symbols-alist '(("[ ]" . "")
                                ("[X]" . "")
@@ -252,3 +255,17 @@
                 (with-selected-frame frame
                   (gscn/set-font-faces))))
   (gscn/set-font-faces))
+
+(setq config-file-alist '(
+                          ("Emacs"  . "~/.dotfiles/Emacs.org")
+                          ("Xmonad" . "~/.xmonad/README.org")
+                          ("Nvim"  . "~/.dotfiles/Nvim.org)")
+                          ("Zsh"  . "~/.dotfiles/Zsh.org")
+                          ))
+
+(defun gscn/edit_config()
+  (interactive)
+  (find-file (expand-file-name (cdr (assoc (ivy-read "Config:" config-file-alist) config-file-alist))))
+  )
+
+(global-set-key (kbd "C-c c") 'gscn/edit_config)
