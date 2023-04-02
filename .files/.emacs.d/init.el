@@ -173,10 +173,13 @@
                          "~/.xmonad/.*\.org$"))
 
 (defun gscn/org-babel-tangle-config ()
-  (when (let ((files (mapcar #'expand-file-name org-tangle-files)))
-          (cl-some (lambda (x) (string-match-p x (buffer-file-name))) files))
+  (when
+      (let ((files (mapcar #'expand-file-name org-tangle-files)))
+        (cl-some (lambda (x) (string-match-p x (buffer-file-name)))
+                 files))
     (let ((org-confirm-babel-evaluate nil))
-      (org-babel-tangle)))
+      (org-babel-tangle))
+    )
   )
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'gscn/org-babel-tangle-config)))
@@ -225,6 +228,9 @@
 
 (use-package ox-reveal)
 
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
 (setq make-backup-files nil)
 
 (use-package dired
@@ -258,6 +264,7 @@
 
 (setq config-file-alist '(
                           ("Emacs"  . "~/.dotfiles/Emacs.org")
+                          ("Rofi"  . "~/.config/rofi/config.rasi")
                           ("Xmonad" . "~/.xmonad/README.org")
                           ("Nvim"  . "~/.dotfiles/Nvim.org)")
                           ("Zsh"  . "~/.dotfiles/Zsh.org")
