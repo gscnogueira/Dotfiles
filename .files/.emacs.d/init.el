@@ -231,6 +231,18 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+(use-package hydra)
+
+(defhydra hydra-config-files (:color blue)
+  "Config Files"
+  ("e" (find-file (expand-file-name "~/.dotfiles/Emacs.org")) "Emacs")
+  ("r" (find-file (expand-file-name "~/.config/rofi/config.rasi")) "Rofi")
+  ("x" (find-file (expand-file-name "~/.xmonad/README.org")) "Xmonad")
+  ("z" (find-file (expand-file-name "~/.dotfiles/Zsh.org")) "Zsh")
+  )
+
+(global-set-key (kbd "C-c c") 'hydra-config-files/body)
+
 (setq make-backup-files nil)
 
 (use-package dired
@@ -261,18 +273,3 @@
                 (with-selected-frame frame
                   (gscn/set-font-faces))))
   (gscn/set-font-faces))
-
-(setq config-file-alist '(
-                          ("Emacs"  . "~/.dotfiles/Emacs.org")
-                          ("Rofi"  . "~/.config/rofi/config.rasi")
-                          ("Xmonad" . "~/.xmonad/README.org")
-                          ("Nvim"  . "~/.dotfiles/Nvim.org)")
-                          ("Zsh"  . "~/.dotfiles/Zsh.org")
-                          ))
-
-(defun gscn/edit_config()
-  (interactive)
-  (find-file (expand-file-name (cdr (assoc (ivy-read "Config:" config-file-alist) config-file-alist))))
-  )
-
-(global-set-key (kbd "C-c c") 'gscn/edit_config)
