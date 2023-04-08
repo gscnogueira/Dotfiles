@@ -243,6 +243,15 @@
 
 (global-set-key (kbd "C-c c") 'hydra-config-files/body)
 
+(defhydra hydra-unb (:color blue)
+  "2023/1"
+  ("1" (find-file (expand-file-name "~/UnB/2023-1/FSO/")) "Fundamentos de Sistemas Operacionais")
+  ("2" (find-file (expand-file-name "~/UnB/2023-1/SB")) "Software Básico")
+  ("3" (find-file (expand-file-name "~/UnB/2023-1/SegComp")) "Segurança Computacional")
+  )
+
+(global-set-key (kbd "C-c u") 'hydra-unb/body)
+
 (setq make-backup-files nil)
 
 (use-package dired
